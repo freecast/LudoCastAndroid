@@ -31,12 +31,15 @@ import android.support.v7.media.MediaRouteSelector;
 import android.support.v7.media.MediaRouter;
 import android.support.v7.media.MediaRouter.RouteInfo;
 import android.util.Log;
+import android.view.GestureDetector;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.Toast;
+import android.view.GestureDetector; 
 
 import com.google.android.gms.cast.ApplicationMetadata;
 import com.google.android.gms.cast.Cast;
@@ -70,6 +73,10 @@ public class MainActivity extends ActionBarActivity {
 	private boolean mApplicationStarted;
 	private boolean mWaitingForReconnect;
 	private String mSessionId;
+	
+    final int RIGHT = 0;  
+    final int LEFT = 1;  
+    private GestureDetector gestureDetector;  
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -79,14 +86,42 @@ public class MainActivity extends ActionBarActivity {
 		ActionBar actionBar = getSupportActionBar();
 		actionBar.setBackgroundDrawable(new ColorDrawable(
 				android.R.color.transparent));
+		
+		gestureDetector = new GestureDetector(MainActivity.this,onGestureListener); 
 
 		// When the user clicks on the button, use Android voice recognition to
 		// get text
+
+		
 		Button voiceButton = (Button) findViewById(R.id.voiceButton);
+		
 		voiceButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				startVoiceRecognitionActivity();
+
+
+
+			if (mApiClient != null && mHelloWorldChannel != null) {
+				try {
+					Cast.CastApi.sendMessage(mApiClient,
+							mHelloWorldChannel.getNamespace(), "helloworld !!@@#!")
+							.setResultCallback(new ResultCallback<Status>() {
+								@Override
+								public void onResult(Status result) {
+									if (!result.isSuccess()) {
+										Log.e(TAG, "Sending message failed");
+									}
+								}
+							});
+				} catch (Exception e) {
+					Log.e(TAG, "Exception while sending message", e);
+				}
+			} else {
+				Toast.makeText(MainActivity.this, "error", Toast.LENGTH_SHORT)
+						.show();
+			}
+				
 			}
 		});
 
@@ -99,6 +134,49 @@ public class MainActivity extends ActionBarActivity {
 		mMediaRouterCallback = new MyMediaRouterCallback();
 	}
 
+    private GestureDetector.OnGestureListener onGestureListener =   
+            new GestureDetector.SimpleOnGestureListener() { 
+    	  private static final int SWIPE_MIN_DISTANCE = 120;
+    	  private static final int SWIPE_MAX_OFF_PATH = 250;
+    	  private static final int SWIPE_THRESHOLD_VELOCITY = 200;
+            @Override  
+            public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,  
+                    float velocityY) {  
+                
+                try {
+                    if (Math.abs(e1.getY() - e2.getY()) > SWIPE_MAX_OFF_PATH)
+                     return false;
+                    // right to left swipe
+                    if (e1.getX() - e2.getX() > SWIPE_MIN_DISTANCE
+                      && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
+                    	System.out.println("go left");  
+                    	sendMessage("prev");
+                     
+                    } else if (e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE
+                      && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
+                    	System.out.println("go right");  
+                    	sendMessage("next");
+                     
+                      }
+                   } catch (Exception e) {
+                    Log.e(TAG, "onFling error", e);
+                   }
+                   return false;
+            }
+
+            public boolean onSingleTapUp(MotionEvent event) {      
+                // TODO Auto-generated method stub
+                	System.out.println("onclick @@@");
+                	sendMessage("click");
+                   return false;      
+                }              
+         
+        };  
+      
+        public boolean onTouchEvent(MotionEvent event) {
+            return gestureDetector.onTouchEvent(event);  
+        } 
+	
 	/**
 	 * Android voice recognition
 	 */
@@ -177,6 +255,7 @@ public class MainActivity extends ActionBarActivity {
 			mSelectedDevice = CastDevice.getFromBundle(info.getExtras());
 
 			launchReceiver();
+
 		}
 
 		@Override
@@ -308,6 +387,8 @@ public class MainActivity extends ActionBarActivity {
 												// set the initial instructions
 												// on the receiver
 												sendMessage(getString(R.string.instructions));
+												System.out.println("onconnect to player");  
+        										sendMessage("join");
 											} else {
 												Log.e(TAG,
 														"application could not launch");
@@ -319,6 +400,9 @@ public class MainActivity extends ActionBarActivity {
 			} catch (Exception e) {
 				Log.e(TAG, "Failed to launch application", e);
 			}
+			
+        	System.out.println("onconnect to player");  
+        	sendMessage("join");
 		}
 
 		@Override
@@ -335,7 +419,7 @@ public class MainActivity extends ActionBarActivity {
 			GoogleApiClient.OnConnectionFailedListener {
 		@Override
 		public void onConnectionFailed(ConnectionResult result) {
-			Log.e(TAG, "onConnectionFailed ");
+			Log.e(TAG, "onConnectionFailed " + result);
 
 			teardown();
 		}
