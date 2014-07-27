@@ -19,6 +19,8 @@ package com.example.casthelloworld;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import org.json.JSONException;
+
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -39,7 +41,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.Toast;
-import android.view.GestureDetector; 
 
 import com.google.android.gms.cast.ApplicationMetadata;
 import com.google.android.gms.cast.Cast;
@@ -487,8 +488,15 @@ public class MainActivity extends ActionBarActivity {
 			Log.d(TAG, "onMessageReceived: " + message);
 			Toast.makeText(MainActivity.this, message, Toast.LENGTH_SHORT)
 					.show();
-		}
 
+			LudoProtocol proto = new LudoProtocol();
+			try {
+				proto.parseMessage(message);
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 
 }
