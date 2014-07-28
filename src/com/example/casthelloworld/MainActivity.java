@@ -51,6 +51,8 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
+import java.io.IOException;
+
 
 /**
  * Main activity to send messages to the receiver.
@@ -99,28 +101,6 @@ public class MainActivity extends ActionBarActivity {
 			@Override
 			public void onClick(View v) {
 				startVoiceRecognitionActivity();
-
-
-
-			if (mApiClient != null && mHelloWorldChannel != null) {
-				try {
-					Cast.CastApi.sendMessage(mApiClient,
-							mHelloWorldChannel.getNamespace(), "helloworld !!@@#!")
-							.setResultCallback(new ResultCallback<Status>() {
-								@Override
-								public void onResult(Status result) {
-									if (!result.isSuccess()) {
-										Log.e(TAG, "Sending message failed");
-									}
-								}
-							});
-				} catch (Exception e) {
-					Log.e(TAG, "Exception while sending message", e);
-				}
-			} else {
-				Toast.makeText(MainActivity.this, "error", Toast.LENGTH_SHORT)
-						.show();
-			}
 				
 			}
 		});
@@ -386,9 +366,11 @@ public class MainActivity extends ActionBarActivity {
 
 												// set the initial instructions
 												// on the receiver
-												sendMessage(getString(R.string.instructions));
+												//sendMessage(getString(R.string.instructions));
 												System.out.println("onconnect to player");  
         										sendMessage("join");
+			
+											
 											} else {
 												Log.e(TAG,
 														"application could not launch");
@@ -501,6 +483,8 @@ public class MainActivity extends ActionBarActivity {
 		public void onMessageReceived(CastDevice castDevice, String namespace,
 				String message) {
 			Log.d(TAG, "onMessageReceived: " + message);
+			Toast.makeText(MainActivity.this, message, Toast.LENGTH_SHORT)
+					.show();
 		}
 
 	}
