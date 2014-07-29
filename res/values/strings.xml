@@ -16,7 +16,7 @@
 -->
 <resources>
 
-    <string name="app_name">Cast Hello Text</string>
+    <string name="app_name">Super Ludo</string>
     <string name="app_id">C2F5B36A</string>
     <string name="namespace">urn:x-cast:com.google.cast.sample.helloworld</string>
     <string name="action_settings">Settings</string>

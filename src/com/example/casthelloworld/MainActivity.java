@@ -91,20 +91,6 @@ public class MainActivity extends ActionBarActivity {
 		
 		gestureDetector = new GestureDetector(MainActivity.this,onGestureListener); 
 
-		// When the user clicks on the button, use Android voice recognition to
-		// get text
-
-		
-		Button voiceButton = (Button) findViewById(R.id.voiceButton);
-		
-		voiceButton.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				startVoiceRecognitionActivity();
-				
-			}
-		});
-
 		// Configure Cast device discovery
 		mMediaRouter = MediaRouter.getInstance(getApplicationContext());
 		mMediaRouteSelector = new MediaRouteSelector.Builder()
@@ -112,6 +98,22 @@ public class MainActivity extends ActionBarActivity {
 						CastMediaControlIntent.categoryForCast(getResources()
 								.getString(R.string.app_id))).build();
 		mMediaRouterCallback = new MyMediaRouterCallback();
+
+	Button Createbnt = (Button) findViewById(R.id.Creat);
+	Createbnt.setOnClickListener(new OnClickListener() {
+		@Override
+		public void onClick(View v) {
+			Intent it = new Intent(MainActivity.this, ConfigGame.class);
+			startActivityForResult(it, 0);
+
+					overridePendingTransition(R.anim.push_left_in,
+							R.anim.push_left_out);
+
+		}
+	});
+
+
+		
 	}
 
     private GestureDetector.OnGestureListener onGestureListener =   
