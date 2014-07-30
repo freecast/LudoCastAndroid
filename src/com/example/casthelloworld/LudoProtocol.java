@@ -25,7 +25,7 @@ public class LudoProtocol {
 	private static final String KEY_MAGIC = "MAGIC";
     private static final String MAGIC = "ONLINE";
 
-    private static final String KEY_VERSION = "VERSION";
+    private static final String KEY_VERSION = "prot_version";
     private static final int    VERSION = 1;
 
     private static final String KEY_COMMAND = "command";
@@ -54,18 +54,31 @@ public class LudoProtocol {
 	public boolean parseMessage(String msg) throws JSONException {
 		JSONObject obj = new JSONObject(msg);
 
-		if (obj.has(KEY_MAGIC) == false)
+		Log.d(TAG, "check " + KEY_MAGIC);
+		if (obj.has(KEY_MAGIC) == false) {
+			Log.d(TAG, "missing key: " + KEY_MAGIC);
 			return false;
-		if (obj.getString(KEY_MAGIC).equals(MAGIC) == false)
+		}
+		if (obj.getString(KEY_MAGIC).equals(MAGIC) == false) {
+			Log.d(TAG, "wrong key[" + KEY_MAGIC + "]=" + obj.getString(KEY_MAGIC));
 			return false;
+		}
 
-		if (obj.has(KEY_VERSION) == false)
+		Log.d(TAG, "check " + KEY_VERSION);
+		if (obj.has(KEY_VERSION) == false) {
+			Log.d(TAG, "missing key: " + KEY_VERSION);
 			return false;
-		if (obj.getInt(KEY_VERSION) == VERSION)
+		}
+		if (obj.getInt(KEY_VERSION) != VERSION) {
+			Log.d(TAG, "wrong key[" + KEY_VERSION + "]=" + obj.getInt(KEY_VERSION));
 			return false;
+		}
 
-		if (obj.has(KEY_COMMAND) == false)
+		Log.d(TAG, "check " + KEY_COMMAND);
+		if (obj.has(KEY_COMMAND) == false) {
+			Log.d(TAG, "missing key: " + KEY_COMMAND);
 			return false;
+		}
 		String command = obj.getString(KEY_COMMAND);
         if (command.equals(COMMAND_CONNECT_REPLY)) {
         	boolean ret = obj.getBoolean(KEY_RET);
@@ -84,6 +97,8 @@ public class LudoProtocol {
         		Log.d(TAG, "player-"+i+"color"+color+
         				"user_type"+user_type+"isready"+isready+"username"+username);
         	}
+        } else {
+			Log.d(TAG, "unsupported key[" + KEY_COMMAND + "]=" + command);
         }
 		return true;
 	}

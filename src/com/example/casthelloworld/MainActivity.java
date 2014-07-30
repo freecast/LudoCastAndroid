@@ -52,7 +52,6 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
-import java.io.IOException;
 
 
 /**
@@ -76,6 +75,7 @@ public class MainActivity extends ActionBarActivity {
 	private boolean mApplicationStarted;
 	private boolean mWaitingForReconnect;
 	private String mSessionId;
+	private LudoProtocol protocol;
 	
     final int RIGHT = 0;  
     final int LEFT = 1;  
@@ -100,15 +100,27 @@ public class MainActivity extends ActionBarActivity {
 								.getString(R.string.app_id))).build();
 		mMediaRouterCallback = new MyMediaRouterCallback();
 
+		protocol = new LudoProtocol();
+
 	Button Createbnt = (Button) findViewById(R.id.Creat);
 	Createbnt.setOnClickListener(new OnClickListener() {
 		@Override
 		public void onClick(View v) {
-			Intent it = new Intent(MainActivity.this, ConfigGame.class);
-			startActivityForResult(it, 0);
+			try {
+				String msg = protocol.genMessage_connect("alice");
+				Log.d(TAG, "connect message: " + msg);
+				sendMessage(msg);
 
-					overridePendingTransition(R.anim.push_left_in,
-							R.anim.push_left_out);
+				Intent it = new Intent(MainActivity.this, ConfigGame.class);
+
+				startActivityForResult(it, 0);
+				overridePendingTransition(R.anim.push_left_in,
+								R.anim.push_left_out);
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
 
 		}
 	});
@@ -489,9 +501,10 @@ public class MainActivity extends ActionBarActivity {
 			Toast.makeText(MainActivity.this, message, Toast.LENGTH_SHORT)
 					.show();
 
-			LudoProtocol proto = new LudoProtocol();
 			try {
-				proto.parseMessage(message);
+				Log.d(TAG, "call protocol parseMessage");
+				MainActivity.this.protocol.parseMessage(message);
+				Log.d(TAG, "protocol parseMessage was called");
 			} catch (JSONException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
