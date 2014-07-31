@@ -56,6 +56,8 @@ import com.google.android.gms.common.api.Status;
 import com.google.sample.castcompanionlibrary.cast.VideoCastManager;
 import com.google.sample.castcompanionlibrary.cast.callbacks.IVideoCastConsumer;
 import com.google.sample.castcompanionlibrary.cast.callbacks.VideoCastConsumerImpl;
+import com.google.sample.castcompanionlibrary.cast.exceptions.NoConnectionException;
+import com.google.sample.castcompanionlibrary.cast.exceptions.TransientNetworkDisconnectionException;
 import com.google.sample.castcompanionlibrary.widgets.MiniController;
 import java.io.IOException;
 
@@ -165,7 +167,8 @@ public class MainActivity extends ActionBarActivity {
 			try {
 				String msg = protocol.genMessage_connect("alice");
 				Log.d(TAG, "connect message: " + msg);
-				sendMessage(msg);
+				mCastManager.sendDataMessage(msg);
+				
 
 				Intent it = new Intent(MainActivity.this, ConfigGame.class);
 
@@ -173,6 +176,12 @@ public class MainActivity extends ActionBarActivity {
 				overridePendingTransition(R.anim.push_left_in,
 								R.anim.push_left_out);
 			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (TransientNetworkDisconnectionException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (NoConnectionException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
@@ -532,25 +541,18 @@ public class MainActivity extends ActionBarActivity {
 	 * @param message
 	 */
 	private void sendMessage(String message) {
-		if (mApiClient != null && mHelloWorldChannel != null) {
+		if (mCastManager!=null){			
 			try {
-				Cast.CastApi.sendMessage(mApiClient,
-						mHelloWorldChannel.getNamespace(), message)
-						.setResultCallback(new ResultCallback<Status>() {
-							@Override
-							public void onResult(Status result) {
-								if (!result.isSuccess()) {
-									Log.e(TAG, "Sending message failed");
-								}
-							}
-						});
-			} catch (Exception e) {
-				Log.e(TAG, "Exception while sending message", e);
+				mCastManager.sendDataMessage(message);
+			} catch (TransientNetworkDisconnectionException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (NoConnectionException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-		} else {
-			Toast.makeText(MainActivity.this, message, Toast.LENGTH_SHORT)
-					.show();
 		}
+
 	}
 
 	/**

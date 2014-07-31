@@ -49,7 +49,7 @@ public class CastApplication extends Application {
     public static VideoCastManager getCastManager(Context context) {
         if (null == mCastMgr) {
             mCastMgr = VideoCastManager.initialize(context, APPLICATION_ID,
-                    null, null);
+                    null, "urn:x-cast:com.google.cast.sample.helloworld");
             mCastMgr.enableFeatures(
                     VideoCastManager.FEATURE_NOTIFICATION |
                             VideoCastManager.FEATURE_LOCKSCREEN |
