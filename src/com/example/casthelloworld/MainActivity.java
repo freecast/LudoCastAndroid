@@ -24,6 +24,7 @@ import org.json.JSONException;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.speech.RecognizerIntent;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBar;
@@ -52,6 +53,11 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
+import com.google.sample.castcompanionlibrary.cast.VideoCastManager;
+import com.google.sample.castcompanionlibrary.cast.callbacks.IVideoCastConsumer;
+import com.google.sample.castcompanionlibrary.cast.callbacks.VideoCastConsumerImpl;
+import com.google.sample.castcompanionlibrary.widgets.MiniController;
+import java.io.IOException;
 
 
 /**
@@ -62,6 +68,11 @@ public class MainActivity extends ActionBarActivity {
 	private static final String TAG = MainActivity.class.getSimpleName();
 
 	private static final int REQUEST_CODE = 1;
+    private VideoCastManager mCastManager;
+    private IVideoCastConsumer mCastConsumer;
+    private MiniController mMini;
+    private MenuItem mediaRouteMenuItem;
+
 
 	private MediaRouter mMediaRouter;
 	private MediaRouteSelector mMediaRouteSelector;
@@ -87,18 +98,63 @@ public class MainActivity extends ActionBarActivity {
 		setContentView(R.layout.activity_main);
 
 		ActionBar actionBar = getSupportActionBar();
-		actionBar.setBackgroundDrawable(new ColorDrawable(
-				android.R.color.transparent));
+		//actionBar.setBackgroundDrawable(new ColorDrawable(
+		//		android.R.color.transparent));
 		
 		gestureDetector = new GestureDetector(MainActivity.this,onGestureListener); 
 
+		mCastManager = CastApplication.getCastManager(this);
+
 		// Configure Cast device discovery
-		mMediaRouter = MediaRouter.getInstance(getApplicationContext());
-		mMediaRouteSelector = new MediaRouteSelector.Builder()
-				.addControlCategory(
-						CastMediaControlIntent.categoryForCast(getResources()
-								.getString(R.string.app_id))).build();
-		mMediaRouterCallback = new MyMediaRouterCallback();
+//		mMediaRouter = MediaRouter.getInstance(getApplicationContext());
+//		mMediaRouteSelector = new MediaRouteSelector.Builder()
+//				.addControlCategory(
+//						CastMediaControlIntent.categoryForCast(getResources()
+//								.getString(R.string.app_id))).build();
+//		mMediaRouterCallback = new MyMediaRouterCallback();
+
+
+/*		mCastConsumer = new VideoCastConsumerImpl() {
+		
+			 @Override
+			 public void onFailed(int resourceId, int statusCode) {
+		
+			 }
+		
+			 @Override
+			 public void onConnectionSuspended(int cause) {
+				 Log.d(TAG, "onConnectionSuspended() was called with cause: " + cause);
+				 com.example.casthelloworld.Utils.
+						 showToast(MainActivity.this, R.string.connection_temp_lost);
+			 }
+		
+			 @Override
+			 public void onConnectivityRecovered() {
+				 com.example.casthelloworld.Utils.
+						 showToast(MainActivity.this, R.string.connection_recovered);
+			 }
+		
+			 @Override
+			 public void onCastDeviceDetected(final RouteInfo info) {
+				 if (!CastPreference.isFtuShown(MainActivity.this)) {
+					 CastPreference.setFtuShown(MainActivity.this);
+		
+					 Log.d(TAG, "Route is visible: " + info);
+					 new Handler().postDelayed(new Runnable() {
+		
+						 @Override
+						 public void run() {
+							 if (mediaRouteMenuItem.isVisible()) {
+								 Log.d(TAG, "Cast Icon is visible: " + info.getName());
+							 }
+						 }
+					 }, 1000);
+				 }
+			 }
+		 };
+	*/	
+		// setupActionBar(actionBar);
+		//mCastManager.reconnectSessionIfPossible(this, false);
 
 		protocol = new LudoProtocol();
 
@@ -128,6 +184,12 @@ public class MainActivity extends ActionBarActivity {
 
 		
 	}
+
+    private void setupActionBar(ActionBar actionBar) {
+        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
+       // getSupportActionBar().setIcon(R.drawable.actionbar_logo_castvideos);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+    }
 
     private GestureDetector.OnGestureListener onGestureListener =   
             new GestureDetector.SimpleOnGestureListener() { 
@@ -204,37 +266,49 @@ public class MainActivity extends ActionBarActivity {
 	}
 
 	@Override
-	protected void onResume() {
-		super.onResume();
-		// Start media router discovery
-		mMediaRouter.addCallback(mMediaRouteSelector, mMediaRouterCallback,
-				MediaRouter.CALLBACK_FLAG_PERFORM_ACTIVE_SCAN);
-	}
+		protected void onResume() {
+			Log.d(TAG, "onResume() was called");
+			mCastManager = CastApplication.getCastManager(this);
+			if (null != mCastManager) {
+				mCastManager.addVideoCastConsumer(mCastConsumer);
+				mCastManager.incrementUiCounter();
+			}
+		
+			super.onResume();
+		}
+
 
 	@Override
 	protected void onPause() {
-		if (isFinishing()) {
-			// End media router discovery
-			mMediaRouter.removeCallback(mMediaRouterCallback);
-		}
+        mCastManager.decrementUiCounter();
+        mCastManager.removeVideoCastConsumer(mCastConsumer);
+
 		super.onPause();
 	}
 
 	@Override
 	public void onDestroy() {
-		teardown();
+        if (null != mCastManager) {
+            mMini.removeOnMiniControllerChangedListener(mCastManager);
+            mCastManager.removeMiniController(mMini);
+            mCastManager.clearContext(this);
+        }
+
 		super.onDestroy();
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
+		Log.d(TAG, "onCreateOptionsMenu() was called");
 		getMenuInflater().inflate(R.menu.main, menu);
-		MenuItem mediaRouteMenuItem = menu.findItem(R.id.media_route_menu_item);
-		MediaRouteActionProvider mediaRouteActionProvider = (MediaRouteActionProvider) MenuItemCompat
-				.getActionProvider(mediaRouteMenuItem);
+		mediaRouteMenuItem = mCastManager.
+                addMediaRouterButton(menu, R.id.media_route_menu_item);
+		//MenuItem mediaRouteMenuItem = menu.findItem(R.id.media_route_menu_item);
+		//MediaRouteActionProvider mediaRouteActionProvider = (MediaRouteActionProvider) MenuItemCompat
+		//		.getActionProvider(mediaRouteMenuItem);
 		// Set the MediaRouteActionProvider selector for device discovery.
-		mediaRouteActionProvider.setRouteSelector(mMediaRouteSelector);
+		//mediaRouteActionProvider.setRouteSelector(mMediaRouteSelector);
 		return true;
 	}
 

@@ -23,5 +23,21 @@
     <string name="message_to_cast">Message to Cast&#8230;</string>
     <string name="media_route_menu_title">Play on&#8230;</string>
     <string name="instructions">Talk to me</string>
+    <string name="oops">Oops</string>
+    <string name="connection_lost_retry">Connection lost and retry</string>
+    <string name="connection_lost">connection lost</string>
+    <string name="failed_to_perform_action">failed_to_perform_action</string>
+    <string name="prefs_volume_default">device</string>
+    <string name="prefs_volume_title_summary">Controls %1$s</string>
+    <string name="version">Version: %1$s</string>
+    <string name="prefs_header_application_summary">prefs_header_application_summary</string>
+    <string name="prefs_header_application">prefs_header_application</string>
+    <string name="prefs_termination_policy_default">prefs_termination_policy_default</string>
+    <string name="prefs_termination_policy_dialog_title">prefs_termination_policy_dialog_title</string>
+    <string name="prefs_volume_dialog_title">prefs_volume_dialog_title</string>
+    <string name="prefs_volume_title">Volume Assignment</string>
+    <string name="about_app">about_app</string>
+    <string name="connection_temp_lost">connection_temp_lost</string>
+    <string name="connection_recovered">connection_recovered</string>
 
 </resources>

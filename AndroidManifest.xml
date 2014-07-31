@@ -28,6 +28,7 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 
     <application
+    	android:name="com.example.casthelloworld.CastApplication"
         android:allowBackup="true"
         android:icon="@drawable/plane_green_b"
         android:label="@string/app_name"
@@ -50,7 +51,16 @@
         <activity
             android:name="com.example.casthelloworld.ConfigGame"
             android:label="@string/app_name" >
-        </activity>        
+        </activity>  
+
+        <activity
+            android:name="com.example.casthelloworld.CastPreference"
+            android:label="@string/action_settings" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+            </intent-filter>
+        </activity>
+        
         
     </application>
 
