@@ -97,7 +97,7 @@ public class MainActivity extends ActionBarActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
+		setContentView(R.layout.main);
 
 		ActionBar actionBar = getSupportActionBar();
 		//actionBar.setBackgroundDrawable(new ColorDrawable(
@@ -116,12 +116,17 @@ public class MainActivity extends ActionBarActivity {
 //		mMediaRouterCallback = new MyMediaRouterCallback();
 
 
-/*		mCastConsumer = new VideoCastConsumerImpl() {
+		mCastConsumer = new VideoCastConsumerImpl() {
 		
 			 @Override
 			 public void onFailed(int resourceId, int statusCode) {
 		
 			 }
+			 
+			 @Override
+			 public void onDataMessageReceived(String message) {
+				 System.out.println("MainActivity receiver message = "+message);
+			    }
 		
 			 @Override
 			 public void onConnectionSuspended(int cause) {
@@ -154,7 +159,7 @@ public class MainActivity extends ActionBarActivity {
 				 }
 			 }
 		 };
-	*/	
+		
 		// setupActionBar(actionBar);
 		//mCastManager.reconnectSessionIfPossible(this, false);
 
@@ -167,7 +172,8 @@ public class MainActivity extends ActionBarActivity {
 			try {
 				String msg = protocol.genMessage_connect("alice");
 				Log.d(TAG, "connect message: " + msg);
-				mCastManager.sendDataMessage(msg);
+				//mCastManager.sendDataMessage(msg);
+				sendMessage(msg);
 				
 
 				Intent it = new Intent(MainActivity.this, ConfigGame.class);
@@ -178,13 +184,7 @@ public class MainActivity extends ActionBarActivity {
 			} catch (JSONException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			} catch (TransientNetworkDisconnectionException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (NoConnectionException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			} 
 
 
 		}

@@ -53,6 +53,50 @@ public class ConfigGame extends ActionBarActivity  {
 		ActionBar actionBar = getSupportActionBar();
 		mCastManager = CastApplication.getCastManager(this);
 		setupActionBar(actionBar);
+
+		mCastConsumer = new VideoCastConsumerImpl() {
+			
+			 @Override
+			 public void onFailed(int resourceId, int statusCode) {
+		
+			 }
+			 
+			 @Override
+			 public void onDataMessageReceived(String message) {
+				 System.out.println("ConfigGame receiver message = "+message);
+			    }
+		
+			 @Override
+			 public void onConnectionSuspended(int cause) {
+				 Log.d(TAG, "onConnectionSuspended() was called with cause: " + cause);
+				 com.example.casthelloworld.Utils.
+						 showToast(ConfigGame.this, R.string.connection_temp_lost);
+			 }
+		
+			 @Override
+			 public void onConnectivityRecovered() {
+				 com.example.casthelloworld.Utils.
+						 showToast(ConfigGame.this, R.string.connection_recovered);
+			 }
+		
+			 @Override
+			 public void onCastDeviceDetected(final RouteInfo info) {
+				 if (!CastPreference.isFtuShown(ConfigGame.this)) {
+					 CastPreference.setFtuShown(ConfigGame.this);
+		
+					 Log.d(TAG, "Route is visible: " + info);
+					 new Handler().postDelayed(new Runnable() {
+		
+						 @Override
+						 public void run() {
+	
+						 }
+					 }, 1000);
+				 }
+			 }
+		 };		
+		
+		
 	}
 
     @Override
