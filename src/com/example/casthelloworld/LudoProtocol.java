@@ -33,6 +33,7 @@ public class LudoProtocol {
     private static final String COMMAND_CONNECT = "connect";
     private static final String KEY_USERNAME = "username";
     private static final String COMMAND_CONNECT_REPLY = "connect_reply";
+    private static final String COMMAND_STARTGAME_NOTIFY = "startgame_notify";
     private static final String KEY_RET = "ret";
     private static final String KEY_ISHOST = "ishost";
     private static final String KEY_LEVEL = "level";
@@ -97,7 +98,12 @@ public class LudoProtocol {
         		Log.d(TAG, "player-"+i+"color"+color+
         				"user_type"+user_type+"isready"+isready+"username"+username);
         	}
-        } else {
+        }else if(command.equals(COMMAND_STARTGAME_NOTIFY)){
+        	
+        	Log.d(TAG, "start game notify command = " + command);
+        	ConfigGame.startgame = true;
+        	
+        }else {
 			Log.d(TAG, "unsupported key[" + KEY_COMMAND + "]=" + command);
         }
 		return true;
@@ -123,12 +129,30 @@ public class LudoProtocol {
 		return json.toString();
 	}
 
+    public String JudgeUserType(String user_type){
+    	if(user_type.equals("Computer"))
+    	{	
+    		return "computer";
+    	}else if(user_type.equals("Null"))
+    	{
+    		return "unavailable"; 
+    	}else if(user_type.equals("Nobody"))
+    	{
+    		return "nobody"; 
+    	}else{
+    		return "human";
+    	}
+    }
+	
 	public String genMessage_pickup(String color, String user_type) throws JSONException {
 		JSONObject json = new JSONObject();
+		
+		String server_type = JudgeUserType(user_type);
 
 		genMessageHeader(json);
 		json.put(KEY_COMMAND, "pickup");
-		json.put("color", color);
+		json.put(KEY_COLOR, color);
+		json.put(KEY_USER_TYPE, server_type);
 
 		return json.toString();
 	}

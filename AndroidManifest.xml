@@ -52,6 +52,11 @@
             android:name="com.example.casthelloworld.ConfigGame"
             android:label="@string/app_name" >
         </activity>  
+        
+        <activity
+            android:name="com.example.casthelloworld.PlayGame"
+            android:label="@string/app_name" >
+        </activity>          
 
         <activity
             android:name="com.example.casthelloworld.CastPreference"
