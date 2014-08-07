@@ -34,6 +34,7 @@ public class LudoProtocol {
     private static final String KEY_USERNAME = "username";
     private static final String COMMAND_CONNECT_REPLY = "connect_reply";
     private static final String COMMAND_STARTGAME_NOTIFY = "startgame_notify";
+    private static final String COMMAND_PICKUP_NOTIFY = "pickup_notify";
     private static final String KEY_RET = "ret";
     private static final String KEY_ISHOST = "ishost";
     private static final String KEY_LEVEL = "level";
@@ -87,6 +88,7 @@ public class LudoProtocol {
         	String level = obj.getString(KEY_LEVEL);
         	Log.d(TAG, "ret:" + ret + " ishost:" + ishost +
         			" level:" + level);
+			ConfigGame.SetHostvalue(ishost);
 
         	JSONArray arr = obj.getJSONArray(KEY_PLAYER_STATUS);
         	for (int i=0; i<arr.length(); i++) {
@@ -97,12 +99,24 @@ public class LudoProtocol {
         		String username = o.getString(KEY_USERNAME);
         		Log.d(TAG, "player-"+i+"color"+color+
         				"user_type"+user_type+"isready"+isready+"username"+username);
+				ConfigGame.NeedToUpdate();
+				
         	}
         }else if(command.equals(COMMAND_STARTGAME_NOTIFY)){
         	
         	Log.d(TAG, "start game notify command = " + command);
         	ConfigGame.startgame = true;
+        }else if(command.equals(COMMAND_PICKUP_NOTIFY)){
         	
+        		JSONObject o = obj.getJSONObject(KEY_PLAYER_STATUS);
+        		String color = o.getString(KEY_COLOR);
+        		String user_type = o.getString(KEY_USER_TYPE);
+        		boolean isready = o.getBoolean(KEY_ISREADY);
+        		String username = o.getString(KEY_USERNAME);
+        		Log.d(TAG, "player-"+"color"+color+
+        				"user_type"+user_type+"isready"+isready+"username"+username);
+				ConfigGame.NeedToUpdate();
+				        	       	
         }else {
 			Log.d(TAG, "unsupported key[" + KEY_COMMAND + "]=" + command);
         }

@@ -3,7 +3,9 @@ package com.example.casthelloworld;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -50,12 +52,61 @@ public class ConfigGame extends ActionBarActivity  {
 
     private VideoCastManager mCastManager;
     private VideoCastConsumerImpl mCastConsumer;
+
+	private static final String KEY_MAGIC = "MAGIC";
+    private static final String MAGIC = "ONLINE";
+
+    private static final String KEY_VERSION = "prot_version";
+    private static final int    VERSION = 1;
+
+    private static final String KEY_COMMAND = "command";
+
+    private static final String COMMAND_CONNECT = "connect";
+    private static final String KEY_USERNAME = "username";
+    private static final String COMMAND_CONNECT_REPLY = "connect_reply";
+    private static final String COMMAND_STARTGAME_NOTIFY = "startgame_notify";
+    private static final String KEY_RET = "ret";
+    private static final String KEY_ISHOST = "ishost";
+    private static final String KEY_LEVEL = "level";
+    private static final String KEY_PLAYER_STATUS = "player_status";
+    private static final String KEY_COLOR = "color";
+    private static final String KEY_USER_TYPE = "user_type";
+    private static final String KEY_ISREADY = "isready";
+	private static final String COMMAND_PICKUP_NOTIFY = "pickup_notify";
     
     String SendMsg;
     String playername;
     String usertype;
 	private LudoProtocol protocol;
-	static Boolean startgame; 
+	static Boolean startgame;
+	static Boolean ishost;
+	RadioGroup RadioGroupRed;
+	RadioGroup RadioGroupYellow;
+	RadioGroup RadioGroupBlue;
+	RadioGroup RadioGroupGreen;
+	RadioGroup RadioGroupLevel;
+	RadioButton RadioButtonRed1;
+	RadioButton RadioButtonRed2;
+	RadioButton RadioButtonRed3;
+	RadioButton RadioButtonRed4;
+	RadioButton RadioButtonBlue1;
+	RadioButton RadioButtonBlue2;
+	RadioButton RadioButtonBlue3;
+	RadioButton RadioButtonBlue4;
+	RadioButton RadioButtonYellow1;
+	RadioButton RadioButtonYellow2;
+	RadioButton RadioButtonYellow3;
+	RadioButton RadioButtonYellow4;
+	RadioButton RadioButtonGreen1;
+	RadioButton RadioButtonGreen2;
+	RadioButton RadioButtonGreen3;
+	RadioButton RadioButtonGreen4;
+	static Boolean RadioGroupRedLock;
+	static Boolean RadioGroupBlueLock;
+	static Boolean RadioGroupYellowLock;
+	static Boolean RadioGroupGreenLock;
+	static Boolean RadioGroupLevelLock;
+	static Boolean updatestatus;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -67,21 +118,39 @@ public class ConfigGame extends ActionBarActivity  {
 		setupActionBar(actionBar);
 		
 		startgame = false;
-		
-		TextView textview =(TextView) findViewById(R.id.textView4);
-		textview.setText(MainActivity.username) ;
-		
-		RadioButton radio_button01 = (RadioButton)findViewById(R.id.RadioButton01);		
-		RadioButton radio_button11 = (RadioButton)findViewById(R.id.RadioButton11);			
-		RadioButton radio_button21 = (RadioButton)findViewById(R.id.RadioButton21);			
-		RadioButton radio_button31 = (RadioButton)findViewById(R.id.RadioButton31);			
 
-		radio_button01.setText(MainActivity.username);
-		radio_button11.setText(MainActivity.username);
-		radio_button21.setText(MainActivity.username);
-		radio_button31.setText(MainActivity.username);
-		
+		ishost = true;
+
+		updatestatus = false;
+
 		protocol = new LudoProtocol();
+
+		RadioButtonRed1 = (RadioButton)findViewById(R.id.RadioButtonRed1);
+		RadioButtonRed2 = (RadioButton)findViewById(R.id.RadioButtonRed2);
+		RadioButtonRed3 = (RadioButton)findViewById(R.id.RadioButtonRed3);
+		RadioButtonRed4 = (RadioButton)findViewById(R.id.RadioButtonRed4);
+
+		RadioButtonBlue1 = (RadioButton)findViewById(R.id.RadioButtonBlue1);
+		RadioButtonBlue2 = (RadioButton)findViewById(R.id.RadioButtonBlue2);
+		RadioButtonBlue3 = (RadioButton)findViewById(R.id.RadioButtonBlue3);
+		RadioButtonBlue4 = (RadioButton)findViewById(R.id.RadioButtonBlue4);
+
+		RadioButtonYellow1 = (RadioButton)findViewById(R.id.RadioButtonYellow1);
+		RadioButtonYellow2 = (RadioButton)findViewById(R.id.RadioButtonYellow2);
+		RadioButtonYellow3 = (RadioButton)findViewById(R.id.RadioButtonYellow3);
+		RadioButtonYellow4 = (RadioButton)findViewById(R.id.RadioButtonYellow4);
+
+		RadioButtonGreen1 = (RadioButton)findViewById(R.id.RadioButtonGreen1);
+		RadioButtonGreen2 = (RadioButton)findViewById(R.id.RadioButtonGreen2);	
+		RadioButtonGreen3 = (RadioButton)findViewById(R.id.RadioButtonGreen3);	
+		RadioButtonGreen4 = (RadioButton)findViewById(R.id.RadioButtonGreen4);	
+
+		RadioGroupRedLock = false;
+		RadioGroupBlueLock = false;
+		RadioGroupYellowLock = false;
+		RadioGroupGreenLock = false;
+		RadioGroupLevelLock = false;
+		
 		
         Button getready=(Button)findViewById(R.id.button_getready);  
         getready.setOnClickListener(new OnClickListener() {  
@@ -98,124 +167,25 @@ public class ConfigGame extends ActionBarActivity  {
             }  
         });  		
 		
+		TextView textview =(TextView) findViewById(R.id.textView4);
+		textview.setText(MainActivity.username) ;
 		
-		
-		
-		RadioGroup group00 = (RadioGroup)this.findViewById(R.id.RadioGroup00);
-		
-		group00.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-		
-		@Override
-		public void onCheckedChanged(RadioGroup arg00, int arg01) {
+		RadioButton RadioButtonRed1 = (RadioButton)findViewById(R.id.RadioButtonRed1);		
+		RadioButton RadioButtonYellow1 = (RadioButton)findViewById(R.id.RadioButtonYellow1);			
+		RadioButton RadioButtonBlue1 = (RadioButton)findViewById(R.id.RadioButtonBlue1);			
+		RadioButton RadioButtonGreen1 = (RadioButton)findViewById(R.id.RadioButtonGreen1);			
 
-			int radioButtonId = arg00.getCheckedRadioButtonId();
+		RadioButtonRed1.setText(MainActivity.username);
+		RadioButtonYellow1.setText(MainActivity.username);
+		RadioButtonBlue1.setText(MainActivity.username);
+		RadioButtonGreen1.setText(MainActivity.username);
 
-			RadioButton rb00 = (RadioButton)findViewById(radioButtonId);
+		InitLevel();
+		InitRedPlayer();
+		InitBluePlayer();
+		InitYellowPlayer();
+		InitGreenPlayer();
 			
-            System.out.println("Get group select = "+rb00.getText());
-            
-			try {
-				SendMsg = protocol.genMessage_pickup("red",rb00.getText().toString());
-			} catch (JSONException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			sendMessage(SendMsg);
-
-		}
-		});
-		
-
-		RadioGroup group01 = (RadioGroup)this.findViewById(R.id.RadioGroup01);
-		
-		group01.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-		
-		@Override
-		public void onCheckedChanged(RadioGroup arg10, int arg11) {
-
-			int radioButtonId = arg10.getCheckedRadioButtonId();
-
-			RadioButton rb01 = (RadioButton)findViewById(radioButtonId);
-			
-            System.out.println("Get group select = "+rb01.getText());
-            
-			try {
-				SendMsg = protocol.genMessage_pickup("blue",rb01.getText().toString());
-			} catch (JSONException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			sendMessage(SendMsg);            
-
-		}
-		});	
-		
-		RadioGroup group02 = (RadioGroup)this.findViewById(R.id.RadioGroup02);
-		
-		group02.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-		
-		@Override
-		public void onCheckedChanged(RadioGroup arg20, int arg21) {
-
-			int radioButtonId = arg20.getCheckedRadioButtonId();
-
-			RadioButton rb02 = (RadioButton)findViewById(radioButtonId);
-			
-            System.out.println("Get group select = "+rb02.getText());
-
-			try {
-				SendMsg = protocol.genMessage_pickup("yellow",rb02.getText().toString());
-			} catch (JSONException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			sendMessage(SendMsg);            
-
-		}
-		});			
-		
-		RadioGroup group03 = (RadioGroup)this.findViewById(R.id.RadioGroup03);
-		
-		group03.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-		
-		@Override
-		public void onCheckedChanged(RadioGroup arg30, int arg31) {
-
-			int radioButtonId = arg30.getCheckedRadioButtonId();
-
-			RadioButton rb03 = (RadioButton)findViewById(radioButtonId);
-			
-            System.out.println("Get group select = "+rb03.getText());
-          
-			try {
-				SendMsg = protocol.genMessage_pickup("green",rb03.getText().toString());
-			} catch (JSONException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			sendMessage(SendMsg);            
-
-		}
-		});				
-		
-		RadioGroup group04 = (RadioGroup)this.findViewById(R.id.RadioGroup04);
-		
-		group04.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-		
-		@Override
-		public void onCheckedChanged(RadioGroup arg40, int arg41) {
-
-			int radioButtonId = arg40.getCheckedRadioButtonId();
-
-			RadioButton rb04 = (RadioButton)findViewById(radioButtonId);
-			
-            System.out.println("Get group select = "+rb04.getText());
-
-		}
-		});
-		
-
-		
 		
 		
 		mCastConsumer = new VideoCastConsumerImpl() {
@@ -233,6 +203,18 @@ public class ConfigGame extends ActionBarActivity  {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+
+				if(updatestatus)
+					{
+						try {
+							UpdatePlayer(message);
+						} catch (JSONException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						updatestatus = false;
+					}
+				
 				 if(startgame == true)
 				 {
 						Intent it = new Intent(ConfigGame.this, PlayGame.class);
@@ -262,9 +244,9 @@ public class ConfigGame extends ActionBarActivity  {
 			 @Override
 			 public void onCastDeviceDetected(final RouteInfo info) {
 				 if (!CastPreference.isFtuShown(ConfigGame.this)) {
-					 CastPreference.setFtuShown(ConfigGame.this);
-		
+					 CastPreference.setFtuShown(ConfigGame.this);		
 					 Log.d(TAG, "Route is visible: " + info);
+					 
 					 new Handler().postDelayed(new Runnable() {
 		
 						 @Override
@@ -300,7 +282,428 @@ public class ConfigGame extends ActionBarActivity  {
 		super.onResume();
 	}
 
+@Override
+protected void onDestroy() {
+	Log.d(TAG, "onDestroy() is called");
+	if (null != mCastManager) {
+		mCastManager.clearContext(this);
+		mCastConsumer = null;
+	}
+
+	finish();	
+
+	super.onDestroy();
+}
+
+@Override
+protected void onStop() {
+	Log.d(TAG, "onStop() was called");
+	super.onStop();
+}
+
+
+public boolean UpdatePlayer(String msg) throws JSONException {
+	JSONObject obj = new JSONObject(msg);
+
+	Log.d(TAG, "check " + KEY_MAGIC);
+	if (obj.has(KEY_MAGIC) == false) {
+		Log.d(TAG, "missing key: " + KEY_MAGIC);
+		return false;
+	}
+	if (obj.getString(KEY_MAGIC).equals(MAGIC) == false) {
+		Log.d(TAG, "wrong key[" + KEY_MAGIC + "]=" + obj.getString(KEY_MAGIC));
+		return false;
+	}
+
+	Log.d(TAG, "check " + KEY_VERSION);
+	if (obj.has(KEY_VERSION) == false) {
+		Log.d(TAG, "missing key: " + KEY_VERSION);
+		return false;
+	}
+	if (obj.getInt(KEY_VERSION) != VERSION) {
+		Log.d(TAG, "wrong key[" + KEY_VERSION + "]=" + obj.getInt(KEY_VERSION));
+		return false;
+	}
+
+	Log.d(TAG, "check " + KEY_COMMAND);
+	if (obj.has(KEY_COMMAND) == false) {
+		Log.d(TAG, "missing key: " + KEY_COMMAND);
+		return false;
+	}
+	String command = obj.getString(KEY_COMMAND);
+	if (command.equals(COMMAND_CONNECT_REPLY)) {
+		boolean ret = obj.getBoolean(KEY_RET);
+		boolean ishost = obj.getBoolean(KEY_ISHOST);
+		String level = obj.getString(KEY_LEVEL);
+		Log.d(TAG, "ret:" + ret + " ishost:" + ishost +
+				" level:" + level);
+		ConfigGame.SetHostvalue(ishost);
+
+		JSONArray arr = obj.getJSONArray(KEY_PLAYER_STATUS);
+		for (int i=0; i<arr.length(); i++) {
+			JSONObject o = arr.getJSONObject(i);
+			String color = o.getString(KEY_COLOR);
+			String user_type = o.getString(KEY_USER_TYPE);
+			boolean isready = o.getBoolean(KEY_ISREADY);
+			String username = o.getString(KEY_USERNAME);
+			Log.d(TAG, "player-"+i+"color"+color+
+					"user_type"+user_type+"isready"+isready+"username"+username);
+			UpdatePlayerStatus(color, user_type, username);
+			
+		}
+	}else if(command.equals(COMMAND_STARTGAME_NOTIFY)){
+		
+		Log.d(TAG, "start game notify command = " + command);
+		ConfigGame.startgame = true;
+	}
+	else if(command.equals(COMMAND_PICKUP_NOTIFY)){
+				
+					JSONObject o = obj.getJSONObject(KEY_PLAYER_STATUS);
+					String color = o.getString(KEY_COLOR);
+					String user_type = o.getString(KEY_USER_TYPE);
+					boolean isready = o.getBoolean(KEY_ISREADY);
+					String username = o.getString(KEY_USERNAME);
+					Log.d(TAG, "player-"+"color"+color+
+							"user_type"+user_type+"isready"+isready+"username"+username);
+					UpdatePlayerStatus(color, user_type, username);
+		
+	}else {
+		Log.d(TAG, "unsupported key[" + KEY_COMMAND + "]=" + command);
+	}
+	return true;
+}
+
+
+private void InitLevel(){
+
+	RadioGroupLevel= (RadioGroup)this.findViewById(R.id.RadioGroupLevel);
+
+	RadioGroupLevel.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+
+	@Override
+	public void onCheckedChanged(RadioGroup arg00, int arg01) {
+
+		if(!RadioGroupLevelLock)
+			{
+				int radioButtonId = arg00.getCheckedRadioButtonId();
+
+				RadioButton rb00 = (RadioButton)findViewById(radioButtonId);
+				
+				System.out.println("Get group select = "+rb00.getText());
+				
+				try {
+					SendMsg = protocol.genMessage_pickup("level",rb00.getText().toString());
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+				sendMessage(SendMsg);
+			}
+
+	}
+	});
 	
+}
+
+
+
+private void InitRedPlayer(){
+
+	RadioGroupRed= (RadioGroup)this.findViewById(R.id.RadioGroupRed);
+
+	RadioGroupRed.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+
+	@Override
+	public void onCheckedChanged(RadioGroup arg00, int arg01) {
+
+		if(!RadioGroupRedLock)
+			{
+				int radioButtonId = arg00.getCheckedRadioButtonId();
+
+				RadioButton rb00 = (RadioButton)findViewById(radioButtonId);
+				
+				System.out.println("Get group select = "+rb00.getText());
+				
+				try {
+					SendMsg = protocol.genMessage_pickup("red",rb00.getText().toString());
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+				sendMessage(SendMsg);
+			}
+
+	}
+	});
+	
+}
+
+private void InitBluePlayer(){
+
+	RadioGroupBlue= (RadioGroup)this.findViewById(R.id.RadioGroupBlue);
+
+	RadioGroupBlue.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+
+	@Override
+	public void onCheckedChanged(RadioGroup arg00, int arg01) {
+
+		if(!RadioGroupBlueLock)
+			{
+				int radioButtonId = arg00.getCheckedRadioButtonId();
+
+				RadioButton rb00 = (RadioButton)findViewById(radioButtonId);
+				
+				System.out.println("Get group select = "+rb00.getText());
+				
+				try {
+					SendMsg = protocol.genMessage_pickup("blue",rb00.getText().toString());
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+				sendMessage(SendMsg);
+			}
+
+	}
+	});
+	
+}
+
+private void InitYellowPlayer(){
+
+	RadioGroupYellow= (RadioGroup)this.findViewById(R.id.RadioGroupYellow);
+
+	RadioGroupYellow.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+
+	@Override
+	public void onCheckedChanged(RadioGroup arg00, int arg01) {
+
+		if(!RadioGroupYellowLock)
+			{
+				int radioButtonId = arg00.getCheckedRadioButtonId();
+
+				RadioButton rb00 = (RadioButton)findViewById(radioButtonId);
+				
+				System.out.println("Get group select = "+rb00.getText());
+				
+				try {
+					SendMsg = protocol.genMessage_pickup("yellow",rb00.getText().toString());
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+				sendMessage(SendMsg);
+			}
+
+	}
+	});
+
+	
+	
+}
+
+private void InitGreenPlayer(){
+
+	RadioGroupGreen= (RadioGroup)this.findViewById(R.id.RadioGroupGreen);
+
+	RadioGroupGreen.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+
+	@Override
+	public void onCheckedChanged(RadioGroup arg00, int arg01) {
+
+		if(!RadioGroupGreenLock)
+			{
+				int radioButtonId = arg00.getCheckedRadioButtonId();
+
+				RadioButton rb00 = (RadioButton)findViewById(radioButtonId);
+				
+				System.out.println("Get group select = "+rb00.getText());
+				
+				try {
+					SendMsg = protocol.genMessage_pickup("green",rb00.getText().toString());
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+				sendMessage(SendMsg);
+			}
+
+	}
+	});
+
+	
+}
+
+
+
+
+private  void SetRedPlayerStatus(String user_type, String user_name){
+
+	System.out.println("SetRedPlayerStatus = "+user_type);
+
+	if(user_type.equals("computer"))
+	{
+		RadioButtonRed2.setChecked(true);
+	}else if(user_type.equals("unavailable"))
+	{
+		RadioButtonRed4.setChecked(true);
+
+	}else if(user_type.equals("nobody"))
+	{
+		RadioButtonRed3.setChecked(true);
+
+	}else if(user_type.equals("human"))
+	{
+		RadioButtonRed1.setChecked(true);
+		RadioButtonRed1.setText(user_name);
+
+	}
+
+	if(!ishost && !user_type.equals("nobody"))
+		{
+			RadioGroupRedLock = true;
+		}else
+		{
+			RadioGroupRedLock = false;
+		}
+
+
+	
+}
+
+private  void SetGreenPlayerStatus(String user_type, String user_name){
+
+		System.out.println("SetGreenPlayerStatus = "+user_type);
+	
+		if(user_type.equals("computer"))
+		{
+			RadioButtonGreen2.setChecked(true);
+		}else if(user_type.equals("unavailable"))
+		{
+			RadioButtonGreen4.setChecked(true);
+	
+		}else if(user_type.equals("nobody"))
+		{
+			RadioButtonGreen3.setChecked(true);
+	
+		}else if(user_type.equals("human"))
+		{
+			RadioButtonGreen1.setChecked(true);
+			RadioButtonGreen1.setText(user_name);
+	
+		}
+	
+		if(!ishost && !user_type.equals("nobody"))
+			{
+				RadioGroupGreenLock = true;
+			}else
+			{
+				RadioGroupGreenLock = false;
+			}
+
+	
+}		
+
+
+private  void SetBluePlayerStatus(String user_type, String user_name){
+
+		System.out.println("SetBluePlayerStatus = "+user_type);
+
+		
+		if(user_type.equals("computer"))
+		{
+			RadioButtonBlue2.setChecked(true);
+		}else if(user_type.equals("unavailable"))
+		{
+			RadioButtonBlue4.setChecked(true);
+	
+		}else if(user_type.equals("nobody"))
+		{
+			RadioButtonBlue3.setChecked(true);
+	
+		}else if(user_type.equals("human"))
+		{
+			RadioButtonBlue1.setChecked(true);
+			RadioButtonBlue1.setText(user_name);
+	
+		}
+	
+		if(!ishost && !user_type.equals("nobody"))
+			{
+				RadioGroupBlueLock = true;
+			}else
+			{
+				RadioGroupBlueLock = false;
+			}
+	
+}	
+
+
+private void SetYellowPlayerStatus(String user_type, String user_name){
+
+		System.out.println("SetYellowPlayerStatus = "+user_type);
+		
+		if(user_type.equals("computer"))
+		{
+			RadioButtonYellow2.setChecked(true);
+		}else if(user_type.equals("unavailable"))
+		{
+			RadioButtonYellow4.setChecked(true);
+	
+		}else if(user_type.equals("nobody"))
+		{
+			RadioButtonYellow3.setChecked(true);
+	
+		}else if(user_type.equals("human"))
+		{
+			RadioButtonYellow1.setChecked(true);
+			RadioButtonYellow1.setText(user_name);
+	
+		}
+	
+		if((!ishost) && (!user_type.equals("nobody")))
+			{
+				RadioGroupYellowLock = true;
+			}else
+			{
+				RadioGroupYellowLock = false;
+			}
+	
+}	
+
+
+static void SetHostvalue(boolean hostvalue) {
+
+		ishost = hostvalue;
+		if(ishost == true)
+			{
+				System.out.println("SetHostvalue to True ");
+			}
+		else
+			{
+				System.out.println("SetHostvalue to false ");			
+			}
+
+}
+
+static void NeedToUpdate() {
+
+		updatestatus = true;
+
+}
+
+
+void UpdatePlayerStatus(String color, String user_type,String user_name) {
+
+		if(color.equals("red"))
+			SetRedPlayerStatus(user_type,user_name);
+
+		if(color.equals("blue"))
+			SetBluePlayerStatus(user_type,user_name);
+
+		if(color.equals("green"))
+			SetGreenPlayerStatus(user_type,user_name);
+
+		if(color.equals("yellow"))
+			SetYellowPlayerStatus(user_type,user_name);
+
+}
+
 
 private void setupActionBar(ActionBar actionBar) {
 	actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);

@@ -95,6 +95,7 @@ public class MainActivity extends ActionBarActivity {
 	private Cast.Listener mCastListener;
 	private boolean mApplicationStarted;
 	private boolean mWaitingForReconnect;
+	private boolean mAppConnected;
 	private String mSessionId;
 	private LudoProtocol protocol;
 	
@@ -111,6 +112,8 @@ public class MainActivity extends ActionBarActivity {
 		ActionBar actionBar = getSupportActionBar();
 		actionBar.setBackgroundDrawable(new ColorDrawable(
 				android.R.color.transparent));
+
+		mAppConnected = false;
 		
 		final EditText editText=(EditText)findViewById(R.id.editText1); 
 		
@@ -141,11 +144,43 @@ public class MainActivity extends ActionBarActivity {
 
 
 		mCastConsumer = new VideoCastConsumerImpl() {
+
+
+		    @Override
+    		public void onApplicationConnected(ApplicationMetadata appMetadata,
+            String sessionId, boolean wasLaunched) {
+
+				System.out.println("onApplicationConnected message = "+sessionId);
+
+				mAppConnected = true;
+	
+    		}	
 		
 			 @Override
 			 public void onFailed(int resourceId, int statusCode) {
 		
 			 }
+
+			    @Override
+			    public void onApplicationDisconnected(int errorCode) {
+
+				System.out.println("onApplicationDisconnected message = "+errorCode);
+
+				mAppConnected = false;
+
+				
+			    }
+
+			 @Override
+			 public boolean onApplicationConnectionFailed(int errorCode) {
+			 
+				System.out.println("onApplicationConnectionFailed message = "+errorCode);
+
+				mAppConnected = false;
+				 return true;
+			 }
+
+				
 			 
 			 @Override
 			 public void onDataMessageReceived(String message) {
@@ -196,21 +231,31 @@ public class MainActivity extends ActionBarActivity {
 	Createbnt.setOnClickListener(new OnClickListener() {
 		@Override
 		public void onClick(View v) {
-			try {
-				String msg = protocol.genMessage_connect(username);
-				Log.d(TAG, "connect message: " + msg);
-				sendMessage(msg);
+
+			if(mAppConnected){
+					try {
+						String msg = protocol.genMessage_connect(username);
+						Log.d(TAG, "connect message: " + msg);
+						sendMessage(msg);
+						
+
+						Intent it = new Intent(MainActivity.this, ConfigGame.class);
+
+						startActivityForResult(it, 0);
+						overridePendingTransition(R.anim.push_left_in,
+										R.anim.push_left_out);
+					} catch (JSONException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}else{
+
+	                Toast.makeText(MainActivity.this, "Connect not ready, fail to start game", Toast.LENGTH_SHORT).show();
+	
+
 				
-
-				Intent it = new Intent(MainActivity.this, ConfigGame.class);
-
-				startActivityForResult(it, 0);
-				overridePendingTransition(R.anim.push_left_in,
-								R.anim.push_left_out);
-			} catch (JSONException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} 
+					}
+			
 
 
 		}
@@ -328,6 +373,9 @@ public class MainActivity extends ActionBarActivity {
             mCastManager.removeMiniController(mMini);
             mCastManager.clearContext(this);
         }
+
+		 finish();
+         System.exit(0);
 
 		super.onDestroy();
 	}
