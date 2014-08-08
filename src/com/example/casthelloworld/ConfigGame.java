@@ -89,18 +89,22 @@ public class ConfigGame extends ActionBarActivity  {
 	RadioButton RadioButtonRed2;
 	RadioButton RadioButtonRed3;
 	RadioButton RadioButtonRed4;
+	RadioButton RadioButtonRedCurrent;
 	RadioButton RadioButtonBlue1;
 	RadioButton RadioButtonBlue2;
 	RadioButton RadioButtonBlue3;
 	RadioButton RadioButtonBlue4;
+	RadioButton RadioButtonBlueCurrent;
 	RadioButton RadioButtonYellow1;
 	RadioButton RadioButtonYellow2;
 	RadioButton RadioButtonYellow3;
 	RadioButton RadioButtonYellow4;
+	RadioButton RadioButtonYellowCurrent;
 	RadioButton RadioButtonGreen1;
 	RadioButton RadioButtonGreen2;
 	RadioButton RadioButtonGreen3;
 	RadioButton RadioButtonGreen4;
+	RadioButton RadioButtonGreenCurrent;
 	static Boolean RadioGroupRedLock;
 	static Boolean RadioGroupBlueLock;
 	static Boolean RadioGroupYellowLock;
@@ -129,21 +133,25 @@ public class ConfigGame extends ActionBarActivity  {
 		RadioButtonRed2 = (RadioButton)findViewById(R.id.RadioButtonRed2);
 		RadioButtonRed3 = (RadioButton)findViewById(R.id.RadioButtonRed3);
 		RadioButtonRed4 = (RadioButton)findViewById(R.id.RadioButtonRed4);
+		RadioButtonRedCurrent = RadioButtonRed1;
 
 		RadioButtonBlue1 = (RadioButton)findViewById(R.id.RadioButtonBlue1);
 		RadioButtonBlue2 = (RadioButton)findViewById(R.id.RadioButtonBlue2);
 		RadioButtonBlue3 = (RadioButton)findViewById(R.id.RadioButtonBlue3);
 		RadioButtonBlue4 = (RadioButton)findViewById(R.id.RadioButtonBlue4);
+		RadioButtonBlueCurrent = RadioButtonBlue1;
 
 		RadioButtonYellow1 = (RadioButton)findViewById(R.id.RadioButtonYellow1);
 		RadioButtonYellow2 = (RadioButton)findViewById(R.id.RadioButtonYellow2);
 		RadioButtonYellow3 = (RadioButton)findViewById(R.id.RadioButtonYellow3);
 		RadioButtonYellow4 = (RadioButton)findViewById(R.id.RadioButtonYellow4);
+		RadioButtonYellowCurrent = RadioButtonYellow1;
 
 		RadioButtonGreen1 = (RadioButton)findViewById(R.id.RadioButtonGreen1);
 		RadioButtonGreen2 = (RadioButton)findViewById(R.id.RadioButtonGreen2);	
 		RadioButtonGreen3 = (RadioButton)findViewById(R.id.RadioButtonGreen3);	
-		RadioButtonGreen4 = (RadioButton)findViewById(R.id.RadioButtonGreen4);	
+		RadioButtonGreen4 = (RadioButton)findViewById(R.id.RadioButtonGreen4);
+		RadioButtonGreenCurrent = RadioButtonGreen1;
 
 		RadioGroupRedLock = false;
 		RadioGroupBlueLock = false;
@@ -179,6 +187,7 @@ public class ConfigGame extends ActionBarActivity  {
 		RadioButtonYellow1.setText(MainActivity.username);
 		RadioButtonBlue1.setText(MainActivity.username);
 		RadioButtonGreen1.setText(MainActivity.username);
+		playername = MainActivity.username;
 
 		InitLevel();
 		InitRedPlayer();
@@ -257,8 +266,7 @@ public class ConfigGame extends ActionBarActivity  {
 				 }
 			 }
 		 };		
-		
-		
+				
 	}
 
     @Override
@@ -415,21 +423,74 @@ private void InitRedPlayer(){
 	@Override
 	public void onCheckedChanged(RadioGroup arg00, int arg01) {
 
+
 		if(!RadioGroupRedLock)
 			{
-				int radioButtonId = arg00.getCheckedRadioButtonId();
+				if(!ishost)
+					{
+						switch(arg00.getCheckedRadioButtonId())
+							{
+								case R.id.RadioButtonRed1:
+									
+									System.out.println("not host Get group select = "+RadioButtonRed1.getText());
+									if(!updatestatus){			
+											try {
+												SendMsg = protocol.genMessage_pickup("red",RadioButtonRed1.getText().toString());
+											} catch (JSONException e) {
+												e.printStackTrace();
+											}
+											sendMessage(SendMsg);
+										}
+											RadioButtonRedCurrent = RadioButtonRed1;
+											
+										break;
+								case R.id.RadioButtonRed2:
+									RadioButtonRedCurrent.setChecked(true);
+										break;
 
-				RadioButton rb00 = (RadioButton)findViewById(radioButtonId);
+								case R.id.RadioButtonRed3:
+									
+									System.out.println("not host Get group select = "+RadioButtonRed3.getText());
+									if(!updatestatus){			
+											try {
+												SendMsg = protocol.genMessage_pickup("red",RadioButtonRed3.getText().toString());
+											} catch (JSONException e) {
+												e.printStackTrace();
+											}
+											sendMessage(SendMsg);
+										}
+											RadioButtonRedCurrent = RadioButtonRed3;
+											
+										break;									
+								case R.id.RadioButtonRed4:
+									RadioButtonRedCurrent.setChecked(true);
+										break;
+							}
+					
+					}else
+					{
 				
-				System.out.println("Get group select = "+rb00.getText());
-				
-				try {
-					SendMsg = protocol.genMessage_pickup("red",rb00.getText().toString());
-				} catch (JSONException e) {
-					e.printStackTrace();
+							int radioButtonId = arg00.getCheckedRadioButtonId();
+
+							RadioButton rb00 = (RadioButton)findViewById(radioButtonId);
+							
+							System.out.println("host Get group select = "+rb00.getText());
+							if(!updatestatus){			
+									try {
+										SendMsg = protocol.genMessage_pickup("red",rb00.getText().toString());
+									} catch (JSONException e) {
+										e.printStackTrace();
+									}
+									sendMessage(SendMsg);
+								}
+							RadioButtonRedCurrent = rb00;
+					}
+			}else{
+
+				System.out.println("RedPlayer has been locked! ");
+				RadioButtonRedCurrent.setChecked(true);
+			
 				}
-				sendMessage(SendMsg);
-			}
 
 	}
 	});
@@ -445,21 +506,78 @@ private void InitBluePlayer(){
 	@Override
 	public void onCheckedChanged(RadioGroup arg00, int arg01) {
 
+		
+
 		if(!RadioGroupBlueLock)
 			{
-				int radioButtonId = arg00.getCheckedRadioButtonId();
-
-				RadioButton rb00 = (RadioButton)findViewById(radioButtonId);
+			if(!ishost)
+				{
+					switch(arg00.getCheckedRadioButtonId())
+						{
+							case R.id.RadioButtonBlue1:
+								
+								System.out.println("not host Get group select = "+RadioButtonBlue1.getText());
+								if(!updatestatus){			
+										try {
+											SendMsg = protocol.genMessage_pickup("blue",RadioButtonBlue1.getText().toString());
+										} catch (JSONException e) {
+											e.printStackTrace();
+										}
+										sendMessage(SendMsg);
+									}
+										RadioButtonBlueCurrent = RadioButtonBlue1;
+										
+									break;
+							case R.id.RadioButtonBlue2:
+								RadioButtonBlueCurrent.setChecked(true);
+									break;
+			
+							case R.id.RadioButtonBlue3:
+								
+								System.out.println("not host Get group select = "+RadioButtonBlue3.getText());
+								if(!updatestatus){			
+										try {
+											SendMsg = protocol.genMessage_pickup("blue",RadioButtonBlue3.getText().toString());
+										} catch (JSONException e) {
+											e.printStackTrace();
+										}
+										sendMessage(SendMsg);
+									}
+										RadioButtonBlueCurrent = RadioButtonBlue3;
+										
+									break;
+								
+							case R.id.RadioButtonBlue4:
+								RadioButtonBlueCurrent.setChecked(true);
+									break;
+						}
 				
-				System.out.println("Get group select = "+rb00.getText());
-				
-				try {
-					SendMsg = protocol.genMessage_pickup("blue",rb00.getText().toString());
-				} catch (JSONException e) {
-					e.printStackTrace();
+				}else
+				{
+			
+						int radioButtonId = arg00.getCheckedRadioButtonId();
+			
+						RadioButton rb00 = (RadioButton)findViewById(radioButtonId);
+						
+						System.out.println("host Get group select = "+rb00.getText());
+						if(!updatestatus){			
+								try {
+									SendMsg = protocol.genMessage_pickup("blue",rb00.getText().toString());
+								} catch (JSONException e) {
+									e.printStackTrace();
+								}
+								sendMessage(SendMsg);
+							}
+						RadioButtonBlueCurrent = rb00;
 				}
-				sendMessage(SendMsg);
-			}
+
+			}else{
+
+				System.out.println("BluePlayer has been locked! ");
+				RadioButtonBlueCurrent.setChecked(true);
+
+			
+				}
 
 	}
 	});
@@ -477,19 +595,74 @@ private void InitYellowPlayer(){
 
 		if(!RadioGroupYellowLock)
 			{
-				int radioButtonId = arg00.getCheckedRadioButtonId();
-
-				RadioButton rb00 = (RadioButton)findViewById(radioButtonId);
+			if(!ishost)
+				{
+					switch(arg00.getCheckedRadioButtonId())
+						{
+							case R.id.RadioButtonYellow1:
+								
+								System.out.println("not host Get group select = "+RadioButtonYellow1.getText());
+								if(!updatestatus){			
+										try {
+											SendMsg = protocol.genMessage_pickup("yellow",RadioButtonYellow1.getText().toString());
+										} catch (JSONException e) {
+											e.printStackTrace();
+										}
+										sendMessage(SendMsg);
+									}
+										RadioButtonYellowCurrent = RadioButtonYellow1;
+										
+									break;
+							case R.id.RadioButtonYellow2:
+								RadioButtonYellowCurrent.setChecked(true);
+									break;
+			
+							case R.id.RadioButtonYellow3:
+								
+								System.out.println("not host Get group select = "+RadioButtonYellow3.getText());
+								if(!updatestatus){			
+										try {
+											SendMsg = protocol.genMessage_pickup("yellow",RadioButtonYellow3.getText().toString());
+										} catch (JSONException e) {
+											e.printStackTrace();
+										}
+										sendMessage(SendMsg);
+									}
+										RadioButtonYellowCurrent = RadioButtonYellow3;
+										
+									break;
+								
+							case R.id.RadioButtonYellow4:
+								RadioButtonYellowCurrent.setChecked(true);
+									break;
+						}
 				
-				System.out.println("Get group select = "+rb00.getText());
-				
-				try {
-					SendMsg = protocol.genMessage_pickup("yellow",rb00.getText().toString());
-				} catch (JSONException e) {
-					e.printStackTrace();
+				}else
+				{
+			
+						int radioButtonId = arg00.getCheckedRadioButtonId();
+			
+						RadioButton rb00 = (RadioButton)findViewById(radioButtonId);
+						
+						System.out.println("host Get group select = "+rb00.getText());
+						if(!updatestatus){			
+								try {
+									SendMsg = protocol.genMessage_pickup("yellow",rb00.getText().toString());
+								} catch (JSONException e) {
+									e.printStackTrace();
+								}
+								sendMessage(SendMsg);
+							}
+						RadioButtonYellowCurrent = rb00;
 				}
-				sendMessage(SendMsg);
-			}
+
+			}else{
+
+				System.out.println("YellowPlayer has been locked! ");
+				
+				RadioButtonYellowCurrent.setChecked(true);
+			
+				}
 
 	}
 	});
@@ -509,19 +682,74 @@ private void InitGreenPlayer(){
 
 		if(!RadioGroupGreenLock)
 			{
-				int radioButtonId = arg00.getCheckedRadioButtonId();
-
-				RadioButton rb00 = (RadioButton)findViewById(radioButtonId);
+			if(!ishost)
+				{
+					switch(arg00.getCheckedRadioButtonId())
+						{
+							case R.id.RadioButtonGreen1:
+								
+								System.out.println("not host Get group select = "+RadioButtonGreen1.getText());
+								if(!updatestatus){			
+										try {
+											SendMsg = protocol.genMessage_pickup("green",RadioButtonGreen1.getText().toString());
+										} catch (JSONException e) {
+											e.printStackTrace();
+										}
+										sendMessage(SendMsg);
+									}
+										RadioButtonGreenCurrent = RadioButtonGreen1;
+										
+									break;
+							case R.id.RadioButtonGreen2:
+								RadioButtonGreenCurrent.setChecked(true);
+									break;
+			
+							case R.id.RadioButtonGreen3:
+								
+								System.out.println("not host Get group select = "+RadioButtonGreen3.getText());
+								if(!updatestatus){			
+										try {
+											SendMsg = protocol.genMessage_pickup("green",RadioButtonGreen3.getText().toString());
+										} catch (JSONException e) {
+											e.printStackTrace();
+										}
+										sendMessage(SendMsg);
+									}
+										RadioButtonGreenCurrent = RadioButtonGreen3;
+										
+									break;
+								
+							case R.id.RadioButtonGreen4:
+								RadioButtonGreenCurrent.setChecked(true);
+									break;
+						}
 				
-				System.out.println("Get group select = "+rb00.getText());
-				
-				try {
-					SendMsg = protocol.genMessage_pickup("green",rb00.getText().toString());
-				} catch (JSONException e) {
-					e.printStackTrace();
+				}else
+				{
+			
+						int radioButtonId = arg00.getCheckedRadioButtonId();
+			
+						RadioButton rb00 = (RadioButton)findViewById(radioButtonId);
+						
+						System.out.println("host Get group select = "+rb00.getText());
+						if(!updatestatus){			
+								try {
+									SendMsg = protocol.genMessage_pickup("green",rb00.getText().toString());
+								} catch (JSONException e) {
+									e.printStackTrace();
+								}
+								sendMessage(SendMsg);
+							}
+						RadioButtonGreenCurrent = rb00;
 				}
-				sendMessage(SendMsg);
-			}
+
+			}else{
+
+				System.out.println("GreenPlayer has been locked! ");
+				RadioButtonGreenCurrent.setChecked(true);
+
+			
+				}
 
 	}
 	});
@@ -538,29 +766,51 @@ private  void SetRedPlayerStatus(String user_type, String user_name){
 
 	if(user_type.equals("computer"))
 	{
+		RadioButtonRedCurrent = RadioButtonRed2;
 		RadioButtonRed2.setChecked(true);
+		
+		
 	}else if(user_type.equals("unavailable"))
 	{
+		RadioButtonRedCurrent = RadioButtonRed4;	
 		RadioButtonRed4.setChecked(true);
+		
 
 	}else if(user_type.equals("nobody"))
 	{
+		RadioButtonRedCurrent = RadioButtonRed3;	
 		RadioButtonRed3.setChecked(true);
+		
 
 	}else if(user_type.equals("human"))
 	{
+		RadioButtonRedCurrent = RadioButtonRed1;	
 		RadioButtonRed1.setChecked(true);
 		RadioButtonRed1.setText(user_name);
 
 	}
 
-	if(!ishost && !user_type.equals("nobody"))
+	if(!ishost )
 		{
-			RadioGroupRedLock = true;
+			if(user_type.equals("nobody"))
+			{
+				RadioGroupRedLock = false;
+			}else if(user_type.equals("human"))
+				{
+					if(user_name.equals(playername))
+						RadioGroupRedLock = false;
+					else
+						RadioGroupRedLock = true;
+				}
+			else
+				{
+					RadioGroupRedLock = true;
+				}
 		}else
 		{
 			RadioGroupRedLock = false;
 		}
+	
 
 
 	
@@ -572,29 +822,49 @@ private  void SetGreenPlayerStatus(String user_type, String user_name){
 	
 		if(user_type.equals("computer"))
 		{
+			RadioButtonGreenCurrent = RadioButtonGreen2;		
 			RadioButtonGreen2.setChecked(true);
+			
 		}else if(user_type.equals("unavailable"))
 		{
-			RadioButtonGreen4.setChecked(true);
-	
+			RadioButtonGreenCurrent = RadioButtonGreen4;		
+			RadioButtonGreen4.setChecked(true);	
 		}else if(user_type.equals("nobody"))
 		{
+			RadioButtonGreenCurrent = RadioButtonGreen3;		
 			RadioButtonGreen3.setChecked(true);
+
 	
 		}else if(user_type.equals("human"))
 		{
+			RadioButtonGreenCurrent = RadioButtonGreen1;		
 			RadioButtonGreen1.setChecked(true);
 			RadioButtonGreen1.setText(user_name);
 	
 		}
 	
-		if(!ishost && !user_type.equals("nobody"))
-			{
-				RadioGroupGreenLock = true;
-			}else
+	if(!ishost )
+		{
+			if(user_type.equals("nobody"))
 			{
 				RadioGroupGreenLock = false;
-			}
+			}else if(user_type.equals("human"))
+				{
+					if(user_name.equals(playername))
+						RadioGroupGreenLock = false;
+					else
+						RadioGroupGreenLock = true;
+				}
+			else
+				{
+					RadioGroupGreenLock = true;
+				}
+		}else
+		{
+			RadioGroupGreenLock = false;
+		}
+
+		
 
 	
 }		
@@ -607,29 +877,47 @@ private  void SetBluePlayerStatus(String user_type, String user_name){
 		
 		if(user_type.equals("computer"))
 		{
+			RadioButtonBlueCurrent = RadioButtonBlue2;		
 			RadioButtonBlue2.setChecked(true);
+
 		}else if(user_type.equals("unavailable"))
 		{
+			RadioButtonBlueCurrent = RadioButtonBlue4;		
 			RadioButtonBlue4.setChecked(true);
 	
 		}else if(user_type.equals("nobody"))
 		{
+			RadioButtonBlueCurrent = RadioButtonBlue3;		
 			RadioButtonBlue3.setChecked(true);
-	
 		}else if(user_type.equals("human"))
 		{
+			RadioButtonBlueCurrent = RadioButtonBlue1;		
 			RadioButtonBlue1.setChecked(true);
-			RadioButtonBlue1.setText(user_name);
+			RadioButtonBlue1.setText(user_name);			
 	
 		}
 	
-		if(!ishost && !user_type.equals("nobody"))
-			{
-				RadioGroupBlueLock = true;
-			}else
+	if(!ishost )
+		{
+			if(user_type.equals("nobody"))
 			{
 				RadioGroupBlueLock = false;
-			}
+			}else if(user_type.equals("human"))
+				{
+					if(user_name.equals(playername))
+						RadioGroupBlueLock = false;
+					else
+						RadioGroupBlueLock = true;
+				}
+			else
+				{
+					RadioGroupBlueLock = true;
+				}
+		}else
+		{
+			RadioGroupBlueLock = false;
+		}
+
 	
 }	
 
@@ -640,29 +928,46 @@ private void SetYellowPlayerStatus(String user_type, String user_name){
 		
 		if(user_type.equals("computer"))
 		{
+			RadioButtonYellowCurrent = RadioButtonYellow2;		
 			RadioButtonYellow2.setChecked(true);
 		}else if(user_type.equals("unavailable"))
 		{
+			RadioButtonYellowCurrent = RadioButtonYellow4;		
 			RadioButtonYellow4.setChecked(true);
-	
 		}else if(user_type.equals("nobody"))
 		{
+			RadioButtonYellowCurrent = RadioButtonYellow3;		
 			RadioButtonYellow3.setChecked(true);
 	
 		}else if(user_type.equals("human"))
 		{
+			RadioButtonYellowCurrent = RadioButtonYellow1;		
 			RadioButtonYellow1.setChecked(true);
 			RadioButtonYellow1.setText(user_name);
 	
 		}
 	
-		if((!ishost) && (!user_type.equals("nobody")))
-			{
-				RadioGroupYellowLock = true;
-			}else
+	if(!ishost )
+		{
+			if(user_type.equals("nobody"))
 			{
 				RadioGroupYellowLock = false;
-			}
+			}else if(user_type.equals("human"))
+				{
+					if(user_name.equals(playername))
+						RadioGroupYellowLock = false;
+					else
+						RadioGroupYellowLock = true;
+				}
+			else
+				{
+					RadioGroupYellowLock = true;
+				}
+		}else
+		{
+			RadioGroupYellowLock = false;
+		}
+
 	
 }	
 
