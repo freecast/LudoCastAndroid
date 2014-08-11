@@ -88,7 +88,7 @@ public class LudoProtocol {
         	String level = obj.getString(KEY_LEVEL);
         	Log.d(TAG, "ret:" + ret + " ishost:" + ishost +
         			" level:" + level);
-			ConfigGame.SetHostvalue(ishost);
+			MainActivity.ishost = ishost;
 
         	JSONArray arr = obj.getJSONArray(KEY_PLAYER_STATUS);
         	for (int i=0; i<arr.length(); i++) {
@@ -99,7 +99,7 @@ public class LudoProtocol {
         		String username = o.getString(KEY_USERNAME);
         		Log.d(TAG, "player-"+i+"color"+color+
         				"user_type"+user_type+"isready"+isready+"username"+username);
-				ConfigGame.NeedToUpdate();
+				MainActivity.updatestatus = true;
 				
         	}
         }else if(command.equals(COMMAND_STARTGAME_NOTIFY)){
@@ -115,7 +115,7 @@ public class LudoProtocol {
         		String username = o.getString(KEY_USERNAME);
         		Log.d(TAG, "player-"+"color"+color+
         				"user_type"+user_type+"isready"+isready+"username"+username);
-				ConfigGame.NeedToUpdate();
+				MainActivity.updatestatus = true;
 				        	       	
         }else {
 			Log.d(TAG, "unsupported key[" + KEY_COMMAND + "]=" + command);

@@ -79,7 +79,6 @@ public class ConfigGame extends ActionBarActivity  {
     String usertype;
 	private LudoProtocol protocol;
 	static Boolean startgame;
-	static Boolean ishost;
 	RadioGroup RadioGroupRed;
 	RadioGroup RadioGroupYellow;
 	RadioGroup RadioGroupBlue;
@@ -110,7 +109,7 @@ public class ConfigGame extends ActionBarActivity  {
 	static Boolean RadioGroupYellowLock;
 	static Boolean RadioGroupGreenLock;
 	static Boolean RadioGroupLevelLock;
-	static Boolean updatestatus;
+	static Boolean begingame;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -123,9 +122,7 @@ public class ConfigGame extends ActionBarActivity  {
 		
 		startgame = false;
 
-		ishost = true;
-
-		updatestatus = false;
+		begingame = false;
 
 		protocol = new LudoProtocol();
 
@@ -213,7 +210,7 @@ public class ConfigGame extends ActionBarActivity  {
 					e.printStackTrace();
 				}
 
-				if(updatestatus)
+				if(MainActivity.updatestatus)
 					{
 						try {
 							UpdatePlayer(message);
@@ -221,7 +218,7 @@ public class ConfigGame extends ActionBarActivity  {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
-						updatestatus = false;
+						MainActivity.updatestatus = false;
 					}
 				
 				 if(startgame == true)
@@ -232,6 +229,8 @@ public class ConfigGame extends ActionBarActivity  {
 						overridePendingTransition(R.anim.push_left_in,
 										R.anim.push_left_out);					
 						startgame = false;
+						begingame = true;
+						finish();
 				 }
 				 
 				 System.out.println("ConfigGame receiver message = "+message);
@@ -294,6 +293,20 @@ public class ConfigGame extends ActionBarActivity  {
 protected void onDestroy() {
 	Log.d(TAG, "onDestroy() is called");
 	if (null != mCastManager) {
+
+		if(!begingame)
+			{
+				String msg = null;
+				try {
+					msg = protocol.genMessage_disconnect();
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				Log.d(TAG, "disconnect message: " + msg);
+				sendMessage(msg);
+			}
+
 		mCastManager.clearContext(this);
 		mCastConsumer = null;
 	}
@@ -345,7 +358,7 @@ public boolean UpdatePlayer(String msg) throws JSONException {
 		String level = obj.getString(KEY_LEVEL);
 		Log.d(TAG, "ret:" + ret + " ishost:" + ishost +
 				" level:" + level);
-		ConfigGame.SetHostvalue(ishost);
+		MainActivity.ishost = ishost;
 
 		JSONArray arr = obj.getJSONArray(KEY_PLAYER_STATUS);
 		for (int i=0; i<arr.length(); i++) {
@@ -426,14 +439,14 @@ private void InitRedPlayer(){
 
 		if(!RadioGroupRedLock)
 			{
-				if(!ishost)
+				if(!MainActivity.ishost)
 					{
 						switch(arg00.getCheckedRadioButtonId())
 							{
 								case R.id.RadioButtonRed1:
 									
 									System.out.println("not host Get group select = "+RadioButtonRed1.getText());
-									if(!updatestatus){			
+									if(!MainActivity.updatestatus){			
 											try {
 												SendMsg = protocol.genMessage_pickup("red",RadioButtonRed1.getText().toString());
 											} catch (JSONException e) {
@@ -451,7 +464,7 @@ private void InitRedPlayer(){
 								case R.id.RadioButtonRed3:
 									
 									System.out.println("not host Get group select = "+RadioButtonRed3.getText());
-									if(!updatestatus){			
+									if(!MainActivity.updatestatus){			
 											try {
 												SendMsg = protocol.genMessage_pickup("red",RadioButtonRed3.getText().toString());
 											} catch (JSONException e) {
@@ -475,7 +488,7 @@ private void InitRedPlayer(){
 							RadioButton rb00 = (RadioButton)findViewById(radioButtonId);
 							
 							System.out.println("host Get group select = "+rb00.getText());
-							if(!updatestatus){			
+							if(!MainActivity.updatestatus){			
 									try {
 										SendMsg = protocol.genMessage_pickup("red",rb00.getText().toString());
 									} catch (JSONException e) {
@@ -510,14 +523,14 @@ private void InitBluePlayer(){
 
 		if(!RadioGroupBlueLock)
 			{
-			if(!ishost)
+			if(!MainActivity.ishost)
 				{
 					switch(arg00.getCheckedRadioButtonId())
 						{
 							case R.id.RadioButtonBlue1:
 								
 								System.out.println("not host Get group select = "+RadioButtonBlue1.getText());
-								if(!updatestatus){			
+								if(!MainActivity.updatestatus){			
 										try {
 											SendMsg = protocol.genMessage_pickup("blue",RadioButtonBlue1.getText().toString());
 										} catch (JSONException e) {
@@ -535,7 +548,7 @@ private void InitBluePlayer(){
 							case R.id.RadioButtonBlue3:
 								
 								System.out.println("not host Get group select = "+RadioButtonBlue3.getText());
-								if(!updatestatus){			
+								if(!MainActivity.updatestatus){			
 										try {
 											SendMsg = protocol.genMessage_pickup("blue",RadioButtonBlue3.getText().toString());
 										} catch (JSONException e) {
@@ -560,7 +573,7 @@ private void InitBluePlayer(){
 						RadioButton rb00 = (RadioButton)findViewById(radioButtonId);
 						
 						System.out.println("host Get group select = "+rb00.getText());
-						if(!updatestatus){			
+						if(!MainActivity.updatestatus){			
 								try {
 									SendMsg = protocol.genMessage_pickup("blue",rb00.getText().toString());
 								} catch (JSONException e) {
@@ -595,14 +608,14 @@ private void InitYellowPlayer(){
 
 		if(!RadioGroupYellowLock)
 			{
-			if(!ishost)
+			if(!MainActivity.ishost)
 				{
 					switch(arg00.getCheckedRadioButtonId())
 						{
 							case R.id.RadioButtonYellow1:
 								
 								System.out.println("not host Get group select = "+RadioButtonYellow1.getText());
-								if(!updatestatus){			
+								if(!MainActivity.updatestatus){			
 										try {
 											SendMsg = protocol.genMessage_pickup("yellow",RadioButtonYellow1.getText().toString());
 										} catch (JSONException e) {
@@ -620,7 +633,7 @@ private void InitYellowPlayer(){
 							case R.id.RadioButtonYellow3:
 								
 								System.out.println("not host Get group select = "+RadioButtonYellow3.getText());
-								if(!updatestatus){			
+								if(!MainActivity.updatestatus){			
 										try {
 											SendMsg = protocol.genMessage_pickup("yellow",RadioButtonYellow3.getText().toString());
 										} catch (JSONException e) {
@@ -645,7 +658,7 @@ private void InitYellowPlayer(){
 						RadioButton rb00 = (RadioButton)findViewById(radioButtonId);
 						
 						System.out.println("host Get group select = "+rb00.getText());
-						if(!updatestatus){			
+						if(!MainActivity.updatestatus){			
 								try {
 									SendMsg = protocol.genMessage_pickup("yellow",rb00.getText().toString());
 								} catch (JSONException e) {
@@ -682,14 +695,14 @@ private void InitGreenPlayer(){
 
 		if(!RadioGroupGreenLock)
 			{
-			if(!ishost)
+			if(!MainActivity.ishost)
 				{
 					switch(arg00.getCheckedRadioButtonId())
 						{
 							case R.id.RadioButtonGreen1:
 								
 								System.out.println("not host Get group select = "+RadioButtonGreen1.getText());
-								if(!updatestatus){			
+								if(!MainActivity.updatestatus){			
 										try {
 											SendMsg = protocol.genMessage_pickup("green",RadioButtonGreen1.getText().toString());
 										} catch (JSONException e) {
@@ -707,7 +720,7 @@ private void InitGreenPlayer(){
 							case R.id.RadioButtonGreen3:
 								
 								System.out.println("not host Get group select = "+RadioButtonGreen3.getText());
-								if(!updatestatus){			
+								if(!MainActivity.updatestatus){			
 										try {
 											SendMsg = protocol.genMessage_pickup("green",RadioButtonGreen3.getText().toString());
 										} catch (JSONException e) {
@@ -732,7 +745,7 @@ private void InitGreenPlayer(){
 						RadioButton rb00 = (RadioButton)findViewById(radioButtonId);
 						
 						System.out.println("host Get group select = "+rb00.getText());
-						if(!updatestatus){			
+						if(!MainActivity.updatestatus){			
 								try {
 									SendMsg = protocol.genMessage_pickup("green",rb00.getText().toString());
 								} catch (JSONException e) {
@@ -790,7 +803,7 @@ private  void SetRedPlayerStatus(String user_type, String user_name){
 
 	}
 
-	if(!ishost )
+	if(!MainActivity.ishost )
 		{
 			if(user_type.equals("nobody"))
 			{
@@ -843,7 +856,7 @@ private  void SetGreenPlayerStatus(String user_type, String user_name){
 	
 		}
 	
-	if(!ishost )
+	if(!MainActivity.ishost )
 		{
 			if(user_type.equals("nobody"))
 			{
@@ -897,7 +910,7 @@ private  void SetBluePlayerStatus(String user_type, String user_name){
 	
 		}
 	
-	if(!ishost )
+	if(!MainActivity.ishost )
 		{
 			if(user_type.equals("nobody"))
 			{
@@ -947,7 +960,7 @@ private void SetYellowPlayerStatus(String user_type, String user_name){
 	
 		}
 	
-	if(!ishost )
+	if(!MainActivity.ishost )
 		{
 			if(user_type.equals("nobody"))
 			{
@@ -971,26 +984,6 @@ private void SetYellowPlayerStatus(String user_type, String user_name){
 	
 }	
 
-
-static void SetHostvalue(boolean hostvalue) {
-
-		ishost = hostvalue;
-		if(ishost == true)
-			{
-				System.out.println("SetHostvalue to True ");
-			}
-		else
-			{
-				System.out.println("SetHostvalue to false ");			
-			}
-
-}
-
-static void NeedToUpdate() {
-
-		updatestatus = true;
-
-}
 
 
 void UpdatePlayerStatus(String color, String user_type,String user_name) {
@@ -1019,7 +1012,7 @@ private void setupActionBar(ActionBar actionBar) {
 private void sendMessage(String message) {
 	if (mCastManager!=null){			
 		try {
-			System.out.println("sendmessage = "+message);
+			System.out.println("configgame sendmessage = "+message);
 			mCastManager.sendDataMessage(message);
 		} catch (TransientNetworkDisconnectionException e) {
 			// TODO Auto-generated catch block

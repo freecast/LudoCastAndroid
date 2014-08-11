@@ -113,7 +113,7 @@ public class PlayGame extends ActionBarActivity{
 	private void sendMessage(String message) {
 		if (mCastManager!=null){			
 			try {
-				System.out.println("sendmessage = "+message);
+				System.out.println("PlayGame sendmessage = "+message);
 				mCastManager.sendDataMessage(message);
 			} catch (TransientNetworkDisconnectionException e) {
 				// TODO Auto-generated catch block
@@ -185,6 +185,36 @@ public class PlayGame extends ActionBarActivity{
     		}
     	
     		super.onResume();
-    	}	
+    	}
+
+	@Override
+	protected void onDestroy() {
+		Log.d(TAG, "PlayGame onDestroy() is called");
+		if (null != mCastManager) {
+			String msg = null;
+			try {
+				msg = protocol.genMessage_disconnect();
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			Log.d(TAG, "disconnect message: " + msg);
+			sendMessage(msg);
+
+			mCastManager.clearContext(this);
+			mCastConsumer = null;
+		}
+
+		finish();	
+
+		super.onDestroy();
+	}
+
+	@Override
+	protected void onStop() {
+		Log.d(TAG, "PlayGame onStop() was called");
+		super.onStop();
+	}
+	
 
 }

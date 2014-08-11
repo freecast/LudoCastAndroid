@@ -98,6 +98,8 @@ public class MainActivity extends ActionBarActivity {
 	private boolean mAppConnected;
 	private String mSessionId;
 	private LudoProtocol protocol;
+	static Boolean ishost;
+	static Boolean updatestatus;
 	
     final int RIGHT = 0;  
     final int LEFT = 1;  
@@ -114,6 +116,10 @@ public class MainActivity extends ActionBarActivity {
 				android.R.color.transparent));
 
 		mAppConnected = false;
+
+		ishost = false;
+
+		updatestatus = false;
 		
 		final EditText editText=(EditText)findViewById(R.id.editText1); 
 		
@@ -398,6 +404,7 @@ public class MainActivity extends ActionBarActivity {
 	private void sendMessage(String message) {
 		if (mCastManager!=null){			
 			try {
+				Log.d(TAG, "MainActivity send message"+message);
 				mCastManager.sendDataMessage(message);
 			} catch (TransientNetworkDisconnectionException e) {
 				// TODO Auto-generated catch block
