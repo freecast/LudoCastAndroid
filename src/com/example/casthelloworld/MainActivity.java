@@ -148,6 +148,8 @@ public class MainActivity extends ActionBarActivity {
 
 				System.out.println("onApplicationConnected message = "+sessionId);
 
+				Toast.makeText(MainActivity.this, "Device is Ready to Start Game!!!", Toast.LENGTH_SHORT).show();
+
 				mAppConnected = true;
 	
     		}
