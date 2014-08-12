@@ -95,7 +95,7 @@ public class MainActivity extends ActionBarActivity {
 	private Cast.Listener mCastListener;
 	private boolean mApplicationStarted;
 	private boolean mWaitingForReconnect;
-	private boolean mAppConnected;
+	static boolean mAppConnected;
 	private String mSessionId;
 	private LudoProtocol protocol;
 	static Boolean ishost;
@@ -160,10 +160,25 @@ public class MainActivity extends ActionBarActivity {
 
 				mAppConnected = true;
 	
-    		}	
+    		}
+
+
+		    @Override
+		    public void onDisconnected() {
+
+				System.out.println("onDisconnected message ");
+				
+				mAppConnected = false;
+
+			
+		    }			
 		
 			 @Override
 			 public void onFailed(int resourceId, int statusCode) {
+
+				System.out.println("onFailed message = "+statusCode);
+				
+				mAppConnected = false;			 
 		
 			 }
 
@@ -250,6 +265,7 @@ public class MainActivity extends ActionBarActivity {
 						startActivityForResult(it, 0);
 						overridePendingTransition(R.anim.push_left_in,
 										R.anim.push_left_out);
+
 					} catch (JSONException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -257,7 +273,6 @@ public class MainActivity extends ActionBarActivity {
 				}else{
 
 	                Toast.makeText(MainActivity.this, "Connect not ready, fail to start game", Toast.LENGTH_SHORT).show();
-	
 
 				
 					}

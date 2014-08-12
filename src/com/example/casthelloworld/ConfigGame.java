@@ -110,6 +110,7 @@ public class ConfigGame extends ActionBarActivity  {
 	static Boolean RadioGroupGreenLock;
 	static Boolean RadioGroupLevelLock;
 	static Boolean begingame;
+	static Boolean configgameupdate;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -123,6 +124,8 @@ public class ConfigGame extends ActionBarActivity  {
 		startgame = false;
 
 		begingame = false;
+
+		configgameupdate = false;
 
 		protocol = new LudoProtocol();
 
@@ -196,10 +199,43 @@ public class ConfigGame extends ActionBarActivity  {
 		
 		mCastConsumer = new VideoCastConsumerImpl() {
 			
+		    @Override
+		    public void onDisconnected() {
+
+				System.out.println("ConfigGame onDisconnected message ");
+				
+				MainActivity.mAppConnected = false;
+	
+		    }			
+		
 			 @Override
 			 public void onFailed(int resourceId, int statusCode) {
+
+				System.out.println("onFailed message = "+statusCode);
+				
+				MainActivity.mAppConnected = false;			 
 		
 			 }
+
+			    @Override
+			    public void onApplicationDisconnected(int errorCode) {
+
+				System.out.println("onApplicationDisconnected message = "+errorCode);
+
+				MainActivity.mAppConnected = false;
+
+				
+			    }
+
+			 @Override
+			 public boolean onApplicationConnectionFailed(int errorCode) {
+			 
+				System.out.println("onApplicationConnectionFailed message = "+errorCode);
+
+				MainActivity.mAppConnected = false;
+				 return true;
+			 }
+
 			 
 			 @Override
 			 public void onDataMessageReceived(String message) {
@@ -210,7 +246,9 @@ public class ConfigGame extends ActionBarActivity  {
 					e.printStackTrace();
 				}
 
-				if(MainActivity.updatestatus)
+				configgameupdate = MainActivity.updatestatus;
+
+				if(configgameupdate)
 					{
 						try {
 							UpdatePlayer(message);
@@ -218,7 +256,7 @@ public class ConfigGame extends ActionBarActivity  {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
-						MainActivity.updatestatus = false;
+						configgameupdate = false;
 					}
 				
 				 if(startgame == true)
@@ -294,7 +332,7 @@ protected void onDestroy() {
 	Log.d(TAG, "onDestroy() is called");
 	if (null != mCastManager) {
 
-		if(!begingame)
+		if(!begingame && MainActivity.mAppConnected)
 			{
 				String msg = null;
 				try {
@@ -446,7 +484,7 @@ private void InitRedPlayer(){
 								case R.id.RadioButtonRed1:
 									
 									System.out.println("not host Get group select = "+RadioButtonRed1.getText());
-									if(!MainActivity.updatestatus){			
+									if(!configgameupdate){			
 											try {
 												SendMsg = protocol.genMessage_pickup("red",RadioButtonRed1.getText().toString());
 											} catch (JSONException e) {
@@ -464,7 +502,7 @@ private void InitRedPlayer(){
 								case R.id.RadioButtonRed3:
 									
 									System.out.println("not host Get group select = "+RadioButtonRed3.getText());
-									if(!MainActivity.updatestatus){			
+									if(!configgameupdate){			
 											try {
 												SendMsg = protocol.genMessage_pickup("red",RadioButtonRed3.getText().toString());
 											} catch (JSONException e) {
@@ -488,7 +526,7 @@ private void InitRedPlayer(){
 							RadioButton rb00 = (RadioButton)findViewById(radioButtonId);
 							
 							System.out.println("host Get group select = "+rb00.getText());
-							if(!MainActivity.updatestatus){			
+							if(!configgameupdate){			
 									try {
 										SendMsg = protocol.genMessage_pickup("red",rb00.getText().toString());
 									} catch (JSONException e) {
@@ -530,7 +568,7 @@ private void InitBluePlayer(){
 							case R.id.RadioButtonBlue1:
 								
 								System.out.println("not host Get group select = "+RadioButtonBlue1.getText());
-								if(!MainActivity.updatestatus){			
+								if(!configgameupdate){			
 										try {
 											SendMsg = protocol.genMessage_pickup("blue",RadioButtonBlue1.getText().toString());
 										} catch (JSONException e) {
@@ -548,7 +586,7 @@ private void InitBluePlayer(){
 							case R.id.RadioButtonBlue3:
 								
 								System.out.println("not host Get group select = "+RadioButtonBlue3.getText());
-								if(!MainActivity.updatestatus){			
+								if(!configgameupdate){			
 										try {
 											SendMsg = protocol.genMessage_pickup("blue",RadioButtonBlue3.getText().toString());
 										} catch (JSONException e) {
@@ -573,7 +611,7 @@ private void InitBluePlayer(){
 						RadioButton rb00 = (RadioButton)findViewById(radioButtonId);
 						
 						System.out.println("host Get group select = "+rb00.getText());
-						if(!MainActivity.updatestatus){			
+						if(!configgameupdate){			
 								try {
 									SendMsg = protocol.genMessage_pickup("blue",rb00.getText().toString());
 								} catch (JSONException e) {
@@ -615,7 +653,7 @@ private void InitYellowPlayer(){
 							case R.id.RadioButtonYellow1:
 								
 								System.out.println("not host Get group select = "+RadioButtonYellow1.getText());
-								if(!MainActivity.updatestatus){			
+								if(!configgameupdate){			
 										try {
 											SendMsg = protocol.genMessage_pickup("yellow",RadioButtonYellow1.getText().toString());
 										} catch (JSONException e) {
@@ -633,7 +671,7 @@ private void InitYellowPlayer(){
 							case R.id.RadioButtonYellow3:
 								
 								System.out.println("not host Get group select = "+RadioButtonYellow3.getText());
-								if(!MainActivity.updatestatus){			
+								if(!configgameupdate){			
 										try {
 											SendMsg = protocol.genMessage_pickup("yellow",RadioButtonYellow3.getText().toString());
 										} catch (JSONException e) {
@@ -658,7 +696,7 @@ private void InitYellowPlayer(){
 						RadioButton rb00 = (RadioButton)findViewById(radioButtonId);
 						
 						System.out.println("host Get group select = "+rb00.getText());
-						if(!MainActivity.updatestatus){			
+						if(!configgameupdate){			
 								try {
 									SendMsg = protocol.genMessage_pickup("yellow",rb00.getText().toString());
 								} catch (JSONException e) {
@@ -702,7 +740,7 @@ private void InitGreenPlayer(){
 							case R.id.RadioButtonGreen1:
 								
 								System.out.println("not host Get group select = "+RadioButtonGreen1.getText());
-								if(!MainActivity.updatestatus){			
+								if(!configgameupdate){			
 										try {
 											SendMsg = protocol.genMessage_pickup("green",RadioButtonGreen1.getText().toString());
 										} catch (JSONException e) {
@@ -720,7 +758,7 @@ private void InitGreenPlayer(){
 							case R.id.RadioButtonGreen3:
 								
 								System.out.println("not host Get group select = "+RadioButtonGreen3.getText());
-								if(!MainActivity.updatestatus){			
+								if(!configgameupdate){			
 										try {
 											SendMsg = protocol.genMessage_pickup("green",RadioButtonGreen3.getText().toString());
 										} catch (JSONException e) {
@@ -745,7 +783,7 @@ private void InitGreenPlayer(){
 						RadioButton rb00 = (RadioButton)findViewById(radioButtonId);
 						
 						System.out.println("host Get group select = "+rb00.getText());
-						if(!MainActivity.updatestatus){			
+						if(!configgameupdate){			
 								try {
 									SendMsg = protocol.genMessage_pickup("green",rb00.getText().toString());
 								} catch (JSONException e) {

@@ -14,6 +14,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.media.MediaRouter.RouteInfo;
 import android.util.Log;
 import android.view.GestureDetector;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -52,10 +53,43 @@ public class PlayGame extends ActionBarActivity{
 
 		mCastConsumer = new VideoCastConsumerImpl() {
 		
-			 @Override
-			 public void onFailed(int resourceId, int statusCode) {
+		@Override
+		public void onDisconnected() {
 		
-			 }
+			System.out.println("PlayGame onDisconnected message ");
+			
+			MainActivity.mAppConnected = false;
+		
+		}			
+		
+		 @Override
+		 public void onFailed(int resourceId, int statusCode) {
+		
+			System.out.println("onFailed message = "+statusCode);
+			
+			MainActivity.mAppConnected = false; 		 
+		
+		 }
+		
+			@Override
+			public void onApplicationDisconnected(int errorCode) {
+		
+			System.out.println("onApplicationDisconnected message = "+errorCode);
+		
+			MainActivity.mAppConnected = false;
+		
+			
+			}
+		
+		 @Override
+		 public boolean onApplicationConnectionFailed(int errorCode) {
+		 
+			System.out.println("onApplicationConnectionFailed message = "+errorCode);
+		
+			MainActivity.mAppConnected = false;
+			 return true;
+		 }
+
 			 
 			 @Override
 			 public void onDataMessageReceived(String message) {
@@ -186,20 +220,24 @@ public class PlayGame extends ActionBarActivity{
     	
     		super.onResume();
     	}
+	
 
 	@Override
 	protected void onDestroy() {
 		Log.d(TAG, "PlayGame onDestroy() is called");
 		if (null != mCastManager) {
-			String msg = null;
-			try {
-				msg = protocol.genMessage_disconnect();
-			} catch (JSONException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			Log.d(TAG, "disconnect message: " + msg);
-			sendMessage(msg);
+			if(MainActivity.mAppConnected)
+				{
+					String msg = null;
+					try {
+						msg = protocol.genMessage_disconnect();
+					} catch (JSONException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					Log.d(TAG, "disconnect message: " + msg);
+					sendMessage(msg);
+				}
 
 			mCastManager.clearContext(this);
 			mCastConsumer = null;
@@ -213,6 +251,7 @@ public class PlayGame extends ActionBarActivity{
 	@Override
 	protected void onStop() {
 		Log.d(TAG, "PlayGame onStop() was called");
+		
 		super.onStop();
 	}
 	
