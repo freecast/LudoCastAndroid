@@ -175,9 +175,6 @@ public class ConfigGame extends ActionBarActivity  {
             }  
         });  		
 		
-		TextView textview =(TextView) findViewById(R.id.textView4);
-		textview.setText(MainActivity.username) ;
-		
 		RadioButton RadioButtonRed1 = (RadioButton)findViewById(R.id.RadioButtonRed1);		
 		RadioButton RadioButtonYellow1 = (RadioButton)findViewById(R.id.RadioButtonYellow1);			
 		RadioButton RadioButtonBlue1 = (RadioButton)findViewById(R.id.RadioButtonBlue1);			

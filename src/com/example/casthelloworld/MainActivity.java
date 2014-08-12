@@ -109,7 +109,7 @@ public class MainActivity extends ActionBarActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.main);
+		setContentView(R.layout.new_main);
 
 		ActionBar actionBar = getSupportActionBar();
 		actionBar.setBackgroundDrawable(new ColorDrawable(
@@ -129,16 +129,6 @@ public class MainActivity extends ActionBarActivity {
 	            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {  
 	                Toast.makeText(MainActivity.this, String.valueOf(actionId), Toast.LENGTH_SHORT).show();  
 	                return false;  
-	            }  
-	        });  
-	        //获取EditText文本  
-	        Button getValue=(Button)findViewById(R.id.button1);  
-	        getValue.setOnClickListener(new OnClickListener() {  
-	            @Override  
-	            public void onClick(View v) {  
-	                Toast.makeText(MainActivity.this, editText.getText().toString(), Toast.LENGTH_SHORT).show();
-	                username = editText.getText().toString();
-	                System.out.println("Get username = "+username);
 	            }  
 	        });  		
 		
@@ -248,10 +238,21 @@ public class MainActivity extends ActionBarActivity {
 
 		protocol = new LudoProtocol();
 
-	Button Createbnt = (Button) findViewById(R.id.Creat);
+	Button Createbnt = (Button) findViewById(R.id.Startgame);
 	Createbnt.setOnClickListener(new OnClickListener() {
 		@Override
 		public void onClick(View v) {
+
+			username = editText.getText().toString();
+
+			Log.d(TAG, "username =  " + username);
+
+			if(username.equals(""))
+				{
+				
+				Toast.makeText(MainActivity.this, "Please enter your name first !!!", Toast.LENGTH_SHORT).show();
+				return;	
+				}
 
 			if(mAppConnected){
 					try {

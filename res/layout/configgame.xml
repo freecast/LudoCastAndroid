@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -15,29 +15,10 @@
         android:id="@+id/dictTable"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dip"
+        android:layout_marginLeft="0dip"
         android:layout_marginTop="40dip"
         android:layout_weight="0.35"
         android:stretchColumns="4" >
-
-        <TableRow>
-
-            <TextView
-                android:id="@+id/textView1"
-                android:layout_width="40dip"
-                android:layout_height="30dip"
-                android:text="Your name"
-                android:textColor="@color/red"
-                android:textSize="13.0sp" />
-
-            <TextView
-                android:id="@+id/textView4"
-                android:layout_width="60dip"
-                android:layout_height="30dip"
-                android:text=""
-                android:textColor="@color/red"
-                android:textSize="15.0sp" />
-        </TableRow>
 
         <ImageView
             android:id="@+id/imageView6"
@@ -66,7 +47,7 @@
                     android:id="@+id/RadioButtonRed1"
                     android:layout_width="50dip"
                     android:layout_height="30dip"
-                    android:layout_marginLeft="10.0dp"
+                    android:layout_marginLeft="0dp"
                     android:layout_weight="1"
                     android:background="@drawable/button_bg_left"
                     android:button="@null"
@@ -79,7 +60,7 @@
                     android:id="@+id/RadioButtonRed2"
                     android:layout_width="50dip"
                     android:layout_height="30dip"
-                    android:layout_marginLeft="10.0dp"
+                    android:layout_marginLeft="0dp"
                     android:layout_weight="1"
                     android:background="@drawable/button_center"
                     android:button="@null"
@@ -92,7 +73,7 @@
                     android:id="@+id/RadioButtonRed3"
                     android:layout_width="50dip"
                     android:layout_height="30dip"
-                    android:layout_marginLeft="10.0dp"
+                    android:layout_marginLeft="0dp"
                     android:layout_weight="1"
                     android:background="@drawable/button_center"
                     android:button="@null"
@@ -106,7 +87,7 @@
                     android:id="@+id/RadioButtonRed4"
                     android:layout_width="50dip"
                     android:layout_height="30dip"
-                    android:layout_marginLeft="10.0dp"
+                    android:layout_marginLeft="0dp"
                     android:layout_weight="1"
                     android:background="@drawable/button_bg_right"
                     android:button="@null"
@@ -140,7 +121,7 @@
                     android:id="@+id/RadioButtonBlue1"
                     android:layout_width="50dip"
                     android:layout_height="30dip"
-                    android:layout_marginLeft="10.0dp"
+                    android:layout_marginLeft="0dp"
                     android:layout_weight="1"
                     android:background="@drawable/button_bg_left"
                     android:button="@null"
@@ -153,7 +134,7 @@
                     android:id="@+id/RadioButtonBlue2"
                     android:layout_width="50dip"
                     android:layout_height="30dip"
-                    android:layout_marginLeft="10.0dp"
+                    android:layout_marginLeft="0dp"
                     android:layout_weight="1"
                     android:background="@drawable/button_center"
                     android:button="@null"
@@ -166,7 +147,7 @@
                     android:id="@+id/RadioButtonBlue3"
                     android:layout_width="50dip"
                     android:layout_height="30dip"
-                    android:layout_marginLeft="10.0dp"
+                    android:layout_marginLeft="0dp"
                     android:layout_weight="1"
                     android:background="@drawable/button_center"
                     android:button="@null"
@@ -179,7 +160,7 @@
                     android:id="@+id/RadioButtonBlue4"
                     android:layout_width="50dip"
                     android:layout_height="30dip"
-                    android:layout_marginLeft="10.0dp"
+                    android:layout_marginLeft="0dp"
                     android:layout_weight="1"
                     android:background="@drawable/button_bg_right"
                     android:button="@null"
@@ -213,7 +194,7 @@
                     android:id="@+id/RadioButtonYellow1"
                     android:layout_width="50dip"
                     android:layout_height="30dip"
-                    android:layout_marginLeft="10.0dp"
+                    android:layout_marginLeft="0dp"
                     android:layout_weight="1"
                     android:background="@drawable/button_bg_left"
                     android:button="@null"
@@ -226,7 +207,7 @@
                     android:id="@+id/RadioButtonYellow2"
                     android:layout_width="50dip"
                     android:layout_height="30dip"
-                    android:layout_marginLeft="10.0dp"
+                    android:layout_marginLeft="0dp"
                     android:layout_weight="1"
                     android:background="@drawable/button_center"
                     android:button="@null"
@@ -239,7 +220,7 @@
                     android:id="@+id/RadioButtonYellow3"
                     android:layout_width="50dip"
                     android:layout_height="30dip"
-                    android:layout_marginLeft="10.0dp"
+                    android:layout_marginLeft="0dp"
                     android:layout_weight="1"
                     android:background="@drawable/button_center"
                     android:button="@null"
@@ -252,7 +233,7 @@
                     android:id="@+id/RadioButtonYellow4"
                     android:layout_width="50dip"
                     android:layout_height="30dip"
-                    android:layout_marginLeft="10.0dp"
+                    android:layout_marginLeft="0dp"
                     android:layout_weight="1"
                     android:background="@drawable/button_bg_right"
                     android:button="@null"
@@ -286,7 +267,7 @@
                     android:id="@+id/RadioButtonGreen1"
                     android:layout_width="50dip"
                     android:layout_height="30dip"
-                    android:layout_marginLeft="10.0dp"
+                    android:layout_marginLeft="0dp"
                     android:layout_weight="1"
                     android:background="@drawable/button_bg_left"
                     android:button="@null"
@@ -299,7 +280,7 @@
                     android:id="@+id/RadioButtonGreen2"
                     android:layout_width="50dip"
                     android:layout_height="30dip"
-                    android:layout_marginLeft="10.0dp"
+                    android:layout_marginLeft="0dp"
                     android:layout_weight="1"
                     android:background="@drawable/button_center"
                     android:button="@null"
@@ -312,7 +293,7 @@
                     android:id="@+id/RadioButtonGreen3"
                     android:layout_width="50dip"
                     android:layout_height="30dip"
-                    android:layout_marginLeft="10.0dp"
+                    android:layout_marginLeft="0dp"
                     android:layout_weight="1"
                     android:background="@drawable/button_center"
                     android:button="@null"
@@ -325,7 +306,7 @@
                     android:id="@+id/RadioButtonGreen4"
                     android:layout_width="50dip"
                     android:layout_height="30dip"
-                    android:layout_marginLeft="10.0dp"
+                    android:layout_marginLeft="0dp"
                     android:layout_weight="1"
                     android:background="@drawable/button_bg_right"
                     android:button="@null"
@@ -347,9 +328,10 @@
             android:id="@+id/textView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Level" 
+            android:gravity="center"
+            android:text="Computer Level"
             android:textColor="@color/red"
-            android:textSize="12.0sp"/>
+            android:textSize="13.0sp" />
 
         <TableRow>
 
@@ -373,7 +355,7 @@
                     android:id="@+id/RadioButtonLevel1"
                     android:layout_width="50dip"
                     android:layout_height="30dip"
-                    android:layout_marginLeft="10.0dp"
+                    android:layout_marginLeft="0dp"
                     android:layout_weight="1"
                     android:background="@drawable/button_bg_left"
                     android:button="@null"
@@ -386,7 +368,7 @@
                     android:id="@+id/RadioButtonLevel2"
                     android:layout_width="50dip"
                     android:layout_height="30dip"
-                    android:layout_marginLeft="10.0dp"
+                    android:layout_marginLeft="0dp"
                     android:layout_weight="1"
                     android:background="@drawable/button_center"
                     android:button="@null"
@@ -400,7 +382,7 @@
                     android:id="@+id/RadioButtonLevel3"
                     android:layout_width="50dip"
                     android:layout_height="30dip"
-                    android:layout_marginLeft="10.0dp"
+                    android:layout_marginLeft="0dp"
                     android:layout_weight="1"
                     android:background="@drawable/button_bg_right"
                     android:button="@null"
@@ -410,16 +392,17 @@
                     android:textSize="10.0sp" />
             </RadioGroup>
         </TableRow>
-        
-        <Button
-            android:id="@+id/button_getready"
-            android:layout_width="70dip"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10.0dp"
-            android:layout_marginLeft="20.0dp"
-            android:text="Get Ready"
-            android:textColor="@color/red" />
 
-    </TableLayout>    
+    </TableLayout>
+
+    <Button
+        android:id="@+id/button_getready"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/dictTable"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="44dp"
+        android:textColor="@color/red"
+        android:text="Get Ready" />
     
-</LinearLayout>
+</RelativeLayout>
