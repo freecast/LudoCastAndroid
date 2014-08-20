@@ -111,6 +111,8 @@ public class MainActivity extends ActionBarActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.new_main);
 
+		Log.d(TAG, "onCreate");
+
 		ActionBar actionBar = getSupportActionBar();
 		actionBar.setBackgroundDrawable(new ColorDrawable(
 				android.R.color.transparent));
@@ -137,7 +139,11 @@ public class MainActivity extends ActionBarActivity {
 		gestureDetector = new GestureDetector(MainActivity.this,onGestureListener); 
 
 		mCastManager = CastApplication.getCastManager(this);
+		
+		mAppConnected = mCastManager.isConnected();
 
+		Log.d(TAG, "onCreate mAppConnected = "+mAppConnected);
+		
 
 		mCastConsumer = new VideoCastConsumerImpl() {
 
@@ -411,6 +417,7 @@ public class MainActivity extends ActionBarActivity {
 		getMenuInflater().inflate(R.menu.main, menu);
 		mediaRouteMenuItem = mCastManager.
                 addMediaRouterButton(menu, R.id.media_route_menu_item);
+		mAppConnected = mCastManager.isConnected();
 		//MenuItem mediaRouteMenuItem = menu.findItem(R.id.media_route_menu_item);
 		//MediaRouteActionProvider mediaRouteActionProvider = (MediaRouteActionProvider) MenuItemCompat
 		//		.getActionProvider(mediaRouteMenuItem);

@@ -15,7 +15,9 @@
         android:gravity="center"
         android:textColor="@color/black"
         android:hint="Please enter your name"
-        android:ems="10" >
+        android:singleLine="true"
+        android:textSize="20.0sp"
+        android:ems="12" >
 
         <requestFocus />
     </EditText>

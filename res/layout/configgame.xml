@@ -27,7 +27,11 @@
             android:layout_marginTop="10.0dp"
             android:src="@drawable/line" />
 
-        <TableRow>
+        <TableRow
+	            android:id="@+id/tableRow"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_marginTop="10dip" >            
 
             <ImageView
                 android:id="@+id/imageView1"
@@ -40,7 +44,6 @@
                 style="@style/Animations"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10.0dp"
                 android:orientation="horizontal" >
 
                 <RadioButton

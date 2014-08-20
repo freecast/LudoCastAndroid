@@ -7,6 +7,7 @@ import com.google.sample.castcompanionlibrary.cast.callbacks.VideoCastConsumerIm
 import com.google.sample.castcompanionlibrary.cast.exceptions.NoConnectionException;
 import com.google.sample.castcompanionlibrary.cast.exceptions.TransientNetworkDisconnectionException;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.ActionBar;
@@ -220,6 +221,48 @@ public class PlayGame extends ActionBarActivity{
     	
     		super.onResume();
     	}
+
+
+	@Override
+	  public boolean onKeyDown(int keyCode, KeyEvent event) {
+		// TODO Auto-generated method stub
+		if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
+			
+			Log.d(TAG, "Run in Back Key ");
+
+		 if (null != mCastManager) {
+			 if(MainActivity.mAppConnected)
+				 {
+					 String msg = null;
+					 try {
+						 msg = protocol.genMessage_disconnect();
+					 } catch (JSONException e) {
+						 // TODO Auto-generated catch block
+						 e.printStackTrace();
+					 }
+					 Log.d(TAG, "disconnect message: " + msg);
+					 sendMessage(msg);
+				 }
+		 
+			 mCastManager.clearContext(this);
+			 mCastConsumer = null;
+		 }
+
+		 Intent it = new Intent(PlayGame.this, MainActivity.class);
+		 
+		 startActivityForResult(it, 0);
+		 overridePendingTransition(R.anim.in_from_left,
+						 R.anim.out_to_right);
+
+
+			
+		 return true;
+		}
+		return super.onKeyDown(keyCode, event);
+	  }
+
+
+	
 	
 
 	@Override
