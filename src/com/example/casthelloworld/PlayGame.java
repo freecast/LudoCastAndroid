@@ -36,6 +36,7 @@ public class PlayGame extends ActionBarActivity{
     String SendMsg;
     String playername;
     String usertype;
+	static Boolean ResetGame;
 	private LudoProtocol protocol;
     private GestureDetector gestureDetector; 
 	
@@ -52,90 +53,121 @@ public class PlayGame extends ActionBarActivity{
 
 		mCastManager = CastApplication.getCastManager(this);
 
+		protocol = new LudoProtocol();		
 
-		mCastConsumer = new VideoCastConsumerImpl() {
-		
-		@Override
-		public void onDisconnected() {
-		
-			System.out.println("PlayGame onDisconnected message ");
-			
-		
-		}			
-		
-		 @Override
-		 public void onFailed(int resourceId, int statusCode) {
-		
-			System.out.println("onFailed message = "+statusCode);
-					 
-		
-		 }
-		
-			@Override
-			public void onApplicationDisconnected(int errorCode) {
-		
-			System.out.println("onApplicationDisconnected message = "+errorCode);
-		
-			
-			}
-		
-		 @Override
-		 public boolean onApplicationConnectionFailed(int errorCode) {
-		 
-			System.out.println("onApplicationConnectionFailed message = "+errorCode);
+		setupCastListener();
+
+		ResetGame = false;
+
 	
-			 return true;
-		 }
-
-			 
-			 @Override
-			 public void onDataMessageReceived(String message) {
-				 try {
-					protocol.parseMessage(message);
+		Button resetbn=(Button)findViewById(R.id.buttonReset);  
+		resetbn.setOnClickListener(new OnClickListener() {  
+			@Override  
+			public void onClick(View v) {
+				try {
+					SendMsg = protocol.genMessage_reset();
 				} catch (JSONException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
-				}				 
-				 System.out.println("Playgame receiver message = "+message);
-			    }
-		
-			 @Override
-			 public void onConnectionSuspended(int cause) {
-				 Log.d(TAG, "onConnectionSuspended() was called with cause: " + cause);
-				 com.example.casthelloworld.Utils.
-						 showToast(PlayGame.this, R.string.connection_temp_lost);
-			 }
-		
-			 @Override
-			 public void onConnectivityRecovered() {
-				 com.example.casthelloworld.Utils.
-						 showToast(PlayGame.this, R.string.connection_recovered);
-			 }
-		
-			 @Override
-			 public void onCastDeviceDetected(final RouteInfo info) {
-				 if (!CastPreference.isFtuShown(PlayGame.this)) {
-					 CastPreference.setFtuShown(PlayGame.this);
-		
-					 Log.d(TAG, "Route is visible: " + info);
-					 new Handler().postDelayed(new Runnable() {
-		
-						 @Override
-						 public void run() {
+				}
+				sendMessage(SendMsg);
+				
+			}  
+		});  
 
-						 }
-					 }, 1000);
-				 }
-			 }
-		 };
 
-		protocol = new LudoProtocol();		
-		
-		
+	
 	}
 	
 
+	private void setupCastListener(){
+
+	mCastConsumer = new VideoCastConsumerImpl() {
 	
+	@Override
+	public void onDisconnected() {
+	
+		System.out.println("PlayGame onDisconnected message ");
+		
+	
+	}			
+	
+	 @Override
+	 public void onFailed(int resourceId, int statusCode) {
+	
+		System.out.println("onFailed message = "+statusCode);
+				 
+	
+	 }
+	
+		@Override
+		public void onApplicationDisconnected(int errorCode) {
+	
+		System.out.println("onApplicationDisconnected message = "+errorCode);
+	
+		
+		}
+	
+	 @Override
+	 public boolean onApplicationConnectionFailed(int errorCode) {
+	 
+		System.out.println("onApplicationConnectionFailed message = "+errorCode);
+	
+		 return true;
+	 }
+	
+		 
+		 @Override
+		 public void onDataMessageReceived(String message) {
+			 try {
+				protocol.parseMessage(message);
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}				 
+			 System.out.println("Playgame receiver message = "+message);
+
+			if(ResetGame)
+				{
+					KillPlayGame();
+					ResetGame = false;
+				}
+			 
+			}
+	
+		 @Override
+		 public void onConnectionSuspended(int cause) {
+			 Log.d(TAG, "onConnectionSuspended() was called with cause: " + cause);
+			 com.example.casthelloworld.Utils.
+					 showToast(PlayGame.this, R.string.connection_temp_lost);
+		 }
+	
+		 @Override
+		 public void onConnectivityRecovered() {
+			 com.example.casthelloworld.Utils.
+					 showToast(PlayGame.this, R.string.connection_recovered);
+		 }
+	
+		 @Override
+		 public void onCastDeviceDetected(final RouteInfo info) {
+			 if (!CastPreference.isFtuShown(PlayGame.this)) {
+				 CastPreference.setFtuShown(PlayGame.this);
+	
+				 Log.d(TAG, "Route is visible: " + info);
+				 new Handler().postDelayed(new Runnable() {
+	
+					 @Override
+					 public void run() {
+	
+					 }
+				 }, 1000);
+			 }
+		 }
+	 };
+
+
+
+	}
 
 
 	private void setupActionBar(ActionBar actionBar) {
@@ -162,7 +194,7 @@ public class PlayGame extends ActionBarActivity{
 
     private GestureDetector.OnGestureListener onGestureListener =   
             new GestureDetector.SimpleOnGestureListener() { 
-    	  private static final int SWIPE_MIN_DISTANCE = 120;
+    	  private static final int SWIPE_MIN_DISTANCE = 80;
     	  private static final int SWIPE_MAX_OFF_PATH = 250;
     	  private static final int SWIPE_THRESHOLD_VELOCITY = 200;
             @Override  
@@ -253,6 +285,29 @@ public class PlayGame extends ActionBarActivity{
 		}
 		return super.onKeyDown(keyCode, event);
 	  }
+
+	private void KillPlayGame(){
+		if (null != mCastManager) {
+			if(mCastManager.isConnected())
+				{
+					String msg = null;
+					try {
+						msg = protocol.genMessage_disconnect();
+					} catch (JSONException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					Log.d(TAG, "disconnect message: " + msg);
+					sendMessage(msg);
+				}
+		
+		}
+		Intent i = new Intent();
+		i.putExtra("request_text_for_third", "从ThirdActivity再次传递到Main");
+		setResult(Activity.RESULT_FIRST_USER, i);
+		finish();
+
+		}
 
 	@Override
 	protected void onStop() {

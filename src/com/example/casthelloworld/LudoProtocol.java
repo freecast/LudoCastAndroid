@@ -35,6 +35,7 @@ public class LudoProtocol {
     private static final String COMMAND_CONNECT_REPLY = "connect_reply";
     private static final String COMMAND_STARTGAME_NOTIFY = "startgame_notify";
     private static final String COMMAND_PICKUP_NOTIFY = "pickup_notify";
+	private static final String COMMAND_RESET_NOTIFY = "reset_notify";
     private static final String KEY_RET = "ret";
     private static final String KEY_ISHOST = "ishost";
     private static final String KEY_LEVEL = "level";
@@ -42,6 +43,7 @@ public class LudoProtocol {
     private static final String KEY_COLOR = "color";
     private static final String KEY_USER_TYPE = "user_type";
     private static final String KEY_ISREADY = "isready";
+	private static final String KEY_ERROR = "error";
 
 	STATE state;
 	boolean ret;
@@ -84,6 +86,12 @@ public class LudoProtocol {
 		String command = obj.getString(KEY_COMMAND);
         if (command.equals(COMMAND_CONNECT_REPLY)) {
         	boolean ret = obj.getBoolean(KEY_RET);
+			if(ret == false)
+				{
+					String reason = obj.getString(KEY_ERROR);
+					Log.d(TAG, "error info: "+reason);
+					return false;
+				}
         	boolean ishost = obj.getBoolean(KEY_ISHOST);
         	String level = obj.getString(KEY_LEVEL);
         	Log.d(TAG, "ret:" + ret + " ishost:" + ishost +
@@ -114,6 +122,12 @@ public class LudoProtocol {
         		String username = o.getString(KEY_USERNAME);
         		Log.d(TAG, "player-"+"color"+color+
         				"user_type"+user_type+"isready"+isready+"username"+username);
+
+				        	       	
+        }else if(command.equals(COMMAND_RESET_NOTIFY)){
+        	
+        		PlayGame.ResetGame = true;
+        		Log.d(TAG, "Reset Game");
 
 				        	       	
         }else {
@@ -177,6 +191,18 @@ public class LudoProtocol {
 
 		return json.toString();
 	}
+
+	public String genMessage_reset() throws JSONException {
+		JSONObject json = new JSONObject();
+
+		genMessageHeader(json);
+		json.put(KEY_COMMAND, "reset");
+
+		return json.toString();
+	}
+
+
+	
 	public String genMessage_disready() throws JSONException {
 		JSONObject json = new JSONObject();
 

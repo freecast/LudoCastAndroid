@@ -101,9 +101,7 @@ public class MainActivity extends ActionBarActivity {
 	private LudoProtocol protocol;
 	static Boolean ishost;
 	static Boolean updatestatus;
-	
-    final int RIGHT = 0;  
-    final int LEFT = 1;  
+	 
     static String username = null;
 	private final int FIRST_REQUEST_CODE = 1;
 
