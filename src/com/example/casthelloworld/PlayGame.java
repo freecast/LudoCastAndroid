@@ -7,6 +7,7 @@ import com.google.sample.castcompanionlibrary.cast.callbacks.VideoCastConsumerIm
 import com.google.sample.castcompanionlibrary.cast.exceptions.NoConnectionException;
 import com.google.sample.castcompanionlibrary.cast.exceptions.TransientNetworkDisconnectionException;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -36,7 +37,7 @@ public class PlayGame extends ActionBarActivity{
     String playername;
     String usertype;
 	private LudoProtocol protocol;
-    private GestureDetector gestureDetector;  
+    private GestureDetector gestureDetector; 
 	
 	
 	protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +60,6 @@ public class PlayGame extends ActionBarActivity{
 		
 			System.out.println("PlayGame onDisconnected message ");
 			
-			MainActivity.mAppConnected = false;
 		
 		}			
 		
@@ -67,8 +67,7 @@ public class PlayGame extends ActionBarActivity{
 		 public void onFailed(int resourceId, int statusCode) {
 		
 			System.out.println("onFailed message = "+statusCode);
-			
-			MainActivity.mAppConnected = false; 		 
+					 
 		
 		 }
 		
@@ -77,8 +76,6 @@ public class PlayGame extends ActionBarActivity{
 		
 			System.out.println("onApplicationDisconnected message = "+errorCode);
 		
-			MainActivity.mAppConnected = false;
-		
 			
 			}
 		
@@ -86,8 +83,7 @@ public class PlayGame extends ActionBarActivity{
 		 public boolean onApplicationConnectionFailed(int errorCode) {
 		 
 			System.out.println("onApplicationConnectionFailed message = "+errorCode);
-		
-			MainActivity.mAppConnected = false;
+	
 			 return true;
 		 }
 
@@ -100,7 +96,7 @@ public class PlayGame extends ActionBarActivity{
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}				 
-				 System.out.println("MainActivity receiver message = "+message);
+				 System.out.println("Playgame receiver message = "+message);
 			    }
 		
 			 @Override
@@ -138,6 +134,9 @@ public class PlayGame extends ActionBarActivity{
 		
 	}
 	
+
+	
+
 
 	private void setupActionBar(ActionBar actionBar) {
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
@@ -204,7 +203,7 @@ public class PlayGame extends ActionBarActivity{
         @Override
         public boolean onCreateOptionsMenu(Menu menu) {
             super.onCreateOptionsMenu(menu);
-            Log.d("config", "onCreateOptionsMenu() was called");
+            Log.d(TAG, "onCreateOptionsMenu() was called");
             getMenuInflater().inflate(R.menu.main, menu);
             mCastManager.addMediaRouterButton(menu, R.id.media_route_menu_item);
             return true;
@@ -231,7 +230,7 @@ public class PlayGame extends ActionBarActivity{
 			Log.d(TAG, "Run in Back Key ");
 
 		 if (null != mCastManager) {
-			 if(MainActivity.mAppConnected)
+			 if(mCastManager.isConnected())
 				 {
 					 String msg = null;
 					 try {
@@ -244,32 +243,40 @@ public class PlayGame extends ActionBarActivity{
 					 sendMessage(msg);
 				 }
 		 
-			 mCastManager.clearContext(this);
-			 mCastConsumer = null;
 		 }
+		 Intent i = new Intent();
+		 i.putExtra("request_text_for_third", "从ThirdActivity再次传递到Main");
+		 setResult(Activity.RESULT_FIRST_USER, i);
+		 finish();
 
-		 Intent it = new Intent(PlayGame.this, MainActivity.class);
 		 
-		 startActivityForResult(it, 0);
-		 overridePendingTransition(R.anim.in_from_left,
-						 R.anim.out_to_right);
-
-
-			
-		 return true;
 		}
 		return super.onKeyDown(keyCode, event);
 	  }
 
+	@Override
+	protected void onStop() {
+		Log.d(TAG, "onStop() was called");
+		super.onStop();
+	}
 
-	
+
+	@Override
+	protected void onPause() {
+		Log.d(TAG, "onPause() was called");
+        mCastManager.decrementUiCounter();
+        mCastManager.removeVideoCastConsumer(mCastConsumer);
+
+		super.onPause();
+	}
+
 	
 
 	@Override
 	protected void onDestroy() {
 		Log.d(TAG, "PlayGame onDestroy() is called");
 		if (null != mCastManager) {
-			if(MainActivity.mAppConnected)
+			if(mCastManager.isConnected())
 				{
 					String msg = null;
 					try {
@@ -286,17 +293,8 @@ public class PlayGame extends ActionBarActivity{
 			mCastConsumer = null;
 		}
 
-		finish();	
-
 		super.onDestroy();
 	}
 
-	@Override
-	protected void onStop() {
-		Log.d(TAG, "PlayGame onStop() was called");
-		
-		super.onStop();
-	}
-	
 
 }

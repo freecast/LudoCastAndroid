@@ -21,6 +21,7 @@ import java.util.ArrayList;
 
 import org.json.JSONException;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -104,7 +105,7 @@ public class MainActivity extends ActionBarActivity {
     final int RIGHT = 0;  
     final int LEFT = 1;  
     static String username = null;
-    private GestureDetector gestureDetector;  
+	private final int FIRST_REQUEST_CODE = 1;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -134,9 +135,6 @@ public class MainActivity extends ActionBarActivity {
 	            }  
 	        });  		
 		
-		
-		
-		gestureDetector = new GestureDetector(MainActivity.this,onGestureListener); 
 
 		mCastManager = CastApplication.getCastManager(this);
 		
@@ -145,104 +143,8 @@ public class MainActivity extends ActionBarActivity {
 		Log.d(TAG, "onCreate mAppConnected = "+mAppConnected);
 		
 
-		mCastConsumer = new VideoCastConsumerImpl() {
+		setupCastListener();
 
-
-		    @Override
-    		public void onApplicationConnected(ApplicationMetadata appMetadata,
-            String sessionId, boolean wasLaunched) {
-
-				System.out.println("onApplicationConnected message = "+sessionId);
-
-				Toast.makeText(MainActivity.this, "Device is Ready to Start Game!!!", Toast.LENGTH_SHORT).show();
-
-				mAppConnected = true;
-	
-    		}
-
-
-		    @Override
-		    public void onDisconnected() {
-
-				System.out.println("onDisconnected message ");
-				
-				mAppConnected = false;
-
-			
-		    }			
-		
-			 @Override
-			 public void onFailed(int resourceId, int statusCode) {
-
-				System.out.println("onFailed message = "+statusCode);
-				
-				mAppConnected = false;			 
-		
-			 }
-
-			    @Override
-			    public void onApplicationDisconnected(int errorCode) {
-
-				System.out.println("onApplicationDisconnected message = "+errorCode);
-
-				mAppConnected = false;
-
-				
-			    }
-
-			 @Override
-			 public boolean onApplicationConnectionFailed(int errorCode) {
-			 
-				System.out.println("onApplicationConnectionFailed message = "+errorCode);
-
-				mAppConnected = false;
-				 return true;
-			 }
-
-				
-			 
-			 @Override
-			 public void onDataMessageReceived(String message) {
-				 try {
-					protocol.parseMessage(message);
-				} catch (JSONException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}				 
-				 System.out.println("MainActivity receiver message = "+message);
-			    }
-		
-			 @Override
-			 public void onConnectionSuspended(int cause) {
-				 Log.d(TAG, "onConnectionSuspended() was called with cause: " + cause);
-				 com.example.casthelloworld.Utils.
-						 showToast(MainActivity.this, R.string.connection_temp_lost);
-			 }
-		
-			 @Override
-			 public void onConnectivityRecovered() {
-				 com.example.casthelloworld.Utils.
-						 showToast(MainActivity.this, R.string.connection_recovered);
-			 }
-		
-			 @Override
-			 public void onCastDeviceDetected(final RouteInfo info) {
-				 if (!CastPreference.isFtuShown(MainActivity.this)) {
-					 CastPreference.setFtuShown(MainActivity.this);
-		
-					 Log.d(TAG, "Route is visible: " + info);
-					 new Handler().postDelayed(new Runnable() {
-		
-						 @Override
-						 public void run() {
-							 if (mediaRouteMenuItem.isVisible()) {
-								 Log.d(TAG, "Cast Icon is visible: " + info.getName());
-							 }
-						 }
-					 }, 1000);
-				 }
-			 }
-		 };
 
 		protocol = new LudoProtocol();
 
@@ -270,8 +172,9 @@ public class MainActivity extends ActionBarActivity {
 						
 
 						Intent it = new Intent(MainActivity.this, ConfigGame.class);
+						it.putExtra("username from MainActivity", username);
+						startActivityForResult(it, FIRST_REQUEST_CODE);
 
-						startActivityForResult(it, 0);
 						overridePendingTransition(R.anim.push_left_in,
 										R.anim.push_left_out);
 
@@ -290,10 +193,116 @@ public class MainActivity extends ActionBarActivity {
 
 		}
 	});
-
-
 		
 	}
+
+
+
+	private void setupCastListener(){
+
+	mCastConsumer = new VideoCastConsumerImpl() {
+	
+	
+		@Override
+		public void onApplicationConnected(ApplicationMetadata appMetadata,
+		String sessionId, boolean wasLaunched) {
+	
+			System.out.println("onApplicationConnected message = "+sessionId);
+	
+			Toast.makeText(MainActivity.this, "Device is Ready to Start Game!!!", Toast.LENGTH_SHORT).show();
+	
+			mAppConnected = true;
+	
+		}
+	
+	
+		@Override
+		public void onDisconnected() {
+	
+			System.out.println("onDisconnected message ");
+			
+			mAppConnected = false;
+	
+		
+		}			
+	
+		 @Override
+		 public void onFailed(int resourceId, int statusCode) {
+	
+			System.out.println("onFailed message = "+statusCode);
+			
+			mAppConnected = false;			 
+	
+		 }
+	
+			@Override
+			public void onApplicationDisconnected(int errorCode) {
+	
+			System.out.println("onApplicationDisconnected message = "+errorCode);
+	
+			mAppConnected = false;
+	
+			
+			}
+	
+		 @Override
+		 public boolean onApplicationConnectionFailed(int errorCode) {
+		 
+			System.out.println("onApplicationConnectionFailed message = "+errorCode);
+	
+			mAppConnected = false;
+			 return true;
+		 }
+	
+			
+		 
+		 @Override
+		 public void onDataMessageReceived(String message) {
+			 try {
+				protocol.parseMessage(message);
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}				 
+			 System.out.println("MainActivity receiver message = "+message);
+			}
+	
+		 @Override
+		 public void onConnectionSuspended(int cause) {
+			 Log.d(TAG, "onConnectionSuspended() was called with cause: " + cause);
+			 com.example.casthelloworld.Utils.
+					 showToast(MainActivity.this, R.string.connection_temp_lost);
+		 }
+	
+		 @Override
+		 public void onConnectivityRecovered() {
+			 com.example.casthelloworld.Utils.
+					 showToast(MainActivity.this, R.string.connection_recovered);
+		 }
+	
+		 @Override
+		 public void onCastDeviceDetected(final RouteInfo info) {
+			 if (!CastPreference.isFtuShown(MainActivity.this)) {
+				 CastPreference.setFtuShown(MainActivity.this);
+	
+				 Log.d(TAG, "Route is visible: " + info);
+				 new Handler().postDelayed(new Runnable() {
+	
+					 @Override
+					 public void run() {
+						 if (mediaRouteMenuItem.isVisible()) {
+							 Log.d(TAG, "Cast Icon is visible: " + info.getName());
+						 }
+					 }
+				 }, 1000);
+			 }
+		 }
+	 };
+
+	}
+
+
+
 
     private void setupActionBar(ActionBar actionBar) {
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
@@ -301,48 +310,6 @@ public class MainActivity extends ActionBarActivity {
         getSupportActionBar().setDisplayShowTitleEnabled(false);
     }
 
-    private GestureDetector.OnGestureListener onGestureListener =   
-            new GestureDetector.SimpleOnGestureListener() { 
-    	  private static final int SWIPE_MIN_DISTANCE = 120;
-    	  private static final int SWIPE_MAX_OFF_PATH = 250;
-    	  private static final int SWIPE_THRESHOLD_VELOCITY = 200;
-            @Override  
-            public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,  
-                    float velocityY) {  
-                
-                try {
-                    if (Math.abs(e1.getY() - e2.getY()) > SWIPE_MAX_OFF_PATH)
-                     return false;
-                    // right to left swipe
-                    if (e1.getX() - e2.getX() > SWIPE_MIN_DISTANCE
-                      && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
-                    	System.out.println("go left");  
-                    	sendMessage("prev");
-                     
-                    } else if (e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE
-                      && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
-                    	System.out.println("go right");  
-                    	sendMessage("next");
-                     
-                      }
-                   } catch (Exception e) {
-                    Log.e(TAG, "onFling error", e);
-                   }
-                   return false;
-            }
-
-            public boolean onSingleTapUp(MotionEvent event) {      
-                // TODO Auto-generated method stub
-                	System.out.println("onclick @@@");
-                	sendMessage("click");
-                   return false;      
-                }              
-         
-        };  
-      
-        public boolean onTouchEvent(MotionEvent event) {
-            return gestureDetector.onTouchEvent(event);  
-        } 
 	
 	/**
 	 * Android voice recognition
@@ -362,18 +329,17 @@ public class MainActivity extends ActionBarActivity {
 	 * @see android.support.v4.app.FragmentActivity#onActivityResult(int, int,
 	 * android.content.Intent)
 	 */
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		if (requestCode == REQUEST_CODE && resultCode == RESULT_OK) {
-			ArrayList<String> matches = data
-					.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
-			if (matches.size() > 0) {
-				Log.d(TAG, matches.get(0));
-				sendMessage(matches.get(0));
+		protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+			super.onActivityResult(requestCode, resultCode, data);
+			Log.d(TAG, "onActivityResult() was called1");
+			if(requestCode==FIRST_REQUEST_CODE && resultCode==Activity.RESULT_FIRST_USER){
+				if(data != null) {
+					Log.d(TAG, "onActivityResult was call");
+				}
 			}
 		}
-		super.onActivityResult(requestCode, resultCode, data);
-	}
+
+
 
 	@Override
 		protected void onResume() {
@@ -396,11 +362,26 @@ public class MainActivity extends ActionBarActivity {
 		super.onPause();
 	}
 
+
+	@Override
+	  public boolean onKeyDown(int keyCode, KeyEvent event) {
+		// TODO Auto-generated method stub
+		if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
+			
+			Log.d(TAG, "Run in Back Key ");
+			onDestroy();
+			
+		 return true;
+		}
+		return super.onKeyDown(keyCode, event);
+	  }
+
+
+	
+
 	@Override
 	public void onDestroy() {
         if (null != mCastManager) {
-            mMini.removeOnMiniControllerChangedListener(mCastManager);
-            mCastManager.removeMiniController(mMini);
             mCastManager.clearContext(this);
         }
 

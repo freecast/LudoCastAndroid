@@ -73,9 +73,10 @@ public class ConfigGame extends ActionBarActivity  {
     private static final String KEY_USER_TYPE = "user_type";
     private static final String KEY_ISREADY = "isready";
 	private static final String COMMAND_PICKUP_NOTIFY = "pickup_notify";
+	private final int SECOND_REQUEST_CODE = 2;
     
     String SendMsg;
-    String playername;
+    String playername = "";
     String usertype;
 	private LudoProtocol protocol;
 	static Boolean startgame;
@@ -110,6 +111,7 @@ public class ConfigGame extends ActionBarActivity  {
 	static Boolean RadioGroupGreenLock;
 	static Boolean RadioGroupLevelLock;
 	static Boolean begingame;
+	static Boolean configgameishost;
 	static Boolean configgameupdate;
 
 	@Override
@@ -124,6 +126,8 @@ public class ConfigGame extends ActionBarActivity  {
 		startgame = false;
 
 		begingame = false;
+
+		configgameishost = false;
 
 		configgameupdate = false;
 
@@ -178,39 +182,46 @@ public class ConfigGame extends ActionBarActivity  {
 		RadioButton RadioButtonRed1 = (RadioButton)findViewById(R.id.RadioButtonRed1);		
 		RadioButton RadioButtonYellow1 = (RadioButton)findViewById(R.id.RadioButtonYellow1);			
 		RadioButton RadioButtonBlue1 = (RadioButton)findViewById(R.id.RadioButtonBlue1);			
-		RadioButton RadioButtonGreen1 = (RadioButton)findViewById(R.id.RadioButtonGreen1);			
+		RadioButton RadioButtonGreen1 = (RadioButton)findViewById(R.id.RadioButtonGreen1);
 
-		RadioButtonRed1.setText(MainActivity.username);
-		RadioButtonYellow1.setText(MainActivity.username);
-		RadioButtonBlue1.setText(MainActivity.username);
-		RadioButtonGreen1.setText(MainActivity.username);
-		playername = MainActivity.username;
+        if (getIntent().getStringExtra("username from MainActivity") != null) {
+        	playername = getIntent().getStringExtra("username from MainActivity");
+        	System.out.println("ConfigGame get username = "+playername);
+        }
+
+		
+
+		RadioButtonRed1.setText(playername);
+		RadioButtonYellow1.setText(playername);
+		RadioButtonBlue1.setText(playername);
+		RadioButtonGreen1.setText(playername);
 
 		InitLevel();
 		InitRedPlayer();
 		InitBluePlayer();
 		InitYellowPlayer();
 		InitGreenPlayer();
+		setupCastListener();
 			
-		
-		
+				
+	}
+
+
+    private void setupCastListener() {
+
 		mCastConsumer = new VideoCastConsumerImpl() {
 			
 		    @Override
 		    public void onDisconnected() {
 
 				System.out.println("ConfigGame onDisconnected message ");
-				
-				MainActivity.mAppConnected = false;
 	
 		    }			
 		
 			 @Override
 			 public void onFailed(int resourceId, int statusCode) {
 
-				System.out.println("onFailed message = "+statusCode);
-				
-				MainActivity.mAppConnected = false;			 
+				System.out.println("onFailed message = "+statusCode);		 
 		
 			 }
 
@@ -218,8 +229,6 @@ public class ConfigGame extends ActionBarActivity  {
 			    public void onApplicationDisconnected(int errorCode) {
 
 				System.out.println("onApplicationDisconnected message = "+errorCode);
-
-				MainActivity.mAppConnected = false;
 
 				
 			    }
@@ -229,7 +238,6 @@ public class ConfigGame extends ActionBarActivity  {
 			 
 				System.out.println("onApplicationConnectionFailed message = "+errorCode);
 
-				MainActivity.mAppConnected = false;
 				 return true;
 			 }
 
@@ -237,35 +245,22 @@ public class ConfigGame extends ActionBarActivity  {
 			 @Override
 			 public void onDataMessageReceived(String message) {
 				 try {
-					protocol.parseMessage(message);
+					UpdatePlayer(message);
 				} catch (JSONException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
-				}
-
-				configgameupdate = MainActivity.updatestatus;
-
-				if(configgameupdate)
-					{
-						try {
-							UpdatePlayer(message);
-						} catch (JSONException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-						configgameupdate = false;
 					}
 				
 				 if(startgame == true)
 				 {
 						Intent it = new Intent(ConfigGame.this, PlayGame.class);
 
-						startActivityForResult(it, 0);
+						startActivityForResult(it,0);
 						overridePendingTransition(R.anim.push_left_in,
 										R.anim.push_left_out);					
 						startgame = false;
 						begingame = true;
-						finish();
+
 				 }
 				 
 				 System.out.println("ConfigGame receiver message = "+message);
@@ -299,18 +294,35 @@ public class ConfigGame extends ActionBarActivity  {
 					 }, 1000);
 				 }
 			 }
-		 };		
-				
-	}
+		 };	
+
+		
+    	}
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
-        Log.d("config", "onCreateOptionsMenu() was called");
+        Log.d(TAG, "onCreateOptionsMenu() was called");
         getMenuInflater().inflate(R.menu.main, menu);
         mCastManager.addMediaRouterButton(menu, R.id.media_route_menu_item);
         return true;
     }
+
+ @Override
+ protected void onActivityResult(int requestCode, int resultCode, Intent data) {	 
+	 super.onActivityResult(requestCode, resultCode, data); 
+	 Log.d(TAG, "onActivityResult() was called1");
+		 setResult(Activity.RESULT_FIRST_USER, data);
+		 Log.d(TAG, "onActivityResult() was called");
+		 mCastManager.clearContext();
+		 mCastConsumer = null;
+		 finish();
+ }
+
+
+	
 
 @Override
 	protected void onResume() {
@@ -329,7 +341,7 @@ protected void onDestroy() {
 	Log.d(TAG, "onDestroy() is called");
 	if (null != mCastManager) {
 
-		if(!begingame && MainActivity.mAppConnected)
+		if(!begingame && mCastManager.isConnected())
 			{
 				String msg = null;
 				try {
@@ -346,8 +358,6 @@ protected void onDestroy() {
 		mCastConsumer = null;
 	}
 
-	finish();	
-
 	super.onDestroy();
 }
 
@@ -355,6 +365,16 @@ protected void onDestroy() {
 protected void onStop() {
 	Log.d(TAG, "onStop() was called");
 	super.onStop();
+}
+
+@Override
+protected void onPause() {
+	Log.d(TAG, "onPause() was called");
+
+	mCastManager.decrementUiCounter();
+	mCastManager.removeVideoCastConsumer(mCastConsumer);
+
+	super.onPause();
 }
 
 
@@ -393,7 +413,7 @@ public boolean UpdatePlayer(String msg) throws JSONException {
 		String level = obj.getString(KEY_LEVEL);
 		Log.d(TAG, "ret:" + ret + " ishost:" + ishost +
 				" level:" + level);
-		MainActivity.ishost = ishost;
+		configgameishost = ishost;
 
 		JSONArray arr = obj.getJSONArray(KEY_PLAYER_STATUS);
 		for (int i=0; i<arr.length(); i++) {
@@ -404,13 +424,15 @@ public boolean UpdatePlayer(String msg) throws JSONException {
 			String username = o.getString(KEY_USERNAME);
 			Log.d(TAG, "player-"+i+"color"+color+
 					"user_type"+user_type+"isready"+isready+"username"+username);
+			configgameupdate = true;
 			UpdatePlayerStatus(color, user_type, username);
+			configgameupdate = false;
 			
 		}
 	}else if(command.equals(COMMAND_STARTGAME_NOTIFY)){
 		
 		Log.d(TAG, "start game notify command = " + command);
-		ConfigGame.startgame = true;
+		startgame = true;
 	}
 	else if(command.equals(COMMAND_PICKUP_NOTIFY)){
 				
@@ -421,7 +443,9 @@ public boolean UpdatePlayer(String msg) throws JSONException {
 					String username = o.getString(KEY_USERNAME);
 					Log.d(TAG, "player-"+"color"+color+
 							"user_type"+user_type+"isready"+isready+"username"+username);
+					configgameupdate = true;
 					UpdatePlayerStatus(color, user_type, username);
+					configgameupdate = false;
 		
 	}else {
 		Log.d(TAG, "unsupported key[" + KEY_COMMAND + "]=" + command);
@@ -474,7 +498,7 @@ private void InitRedPlayer(){
 
 		if(!RadioGroupRedLock)
 			{
-				if(!MainActivity.ishost)
+				if(!configgameishost)
 					{
 						switch(arg00.getCheckedRadioButtonId())
 							{
@@ -558,7 +582,7 @@ private void InitBluePlayer(){
 
 		if(!RadioGroupBlueLock)
 			{
-			if(!MainActivity.ishost)
+			if(!configgameishost)
 				{
 					switch(arg00.getCheckedRadioButtonId())
 						{
@@ -643,7 +667,7 @@ private void InitYellowPlayer(){
 
 		if(!RadioGroupYellowLock)
 			{
-			if(!MainActivity.ishost)
+			if(!configgameishost)
 				{
 					switch(arg00.getCheckedRadioButtonId())
 						{
@@ -730,7 +754,7 @@ private void InitGreenPlayer(){
 
 		if(!RadioGroupGreenLock)
 			{
-			if(!MainActivity.ishost)
+			if(!configgameishost)
 				{
 					switch(arg00.getCheckedRadioButtonId())
 						{
@@ -838,7 +862,7 @@ private  void SetRedPlayerStatus(String user_type, String user_name){
 
 	}
 
-	if(!MainActivity.ishost )
+	if(!configgameishost )
 		{
 			if(user_type.equals("nobody"))
 			{
@@ -891,7 +915,7 @@ private  void SetGreenPlayerStatus(String user_type, String user_name){
 	
 		}
 	
-	if(!MainActivity.ishost )
+	if(!configgameishost )
 		{
 			if(user_type.equals("nobody"))
 			{
@@ -945,7 +969,7 @@ private  void SetBluePlayerStatus(String user_type, String user_name){
 	
 		}
 	
-	if(!MainActivity.ishost )
+	if(!configgameishost )
 		{
 			if(user_type.equals("nobody"))
 			{
@@ -995,7 +1019,7 @@ private void SetYellowPlayerStatus(String user_type, String user_name){
 	
 		}
 	
-	if(!MainActivity.ishost )
+	if(!configgameishost )
 		{
 			if(user_type.equals("nobody"))
 			{
