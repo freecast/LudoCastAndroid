@@ -17,6 +17,26 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto" >
 
+  <item
+    android:id="@+id/menu_restart"
+    android:icon="@drawable/icon"
+    android:orderInCategory="1"
+    android:showAsAction="ifRoom|withText"
+    android:title="Restart"/>
+  <item
+    android:id="@+id/menu_setting"
+    android:icon="@drawable/btn_lock1"
+    android:orderInCategory="2"
+    android:showAsAction="ifRoom|withText"
+    android:title="Setting"/>
+
+  <item
+    android:id="@+id/menu_exit"
+    android:icon="@drawable/icon"
+    android:orderInCategory="3"
+    android:showAsAction="ifRoom|withText"
+    android:title="Exit"/>    
+    
     <item
         android:id="@+id/media_route_menu_item"
         android:title="@string/media_route_menu_title"

@@ -21,12 +21,4 @@
         android:text="Click to Dice \n  \nClick to confirm Pawns\n  \nLeft and Right Slide to Change Pawns"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
-    <Button
-        android:id="@+id/buttonReset"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignRight="@+id/textView1"
-        android:text="Reset" />
-
 </RelativeLayout>

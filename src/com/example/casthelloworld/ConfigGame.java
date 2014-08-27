@@ -1,6 +1,7 @@
 package com.example.casthelloworld;
 
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 
 import org.json.JSONArray;
@@ -19,6 +20,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewConfiguration;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RadioButton;
@@ -216,10 +218,23 @@ public class ConfigGame extends ActionBarActivity  {
 		InitYellowPlayer();
 		InitGreenPlayer();
 		setupCastListener();
+		getOverflowMenu();
 			
 				
 	}
 
+    private void getOverflowMenu() {
+         try {
+            ViewConfiguration config = ViewConfiguration.get(this);
+            Field menuKeyField = ViewConfiguration.class.getDeclaredField("sHasPermanentMenuKey");
+            if(menuKeyField != null) {
+                menuKeyField.setAccessible(true);
+                menuKeyField.setBoolean(config, false);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     private void setupCastListener() {
 
@@ -272,7 +287,7 @@ public class ConfigGame extends ActionBarActivity  {
 				 if(startgame == true)
 				 {
 						Intent it = new Intent(ConfigGame.this, PlayGame.class);
-
+						it.putExtra("ishost from ConfigGame", configgameishost);
 						startActivityForResult(it,0);
 						overridePendingTransition(R.anim.push_left_in,
 										R.anim.push_left_out);					
@@ -326,6 +341,8 @@ public class ConfigGame extends ActionBarActivity  {
         Log.d(TAG, "onCreateOptionsMenu() was called");
         getMenuInflater().inflate(R.menu.main, menu);
         mCastManager.addMediaRouterButton(menu, R.id.media_route_menu_item);
+		MenuItem actionRestart = menu.findItem(R.id.menu_restart);
+		actionRestart.setVisible(false); 
         return true;
     }
 
@@ -339,6 +356,23 @@ public class ConfigGame extends ActionBarActivity  {
 		 mCastConsumer = null;
 		 finish();
  }
+
+
+@Override  
+public boolean onOptionsItemSelected(MenuItem item) {  
+	switch (item.getItemId()) {  
+	case R.id.menu_setting:  
+		Toast.makeText(this, "Menu Item Setting selected",	
+				Toast.LENGTH_SHORT).show();  
+		break;	
+	case R.id.menu_exit:  
+		finish(); 
+		break;	
+	default:  
+		break;	
+	}  
+	return super.onOptionsItemSelected(item);  
+}  
 
 
 	

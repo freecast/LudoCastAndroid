@@ -1,5 +1,7 @@
 package com.example.casthelloworld;
 
+import java.lang.reflect.Field;
+
 import org.json.JSONException;
 
 import com.google.sample.castcompanionlibrary.cast.VideoCastManager;
@@ -24,6 +26,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewConfiguration;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -39,6 +42,7 @@ public class PlayGame extends ActionBarActivity{
     String playername;
     String usertype;
 	static Boolean ResetGame;
+	static Boolean ishost;
 	static Boolean EndofGame;
 	private LudoProtocol protocol;
     private GestureDetector gestureDetector; 
@@ -51,6 +55,10 @@ public class PlayGame extends ActionBarActivity{
 		ActionBar actionBar = getSupportActionBar();
 		mCastManager = CastApplication.getCastManager(this);
 		setupActionBar(actionBar);
+
+        ishost = getIntent().getBooleanExtra("ishost from ConfigGame", false);
+        System.out.println("ishost from ConfigGame = "+ishost);
+
 		
 		gestureDetector = new GestureDetector(PlayGame.this,onGestureListener); 
 
@@ -64,26 +72,23 @@ public class PlayGame extends ActionBarActivity{
 
 		EndofGame = false;
 
-	
-		Button resetbn=(Button)findViewById(R.id.buttonReset);  
-		resetbn.setOnClickListener(new OnClickListener() {  
-			@Override  
-			public void onClick(View v) {
-				try {
-					SendMsg = protocol.genMessage_reset();
-				} catch (JSONException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				sendMessage(SendMsg);
-				
-			}  
-		});  
-
-
-	
+		getOverflowMenu();	
 	}
 	
+
+    private void getOverflowMenu() {
+         try {
+            ViewConfiguration config = ViewConfiguration.get(this);
+            Field menuKeyField = ViewConfiguration.class.getDeclaredField("sHasPermanentMenuKey");
+            if(menuKeyField != null) {
+                menuKeyField.setAccessible(true);
+                menuKeyField.setBoolean(config, false);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 
 	private void setupCastListener(){
 
@@ -258,8 +263,38 @@ public class PlayGame extends ActionBarActivity{
             Log.d(TAG, "onCreateOptionsMenu() was called");
             getMenuInflater().inflate(R.menu.main, menu);
             mCastManager.addMediaRouterButton(menu, R.id.media_route_menu_item);
+
+			MenuItem actionRestart = menu.findItem(R.id.menu_restart);
+			actionRestart.setVisible(false); 
+
+			
+			if(ishost)
+				{
+					actionRestart.setVisible(true); 
+				}
             return true;
         }
+
+	@Override  
+	public boolean onOptionsItemSelected(MenuItem item) {  
+		switch (item.getItemId()) {  
+		case R.id.menu_setting:  
+			Toast.makeText(this, "Menu Item Setting selected",	
+					Toast.LENGTH_SHORT).show();  
+			break;	
+		case R.id.menu_exit:  
+			finish(); 
+			break;
+		case R.id.menu_restart:  
+			ResetGame(); 
+			break;				
+		default:  
+			break;	
+		}  
+		return super.onOptionsItemSelected(item);  
+	}	
+
+
 
     @Override
     	protected void onResume() {

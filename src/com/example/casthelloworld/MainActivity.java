@@ -41,6 +41,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewConfiguration;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -62,6 +63,7 @@ import com.google.sample.castcompanionlibrary.cast.exceptions.NoConnectionExcept
 import com.google.sample.castcompanionlibrary.cast.exceptions.TransientNetworkDisconnectionException;
 import com.google.sample.castcompanionlibrary.widgets.MiniController;
 import java.io.IOException;
+import java.lang.reflect.Field;
 
 import android.text.Editable;  
 import android.text.Selection;  
@@ -86,7 +88,6 @@ public class MainActivity extends ActionBarActivity {
     private IVideoCastConsumer mCastConsumer;
     private MiniController mMini;
     private MenuItem mediaRouteMenuItem;
-
 
 	private MediaRouter mMediaRouter;
 	private MediaRouteSelector mMediaRouteSelector;
@@ -146,6 +147,8 @@ public class MainActivity extends ActionBarActivity {
 
 		protocol = new LudoProtocol();
 
+		getOverflowMenu();
+
 	Button Createbnt = (Button) findViewById(R.id.Startgame);
 	Createbnt.setOnClickListener(new OnClickListener() {
 		@Override
@@ -194,6 +197,18 @@ public class MainActivity extends ActionBarActivity {
 		
 	}
 
+    private void getOverflowMenu() {
+         try {
+            ViewConfiguration config = ViewConfiguration.get(this);
+            Field menuKeyField = ViewConfiguration.class.getDeclaredField("sHasPermanentMenuKey");
+            if(menuKeyField != null) {
+                menuKeyField.setAccessible(true);
+                menuKeyField.setBoolean(config, false);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
 
 	private void setupCastListener(){
@@ -397,6 +412,8 @@ public class MainActivity extends ActionBarActivity {
 		mediaRouteMenuItem = mCastManager.
                 addMediaRouterButton(menu, R.id.media_route_menu_item);
 		mAppConnected = mCastManager.isConnected();
+		MenuItem actionRestart = menu.findItem(R.id.menu_restart);
+		actionRestart.setVisible(false); 
 		//MenuItem mediaRouteMenuItem = menu.findItem(R.id.media_route_menu_item);
 		//MediaRouteActionProvider mediaRouteActionProvider = (MediaRouteActionProvider) MenuItemCompat
 		//		.getActionProvider(mediaRouteMenuItem);
@@ -404,7 +421,22 @@ public class MainActivity extends ActionBarActivity {
 		//mediaRouteActionProvider.setRouteSelector(mMediaRouteSelector);
 		return true;
 	}
-	
+
+@Override  
+public boolean onOptionsItemSelected(MenuItem item) {  
+	switch (item.getItemId()) {  
+	case R.id.menu_setting:  
+		Toast.makeText(this, "Menu Item Setting selected",	
+				Toast.LENGTH_SHORT).show();  
+		break;	
+	case R.id.menu_exit:  
+		finish(); 
+		break;	
+	default:  
+		break;	
+	}  
+	return super.onOptionsItemSelected(item);  
+}  	
 	private void sendMessage(String message) {
 		if (mCastManager!=null){			
 			try {
