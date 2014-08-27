@@ -20,6 +20,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
@@ -105,6 +106,10 @@ public class ConfigGame extends ActionBarActivity  {
 	RadioButton RadioButtonGreen3;
 	RadioButton RadioButtonGreen4;
 	RadioButton RadioButtonGreenCurrent;
+	ImageView RedLock;
+	ImageView GreenLock;
+	ImageView YellowLock;
+	ImageView BlueLock;
 	static Boolean RadioGroupRedLock;
 	static Boolean RadioGroupBlueLock;
 	static Boolean RadioGroupYellowLock;
@@ -157,10 +162,19 @@ public class ConfigGame extends ActionBarActivity  {
 		RadioButtonGreen4 = (RadioButton)findViewById(R.id.RadioButtonGreen4);
 		RadioButtonGreenCurrent = RadioButtonGreen1;
 
+		RedLock = (ImageView)findViewById(R.id.imageView7);
+		BlueLock = (ImageView)findViewById(R.id.imageView8);
+		YellowLock = (ImageView)findViewById(R.id.imageView9);
+		GreenLock = (ImageView)findViewById(R.id.imageView10);
+
 		RadioGroupRedLock = false;
+		RedLock.setVisibility(View.INVISIBLE);
 		RadioGroupBlueLock = false;
+		BlueLock.setVisibility(View.INVISIBLE);
 		RadioGroupYellowLock = false;
+		YellowLock.setVisibility(View.INVISIBLE);
 		RadioGroupGreenLock = false;
+		GreenLock.setVisibility(View.INVISIBLE);
 		RadioGroupLevelLock = false;
 		
 		
@@ -872,20 +886,28 @@ private  void SetRedPlayerStatus(String user_type, String user_name){
 			if(user_type.equals("nobody"))
 			{
 				RadioGroupRedLock = false;
+				RedLock.setVisibility(View.INVISIBLE);
 			}else if(user_type.equals("human"))
 				{
 					if(user_name.equals(playername))
+					{
 						RadioGroupRedLock = false;
-					else
+						RedLock.setVisibility(View.INVISIBLE);
+					}else
+					{
 						RadioGroupRedLock = true;
+						RedLock.setVisibility(View.VISIBLE);
+					}
 				}
 			else
 				{
 					RadioGroupRedLock = true;
+					RedLock.setVisibility(View.VISIBLE);
 				}
 		}else
 		{
 			RadioGroupRedLock = false;
+			RedLock.setVisibility(View.INVISIBLE);
 		}
 	
 
@@ -925,20 +947,28 @@ private  void SetGreenPlayerStatus(String user_type, String user_name){
 			if(user_type.equals("nobody"))
 			{
 				RadioGroupGreenLock = false;
+				GreenLock.setVisibility(View.INVISIBLE);
 			}else if(user_type.equals("human"))
 				{
 					if(user_name.equals(playername))
+					{
 						RadioGroupGreenLock = false;
-					else
+						GreenLock.setVisibility(View.INVISIBLE);
+					}else
+					{
 						RadioGroupGreenLock = true;
+						GreenLock.setVisibility(View.VISIBLE);
+					}
 				}
 			else
 				{
 					RadioGroupGreenLock = true;
+					GreenLock.setVisibility(View.VISIBLE);
 				}
 		}else
 		{
 			RadioGroupGreenLock = false;
+			GreenLock.setVisibility(View.INVISIBLE);
 		}
 
 		
@@ -979,20 +1009,28 @@ private  void SetBluePlayerStatus(String user_type, String user_name){
 			if(user_type.equals("nobody"))
 			{
 				RadioGroupBlueLock = false;
+				BlueLock.setVisibility(View.INVISIBLE);
 			}else if(user_type.equals("human"))
 				{
 					if(user_name.equals(playername))
+					{
 						RadioGroupBlueLock = false;
-					else
+						BlueLock.setVisibility(View.INVISIBLE);
+					}else
+					{
 						RadioGroupBlueLock = true;
+						BlueLock.setVisibility(View.VISIBLE);
+					}
 				}
 			else
 				{
 					RadioGroupBlueLock = true;
+					BlueLock.setVisibility(View.VISIBLE);
 				}
 		}else
 		{
 			RadioGroupBlueLock = false;
+			BlueLock.setVisibility(View.INVISIBLE);
 		}
 
 	
@@ -1029,20 +1067,28 @@ private void SetYellowPlayerStatus(String user_type, String user_name){
 			if(user_type.equals("nobody"))
 			{
 				RadioGroupYellowLock = false;
+				YellowLock.setVisibility(View.INVISIBLE);
 			}else if(user_type.equals("human"))
 				{
 					if(user_name.equals(playername))
+					{
 						RadioGroupYellowLock = false;
-					else
+						YellowLock.setVisibility(View.INVISIBLE);
+					}else
+					{
 						RadioGroupYellowLock = true;
+						YellowLock.setVisibility(View.VISIBLE);
+					}
 				}
 			else
 				{
 					RadioGroupYellowLock = true;
+					YellowLock.setVisibility(View.VISIBLE);
 				}
 		}else
 		{
 			RadioGroupYellowLock = false;
+			YellowLock.setVisibility(View.INVISIBLE);
 		}
 
 	

@@ -98,6 +98,13 @@
                     android:textColor="@android:color/white"
                     android:textSize="10.0sp" />
             </RadioGroup>
+
+            <ImageView
+                android:id="@+id/imageView7"
+                android:layout_width="30dip"
+                android:layout_height="30dip"
+                android:src="@drawable/btn_lock1" />
+
         </TableRow>
 
         <TableRow
@@ -171,6 +178,13 @@
                     android:textColor="@android:color/white"
                     android:textSize="10.0sp" />
             </RadioGroup>
+
+            <ImageView
+                android:id="@+id/imageView8"
+                android:layout_width="30dip"
+                android:layout_height="30dip"
+                android:src="@drawable/btn_lock1" />
+
         </TableRow>
 
         <TableRow
@@ -244,6 +258,13 @@
                     android:textColor="@android:color/white"
                     android:textSize="10.0sp" />
             </RadioGroup>
+
+            <ImageView
+                android:id="@+id/imageView9"
+                android:layout_width="30dip"
+                android:layout_height="30dip"
+                android:src="@drawable/btn_lock1" />
+
         </TableRow>
 
         <TableRow
@@ -317,6 +338,13 @@
                     android:textColor="@android:color/white"
                     android:textSize="10.0sp" />
             </RadioGroup>
+
+            <ImageView
+                android:id="@+id/imageView10"
+                android:layout_width="30dip"
+                android:layout_height="30dip"
+                android:src="@drawable/btn_lock1" />
+
         </TableRow>
 
         <ImageView
