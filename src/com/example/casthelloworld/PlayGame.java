@@ -8,6 +8,8 @@ import com.google.sample.castcompanionlibrary.cast.exceptions.NoConnectionExcept
 import com.google.sample.castcompanionlibrary.cast.exceptions.TransientNetworkDisconnectionException;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -37,6 +39,7 @@ public class PlayGame extends ActionBarActivity{
     String playername;
     String usertype;
 	static Boolean ResetGame;
+	static Boolean EndofGame;
 	private LudoProtocol protocol;
     private GestureDetector gestureDetector; 
 	
@@ -58,6 +61,8 @@ public class PlayGame extends ActionBarActivity{
 		setupCastListener();
 
 		ResetGame = false;
+
+		EndofGame = false;
 
 	
 		Button resetbn=(Button)findViewById(R.id.buttonReset);  
@@ -88,6 +93,7 @@ public class PlayGame extends ActionBarActivity{
 	public void onDisconnected() {
 	
 		System.out.println("PlayGame onDisconnected message ");
+		finish();
 		
 	
 	}			
@@ -96,7 +102,7 @@ public class PlayGame extends ActionBarActivity{
 	 public void onFailed(int resourceId, int statusCode) {
 	
 		System.out.println("onFailed message = "+statusCode);
-				 
+		finish();		 
 	
 	 }
 	
@@ -104,6 +110,7 @@ public class PlayGame extends ActionBarActivity{
 		public void onApplicationDisconnected(int errorCode) {
 	
 		System.out.println("onApplicationDisconnected message = "+errorCode);
+		finish();
 	
 		
 		}
@@ -112,7 +119,7 @@ public class PlayGame extends ActionBarActivity{
 	 public boolean onApplicationConnectionFailed(int errorCode) {
 	 
 		System.out.println("onApplicationConnectionFailed message = "+errorCode);
-	
+		finish();
 		 return true;
 	 }
 	
@@ -129,8 +136,20 @@ public class PlayGame extends ActionBarActivity{
 
 			if(ResetGame)
 				{
-					KillPlayGame();
+					finish();
 					ResetGame = false;
+				}
+
+			if(EndofGame)
+				{
+
+				  AlertDialog.Builder builder1=new AlertDialog.Builder(PlayGame.this);
+				  builder1.setTitle("End Of Game").setMessage("Press Confirm Key to continue...").setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+					@Override
+						public void onClick(DialogInterface dialog, int which) {
+											finish();
+										}
+									}).create().show();				
 				}
 			 
 			}
@@ -181,6 +200,7 @@ public class PlayGame extends ActionBarActivity{
 			try {
 				System.out.println("PlayGame sendmessage = "+message);
 				mCastManager.sendDataMessage(message);
+				
 			} catch (TransientNetworkDisconnectionException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -286,13 +306,13 @@ public class PlayGame extends ActionBarActivity{
 		return super.onKeyDown(keyCode, event);
 	  }
 
-	private void KillPlayGame(){
+	private void ResetGame(){
 		if (null != mCastManager) {
 			if(mCastManager.isConnected())
 				{
 					String msg = null;
 					try {
-						msg = protocol.genMessage_disconnect();
+						msg = protocol.genMessage_reset();
 					} catch (JSONException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -303,7 +323,6 @@ public class PlayGame extends ActionBarActivity{
 		
 		}
 		Intent i = new Intent();
-		i.putExtra("request_text_for_third", "从ThirdActivity再次传递到Main");
 		setResult(Activity.RESULT_FIRST_USER, i);
 		finish();
 

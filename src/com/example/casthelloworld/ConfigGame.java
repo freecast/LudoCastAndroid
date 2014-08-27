@@ -215,13 +215,15 @@ public class ConfigGame extends ActionBarActivity  {
 		    public void onDisconnected() {
 
 				System.out.println("ConfigGame onDisconnected message ");
+				finish();
 	
 		    }			
 		
 			 @Override
 			 public void onFailed(int resourceId, int statusCode) {
 
-				System.out.println("onFailed message = "+statusCode);		 
+				System.out.println("onFailed message = "+statusCode);
+				finish();
 		
 			 }
 
@@ -229,6 +231,7 @@ public class ConfigGame extends ActionBarActivity  {
 			    public void onApplicationDisconnected(int errorCode) {
 
 				System.out.println("onApplicationDisconnected message = "+errorCode);
+				finish();
 
 				
 			    }
@@ -237,6 +240,7 @@ public class ConfigGame extends ActionBarActivity  {
 			 public boolean onApplicationConnectionFailed(int errorCode) {
 			 
 				System.out.println("onApplicationConnectionFailed message = "+errorCode);
+				finish();
 
 				 return true;
 			 }
@@ -260,6 +264,7 @@ public class ConfigGame extends ActionBarActivity  {
 										R.anim.push_left_out);					
 						startgame = false;
 						begingame = true;
+						finish();
 
 				 }
 				 
