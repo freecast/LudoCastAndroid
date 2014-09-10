@@ -16,9 +16,12 @@
 
 package com.example.casthelloworld;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import org.apache.http.util.EncodingUtils;
 import org.json.JSONException;
 
 import android.app.Activity;
@@ -102,6 +105,8 @@ public class MainActivity extends ActionBarActivity {
 	private LudoProtocol protocol;
 	static Boolean ishost;
 	static Boolean updatestatus;
+	String fileName = "username.txt";
+	EditText editText;
 	 
     static String username = null;
 	private final int FIRST_REQUEST_CODE = 1;
@@ -123,7 +128,7 @@ public class MainActivity extends ActionBarActivity {
 
 		updatestatus = false;
 		
-		final EditText editText=(EditText)findViewById(R.id.editText1); 
+		editText=(EditText)findViewById(R.id.editText1); 
 		
 
 		 editText.setOnEditorActionListener(new OnEditorActionListener() {  
@@ -132,7 +137,9 @@ public class MainActivity extends ActionBarActivity {
 	                Toast.makeText(MainActivity.this, String.valueOf(actionId), Toast.LENGTH_SHORT).show();  
 	                return false;  
 	            }  
-	        });  		
+	        }); 
+		 
+		 readFileData(fileName);
 		
 
 		mCastManager = CastApplication.getCastManager(this);
@@ -163,7 +170,11 @@ public class MainActivity extends ActionBarActivity {
 				
 				Toast.makeText(MainActivity.this, "Please enter your name first !!!", Toast.LENGTH_SHORT).show();
 				return;	
-				}
+				}else{
+
+					writeFileData(fileName,username);
+
+					}
 
 			if(mAppConnected){
 					try {
@@ -186,11 +197,8 @@ public class MainActivity extends ActionBarActivity {
 				}else{
 
 	                Toast.makeText(MainActivity.this, "Connect not ready, fail to start game", Toast.LENGTH_SHORT).show();
-
-				
+		
 					}
-			
-
 
 		}
 	});
@@ -212,6 +220,69 @@ public class MainActivity extends ActionBarActivity {
 	});
 		
 	}
+
+
+	public void readFileData(String fileName){ 
+	
+			String res=""; 
+	
+			try{ 
+	
+			 FileInputStream fin = openFileInput(fileName); 
+	
+			 int length = fin.available(); 
+	
+			 byte [] buffer = new byte[length]; 
+	
+			 fin.read(buffer);	   
+	
+			 res = EncodingUtils.getString(buffer, "UTF-8"); 
+	
+			 fin.close();	  
+	
+			} 
+	
+			catch(Exception e){ 
+	
+			 e.printStackTrace(); 
+	
+			} 
+	
+			if(res.equals(""))
+			{
+			}
+			else
+				{
+					editText.setText(res);
+					username = editText.getText().toString();
+				}
+	
+		}	
+
+
+
+	public void writeFileData(String fileName,String message){ 
+	
+		try{ 
+	
+		 FileOutputStream fout =openFileOutput(fileName, MODE_PRIVATE);
+	
+		 byte [] bytes = message.getBytes(); 
+	
+		 fout.write(bytes); 
+	
+		  fout.close(); 
+	
+		 } 
+	
+		catch(Exception e){ 
+	
+		 e.printStackTrace(); 
+	
+		} 
+	
+	}  
+
 
     private void getOverflowMenu() {
          try {
