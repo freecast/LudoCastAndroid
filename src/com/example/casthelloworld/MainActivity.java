@@ -194,6 +194,22 @@ public class MainActivity extends ActionBarActivity {
 
 		}
 	});
+	
+	
+	Button Gamerule = (Button) findViewById(R.id.GameRule);
+	Gamerule.setOnClickListener(new OnClickListener() {
+		@Override
+		public void onClick(View v) {
+			Log.d(TAG, "Start Game Rule");
+			
+			Intent it = new Intent(MainActivity.this, GameRule.class);
+			startActivityForResult(it, FIRST_REQUEST_CODE);
+
+			overridePendingTransition(R.anim.push_left_in,
+							R.anim.push_left_out);			
+						
+		}
+	});
 		
 	}
 

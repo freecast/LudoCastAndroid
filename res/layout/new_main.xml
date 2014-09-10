@@ -33,7 +33,7 @@
         android:text="Start Game" />
 
     <Button
-        android:id="@+id/Help"
+        android:id="@+id/GameRule"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
@@ -41,6 +41,6 @@
         android:layout_alignRight = "@id/Startgame"
         android:layout_alignLeft = "@id/Startgame"
         android:textColor="@color/black"
-        android:text="Help" />
+        android:text="Game Rule" />
 
 </RelativeLayout>

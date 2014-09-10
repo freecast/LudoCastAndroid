@@ -134,7 +134,7 @@ public class LudoProtocol {
         }else if(command.equals(COMMAND_ENDOFGAME_NOTIFY)){
         	
         		PlayGame.EndofGame = true;
-        		Log.d(TAG, "Reset Game");
+        		Log.d(TAG, "Restart Game");
 
 				        	       	
         }else {
