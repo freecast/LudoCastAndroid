@@ -128,10 +128,9 @@ public class MainActivity extends ActionBarActivity {
 
 		updatestatus = false;
 		
-		editText=(EditText)findViewById(R.id.editText1); 
-		
+		editText=(EditText)findViewById(R.id.editText1); 		
 
-		 editText.setOnEditorActionListener(new OnEditorActionListener() {  
+		editText.setOnEditorActionListener(new OnEditorActionListener() {  
 	            @Override  
 	            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {  
 	                Toast.makeText(MainActivity.this, String.valueOf(actionId), Toast.LENGTH_SHORT).show();  
