@@ -182,7 +182,8 @@ public class ConfigGame extends ActionBarActivity  {
 		RadioGroupLevelLock = false;
 		
 		
-        Button getready=(Button)findViewById(R.id.button_getready);  
+        final Button getready=(Button)findViewById(R.id.button_getready);
+		getready.setEnabled(true);
         getready.setOnClickListener(new OnClickListener() {  
             @Override  
             public void onClick(View v) {
@@ -193,6 +194,7 @@ public class ConfigGame extends ActionBarActivity  {
 					e.printStackTrace();
 				}
             	sendMessage(SendMsg);
+				getready.setEnabled(false);
                 
             }  
         });  		

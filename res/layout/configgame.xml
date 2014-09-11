@@ -432,7 +432,7 @@
         android:layout_below="@+id/dictTable"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="44dp"
-        android:textColor="@color/red"
+        android:textColor="@color/black"
         android:text="Get Ready" />
     
 </RelativeLayout>
