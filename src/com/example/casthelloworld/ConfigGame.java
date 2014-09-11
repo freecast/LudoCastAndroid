@@ -140,6 +140,8 @@ public class ConfigGame extends ActionBarActivity  {
 
 		protocol = new LudoProtocol();
 
+		setupCastListener();
+
 		RadioButtonRed1 = (RadioButton)findViewById(R.id.RadioButtonRed1);
 		RadioButtonRed2 = (RadioButton)findViewById(R.id.RadioButtonRed2);
 		RadioButtonRed3 = (RadioButton)findViewById(R.id.RadioButtonRed3);
@@ -217,7 +219,6 @@ public class ConfigGame extends ActionBarActivity  {
 		InitBluePlayer();
 		InitYellowPlayer();
 		InitGreenPlayer();
-		setupCastListener();
 		getOverflowMenu();
 			
 				

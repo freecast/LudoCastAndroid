@@ -103,6 +103,7 @@ public class MainActivity extends ActionBarActivity {
 	static boolean mAppConnected;
 	private String mSessionId;
 	private LudoProtocol protocol;
+	private Button Createbnt;
 	static Boolean ishost;
 	static Boolean updatestatus;
 	String fileName = "username.txt";
@@ -155,7 +156,8 @@ public class MainActivity extends ActionBarActivity {
 
 		getOverflowMenu();
 
-	Button Createbnt = (Button) findViewById(R.id.Startgame);
+	Createbnt = (Button) findViewById(R.id.Startgame);
+	Createbnt.setEnabled(false);
 	Createbnt.setOnClickListener(new OnClickListener() {
 		@Override
 		public void onClick(View v) {
@@ -311,6 +313,12 @@ public class MainActivity extends ActionBarActivity {
 			Toast.makeText(MainActivity.this, "Device is Ready to Start Game!!!", Toast.LENGTH_SHORT).show();
 	
 			mAppConnected = true;
+			try {
+                Thread.currentThread().sleep(2000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+			Createbnt.setEnabled(true);
 	
 		}
 	
@@ -321,6 +329,11 @@ public class MainActivity extends ActionBarActivity {
 			System.out.println("onDisconnected message ");
 			
 			mAppConnected = false;
+
+			if(mAppConnected)
+				Createbnt.setEnabled(true);
+			else
+				Createbnt.setEnabled(false);
 	
 		
 		}			
@@ -330,7 +343,14 @@ public class MainActivity extends ActionBarActivity {
 	
 			System.out.println("onFailed message = "+statusCode);
 			
-			mAppConnected = false;			 
+			mAppConnected = false;
+
+			 if(mAppConnected)
+				 Createbnt.setEnabled(true);
+			 else
+				 Createbnt.setEnabled(false);
+
+			
 	
 		 }
 	
@@ -340,6 +360,11 @@ public class MainActivity extends ActionBarActivity {
 			System.out.println("onApplicationDisconnected message = "+errorCode);
 	
 			mAppConnected = false;
+
+			if(mAppConnected)
+				Createbnt.setEnabled(true);
+			else
+				Createbnt.setEnabled(false);			
 	
 			
 			}
@@ -350,6 +375,13 @@ public class MainActivity extends ActionBarActivity {
 			System.out.println("onApplicationConnectionFailed message = "+errorCode);
 	
 			mAppConnected = false;
+
+			 if(mAppConnected)
+				 Createbnt.setEnabled(true);
+			 else
+				 Createbnt.setEnabled(false);
+
+			
 			 return true;
 		 }
 	
@@ -448,7 +480,14 @@ public class MainActivity extends ActionBarActivity {
 				mCastManager.addVideoCastConsumer(mCastConsumer);
 				mCastManager.incrementUiCounter();
 			}
-		
+
+			mAppConnected = mCastManager.isConnected();
+
+			if(mAppConnected)
+				Createbnt.setEnabled(true);
+			else
+				Createbnt.setEnabled(false);
+	
 			super.onResume();
 		}
 
