@@ -80,6 +80,7 @@ public class ConfigGame extends ActionBarActivity  {
     
     String SendMsg;
     String playername = "";
+	String playerStatus = "";
     String usertype;
 	private LudoProtocol protocol;
 	static Boolean startgame;
@@ -207,9 +208,7 @@ public class ConfigGame extends ActionBarActivity  {
         if (getIntent().getStringExtra("username from MainActivity") != null) {
         	playername = getIntent().getStringExtra("username from MainActivity");
         	System.out.println("ConfigGame get username = "+playername);
-        }
-
-		
+        }	
 
 		RadioButtonRed1.setText(playername);
 		RadioButtonYellow1.setText(playername);
@@ -222,7 +221,17 @@ public class ConfigGame extends ActionBarActivity  {
 		InitYellowPlayer();
 		InitGreenPlayer();
 		getOverflowMenu();
-			
+		
+        if (getIntent().getStringExtra("playerstatus from MainActivity") != null) {
+        	playerStatus = getIntent().getStringExtra("playerstatus from MainActivity");
+        	System.out.println("ConfigGame get playerStatus = "+playerStatus);
+			try {
+				UpdatePlayer(playerStatus);
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+        }				
 				
 	}
 
@@ -435,6 +444,7 @@ protected void onPause() {
 
 
 public boolean UpdatePlayer(String msg) throws JSONException {
+	System.out.println("UpdatePlayer  = "+msg);
 	JSONObject obj = new JSONObject(msg);
 
 	Log.d(TAG, "check " + KEY_MAGIC);

@@ -23,6 +23,7 @@ import java.util.ArrayList;
 
 import org.apache.http.util.EncodingUtils;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -105,6 +106,7 @@ public class MainActivity extends ActionBarActivity {
 	private LudoProtocol protocol;
 	private Button Createbnt;
 	static Boolean ishost;
+	static Boolean connectstatus;
 	static Boolean updatestatus;
 	String fileName = "username.txt";
 	EditText editText;
@@ -128,6 +130,8 @@ public class MainActivity extends ActionBarActivity {
 		ishost = false;
 
 		updatestatus = false;
+
+		connectstatus = false;
 		
 		editText=(EditText)findViewById(R.id.editText1); 		
 
@@ -156,53 +160,45 @@ public class MainActivity extends ActionBarActivity {
 
 		getOverflowMenu();
 
-	Createbnt = (Button) findViewById(R.id.Startgame);
-	Createbnt.setEnabled(false);
-	Createbnt.setOnClickListener(new OnClickListener() {
-		@Override
-		public void onClick(View v) {
+		Createbnt = (Button) findViewById(R.id.Startgame);
+		Createbnt.setEnabled(false);
+		Createbnt.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
 
-			username = editText.getText().toString();
+				username = editText.getText().toString();
 
-			Log.d(TAG, "username =  " + username);
+				Log.d(TAG, "username =  " + username);
 
-			if(username.equals(""))
-				{
-				
-				Toast.makeText(MainActivity.this, "Please enter your name first !!!", Toast.LENGTH_SHORT).show();
-				return;	
-				}else{
+				if(username.equals(""))
+					{
+					
+					Toast.makeText(MainActivity.this, "Please enter your name first !!!", Toast.LENGTH_SHORT).show();
+					return;	
+					}else{
 
-					writeFileData(fileName,username);
+						writeFileData(fileName,username);
 
-					}
+						}
 
-			if(mAppConnected){
-					try {
-						String msg = protocol.genMessage_connect(username);
-						Log.d(TAG, "connect message: " + msg);
-						sendMessage(msg);
-						
+				if(mAppConnected){
+						try {
+							String msg = protocol.genMessage_connect(username);
+							Log.d(TAG, "connect message: " + msg);
+							sendMessage(msg);
 
-						Intent it = new Intent(MainActivity.this, ConfigGame.class);
-						it.putExtra("username from MainActivity", username);
-						startActivityForResult(it, FIRST_REQUEST_CODE);
+						} catch (JSONException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}else{
 
-						overridePendingTransition(R.anim.push_left_in,
-										R.anim.push_left_out);
+		                Toast.makeText(MainActivity.this, "Connect not ready, fail to start game", Toast.LENGTH_SHORT).show();
+			
+						}
 
-					} catch (JSONException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}else{
-
-	                Toast.makeText(MainActivity.this, "Connect not ready, fail to start game", Toast.LENGTH_SHORT).show();
-		
-					}
-
-		}
-	});
+			}
+		});
 	
 	
 	Button Gamerule = (Button) findViewById(R.id.GameRule);
@@ -284,6 +280,17 @@ public class MainActivity extends ActionBarActivity {
 	
 	}  
 
+	private void CreateConfigGame(String playerstatus){
+
+			Intent it = new Intent(MainActivity.this, ConfigGame.class);
+			it.putExtra("username from MainActivity", username);
+			it.putExtra("playerstatus from MainActivity", playerstatus);
+			startActivityForResult(it, FIRST_REQUEST_CODE);
+			
+			overridePendingTransition(R.anim.push_left_in,
+							R.anim.push_left_out);
+		
+		}
 
     private void getOverflowMenu() {
          try {
@@ -389,6 +396,51 @@ public class MainActivity extends ActionBarActivity {
 		 
 		 @Override
 		 public void onDataMessageReceived(String message) {
+
+			 JSONObject obj = null;
+			try {
+				obj = new JSONObject(message);
+			} catch (JSONException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+
+			 String command = null;
+			try {
+				command = obj.getString("command");
+			} catch (JSONException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			 if (command.equals("connect_reply")) {
+				 boolean ret = false;
+				try {
+					ret = obj.getBoolean("ret");
+				} catch (JSONException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				 if(ret == false)
+					 {
+						 String reason = null;
+						try {
+							reason = obj.getString("error");
+						} catch (JSONException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						 Log.d(TAG, "error info: "+reason);
+						 Toast.makeText(MainActivity.this, "Fail to connect Ludo Server !!!!", Toast.LENGTH_SHORT).show();
+	
+					 }
+				 else
+				 	{
+				 		connectstatus = true;
+						CreateConfigGame(message);
+				 	}
+				 
+			 	}
+		 
 			 try {
 				protocol.parseMessage(message);
 			} catch (JSONException e) {
@@ -482,6 +534,8 @@ public class MainActivity extends ActionBarActivity {
 			}
 
 			mAppConnected = mCastManager.isConnected();
+
+			connectstatus = false;
 
 			if(mAppConnected)
 				Createbnt.setEnabled(true);

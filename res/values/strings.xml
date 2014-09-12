@@ -17,7 +17,7 @@
 <resources>
 
     <string name="app_name">Super Ludo</string>
-    <string name="app_id">C2F5B36A</string>
+    <string name="app_id">9A11C98E</string>
     <string name="namespace">urn:x-cast:com.google.cast.sample.helloworld</string>
     <string name="action_settings">Settings</string>
     <string name="message_to_cast">Message to Cast&#8230;</string>
