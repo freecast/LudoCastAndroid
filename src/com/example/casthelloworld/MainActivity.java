@@ -71,6 +71,7 @@ import java.lang.reflect.Field;
 
 import android.text.Editable;  
 import android.text.Selection;  
+import android.text.TextWatcher;
 import android.view.View.OnClickListener;  
 import android.widget.Button;  
 import android.widget.EditText;  
@@ -135,13 +136,26 @@ public class MainActivity extends ActionBarActivity {
 		
 		editText=(EditText)findViewById(R.id.editText1); 		
 
-		editText.setOnEditorActionListener(new OnEditorActionListener() {  
-	            @Override  
-	            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {  
-	                Toast.makeText(MainActivity.this, String.valueOf(actionId), Toast.LENGTH_SHORT).show();  
-	                return false;  
-	            }  
-	        }); 
+		editText.addTextChangedListener(new TextWatcher() {  
+				 
+			   @Override  
+			   public void onTextChanged(CharSequence text, int start, int before, int count) {  
+				   writeFileData(fileName,editText.getText().toString());	
+				 
+			   }  
+				 
+			   @Override  
+			   public void beforeTextChanged(CharSequence text, int start, int count,int after) {  
+
+			   
+			   }  
+				 
+			   @Override  
+			   public void afterTextChanged(Editable edit) {  
+			   		writeFileData(fileName,editText.getText().toString());			  
+			   }  
+		   });
+
 		 
 		 readFileData(fileName);
 		
