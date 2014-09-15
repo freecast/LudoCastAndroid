@@ -316,27 +316,41 @@ public class PlayGame extends ActionBarActivity{
 			
 			Log.d(TAG, "Run in Back Key ");
 
-		 if (null != mCastManager) {
-			 if(mCastManager.isConnected())
-				 {
-					 String msg = null;
-					 try {
-						 msg = protocol.genMessage_disconnect();
-					 } catch (JSONException e) {
-						 // TODO Auto-generated catch block
-						 e.printStackTrace();
-					 }
-					 Log.d(TAG, "disconnect message: " + msg);
-					 sendMessage(msg);
-				 }
-		 
-		 }
-		 Intent i = new Intent();
-		 i.putExtra("request_text_for_third", "从ThirdActivity再次传递到Main");
-		 setResult(Activity.RESULT_FIRST_USER, i);
-		 finish();
 
-		 
+		 AlertDialog.Builder builder1=new AlertDialog.Builder(PlayGame.this);
+		 builder1.setTitle("Exit this Game").setMessage("Are you sure to Exit ? ? ?");
+		 builder1.setNegativeButton("Confirm", new DialogInterface.OnClickListener() {
+		   @Override
+			   public void onClick(DialogInterface dialog, int which) {
+								   		 if (null != mCastManager) {
+									 if(mCastManager.isConnected())
+										 {
+											 String msg = null;
+											 try {
+												 msg = protocol.genMessage_disconnect();
+											 } catch (JSONException e) {
+												 // TODO Auto-generated catch block
+												 e.printStackTrace();
+											 }
+											 Log.d(TAG, "disconnect message: " + msg);
+											 sendMessage(msg);
+										 }
+								 
+								 }
+								 Intent i = new Intent();
+								 i.putExtra("request_text_for_third", "从ThirdActivity再次传递到Main");
+								 setResult(Activity.RESULT_FIRST_USER, i);
+								 finish();
+							   }
+						   }).create().show();	   
+
+		 builder1.setPositiveButton("Cancle", new DialogInterface.OnClickListener() {
+		   @Override
+			   public void onClick(DialogInterface dialog, int which) {
+								   
+							   }
+						   }).create().show();	  
+
 		}
 		return super.onKeyDown(keyCode, event);
 	  }

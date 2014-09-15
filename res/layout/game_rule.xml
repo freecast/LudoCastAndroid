@@ -23,17 +23,17 @@
     	android:singleLine="false"    
         android:width="300dip"
         android:text="
-        When it is the player's turn, throw the die. If the die shows a take off number 6, the player can move one of his airplane piece to the starting point. Pieces at the starting point and in the playing field may be moved upon all the die's rolled value. Action time for player is 20 seconds per round. AI will take over control this round if timeout.\n 
-        When a 6 is rolled, the player may, after finishing the movement of pieces, throw the die another time. Action time will be added 5 seconds each time.\n
-        Pieces of the same colour may be stacked together. \n
-        If a piece is moved to a space of its own colour (with the exception of the final space just before entering the home zone), it is jumped four spaces in front to the next space of its own colour.\n
-        If a piece is moved to a space of its own colour that indicates an arrow, the piece is moved along the arrow to its destination. It is also moved four spaces in front to the next space of its own colour, as per the previous jumping rule; if the piece is moved to the arrow space as a result of the previous jumping rule, then there is no need to move four spaces after the piece is moved along the arrow to its destination.\n
-        If a player's piece is moved to a space containing opposing player's piece(s), the opposing player's piece(s) is(are) forced to moved back to the hangar and to be started from there again.\n
-        When pieces move to a turning arrow of their own colour, they are close to the final destination. They next move towards the centre of the board within the home zone.\n
-        Pieces not able to rest in the final space are required to backtrack as per the die's value if it is too big.\n
-        If a player's pieces are resting on the home zone's space that has a dotted line across it, they are at risk of being sent back to the hangar if the opposing player's piece manage to fly across the space via their arrow.\n
-        Once a piece reaches the final space exactly, it is moved back to the hangar, but with its side overturned, to indicate that it has completed its journey.\n
-        The fastest player to have all his four pieces finishing their journey is the winner. If ranking is required for the remaining players, then the next player to have their four pieces finishing their journey are the runners-up, and so on."
+When it is the player's turn, throw the die. If the die shows a take off number 6, the player can move one of his airplane piece to the starting point. Pieces at the starting point and in the playing field may be moved upon all the die's rolled value. Action time for player is 20 seconds per round. AI will take over control this round if timeout.\n 
+When a 6 is rolled, the player may, after finishing the movement of pieces, throw the die another time. Action time will be added 5 seconds each time.\n
+Pieces of the same colour may be stacked together. \n
+If a piece is moved to a space of its own colour (with the exception of the final space just before entering the home zone), it is jumped four spaces in front to the next space of its own colour.\n
+If a piece is moved to a space of its own colour that indicates an arrow, the piece is moved along the arrow to its destination. It is also moved four spaces in front to the next space of its own colour, as per the previous jumping rule; if the piece is moved to the arrow space as a result of the previous jumping rule, then there is no need to move four spaces after the piece is moved along the arrow to its destination.\n
+If a player's piece is moved to a space containing opposing player's piece(s), the opposing player's piece(s) is(are) forced to moved back to the hangar and to be started from there again.\n
+When pieces move to a turning arrow of their own colour, they are close to the final destination. They next move towards the centre of the board within the home zone.\n
+Pieces not able to rest in the final space are required to backtrack as per the die's value if it is too big.\n
+If a player's pieces are resting on the home zone's space that has a dotted line across it, they are at risk of being sent back to the hangar if the opposing player's piece manage to fly across the space via their arrow.\n
+Once a piece reaches the final space exactly, it is moved back to the hangar, but with its side overturned, to indicate that it has completed its journey.\n
+The fastest player to have all his four pieces finishing their journey is the winner. If ranking is required for the remaining players, then the next player to have their four pieces finishing their journey are the runners-up, and so on."
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
 </RelativeLayout>
