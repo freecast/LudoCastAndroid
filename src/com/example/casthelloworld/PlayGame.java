@@ -11,6 +11,7 @@ import com.google.sample.castcompanionlibrary.cast.exceptions.TransientNetworkDi
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -278,10 +279,6 @@ public class PlayGame extends ActionBarActivity{
 	@Override  
 	public boolean onOptionsItemSelected(MenuItem item) {  
 		switch (item.getItemId()) {  
-		case R.id.menu_setting:  
-			Toast.makeText(this, "Menu Item Setting selected",	
-					Toast.LENGTH_SHORT).show();  
-			break;	
 		case R.id.menu_exit:  
 			finish(); 
 			break;
@@ -316,10 +313,10 @@ public class PlayGame extends ActionBarActivity{
 			
 			Log.d(TAG, "Run in Back Key ");
 
-
-		 AlertDialog.Builder builder1=new AlertDialog.Builder(PlayGame.this);
-		 builder1.setTitle("Exit this Game").setMessage("Are you sure to Exit ? ? ?");
-		 builder1.setNegativeButton("Confirm", new DialogInterface.OnClickListener() {
+		new AlertDialog.Builder(this).
+		 setTitle("Exit this Game").
+		 setMessage("Are you sure to Exit ? ? ?").
+		 setNegativeButton("Confirm", new DialogInterface.OnClickListener() {
 		   @Override
 			   public void onClick(DialogInterface dialog, int which) {
 								   		 if (null != mCastManager) {
@@ -342,12 +339,11 @@ public class PlayGame extends ActionBarActivity{
 								 setResult(Activity.RESULT_FIRST_USER, i);
 								 finish();
 							   }
-						   }).create().show();	   
-
-		 builder1.setPositiveButton("Cancle", new DialogInterface.OnClickListener() {
+						   }).   
+			setPositiveButton("Cancle", new DialogInterface.OnClickListener() {
 		   @Override
 			   public void onClick(DialogInterface dialog, int which) {
-								   
+								   return;
 							   }
 						   }).create().show();	  
 

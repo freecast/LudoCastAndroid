@@ -618,10 +618,6 @@ public class MainActivity extends ActionBarActivity {
 @Override  
 public boolean onOptionsItemSelected(MenuItem item) {  
 	switch (item.getItemId()) {  
-	case R.id.menu_setting:  
-		Toast.makeText(this, "Menu Item Setting selected",	
-				Toast.LENGTH_SHORT).show();  
-		break;	
 	case R.id.menu_exit:  
 		finish(); 
 		break;	
