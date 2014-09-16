@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/start_menu_bg"
+    android:background="@drawable/bg1"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
@@ -17,8 +17,8 @@
         android:layout_alignParentTop="true"
         android:layout_marginLeft="24dp"
         android:layout_marginTop="35dp"
-        android:textColor="@color/gray"
-        android:text="Click to Dice \n  \nClick to confirm Pawns\n  \nLeft and Right Slide to Change Pawns"
+        android:textColor="@color/black"
+        android:text="\n \n \n \nClick to Dice \n  \nClick to confirm Pawns\n  \nLeft and Right Slide to Change Pawns"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
 </RelativeLayout>

@@ -16,7 +16,7 @@
 -->
 <resources>
 
-    <string name="app_name">Super Ludo</string>
+    <string name="app_name">LudoCast</string>
     <string name="app_id">9A11C98E</string>
     <string name="namespace">urn:x-cast:com.google.cast.sample.helloworld</string>
     <string name="action_settings">Settings</string>
