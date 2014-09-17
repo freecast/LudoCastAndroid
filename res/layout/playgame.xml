@@ -18,7 +18,7 @@
         android:layout_marginLeft="24dp"
         android:layout_marginTop="35dp"
         android:textColor="@color/black"
-        android:text="\n \n \n \nClick to Dice \n  \nClick to confirm Pawns\n  \nLeft and Right Slide to Change Pawns"
+        android:text="\n \nClick to Dice \n  \nClick to confirm Pawns\n  \nLeft and Right Slide to Change Pawns"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
 </RelativeLayout>

@@ -19,6 +19,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.media.MediaRouter.RouteInfo;
 import android.text.method.ScrollingMovementMethod;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.KeyEvent;
@@ -42,7 +43,22 @@ public class GameRule extends ActionBarActivity{
 		setContentView(R.layout.game_rule);
 		Log.d(TAG, "onCreate() was called");
 		TextView textView = (TextView)findViewById(R.id.GameRule_Text);   
-		textView.setMovementMethod(ScrollingMovementMethod.getInstance()); 
+		textView.setMovementMethod(ScrollingMovementMethod.getInstance());
+
+		DisplayMetrics mDisplayMetrics = new DisplayMetrics();
+		getWindowManager().getDefaultDisplay().getMetrics(mDisplayMetrics);
+		int W = mDisplayMetrics.widthPixels;
+		int H = mDisplayMetrics.heightPixels;
+		Log.i(TAG, "Width = " + W);
+		Log.i(TAG, "Height = " + H);
+		if(H == 1280)
+		textView.setMaxLines(18);
+		
+		if(H < 1280)
+		textView.setMaxLines(14);
+
+		if(H > 1280)
+		textView.setMaxLines(19);
 
 	}
 	
