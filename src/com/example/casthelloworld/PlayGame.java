@@ -234,10 +234,18 @@ public class PlayGame extends ActionBarActivity{
                     if (e1.getX() - e2.getX() > SWIPE_MIN_DISTANCE
                       && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
                     	sendMessage("prev");
+						if(MainActivity.Vibratorstatus)
+							{
+								VibratorUtil.Vibrate(PlayGame.this, 100); 
+							}
                      
                     } else if (e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE
                       && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) { 
                     	sendMessage("next");
+						if(MainActivity.Vibratorstatus)
+							{
+								VibratorUtil.Vibrate(PlayGame.this, 100); 
+							}
                      
                       }
                    } catch (Exception e) {
@@ -249,6 +257,10 @@ public class PlayGame extends ActionBarActivity{
             public boolean onSingleTapUp(MotionEvent event) {      
                 // TODO Auto-generated method stub
                 	sendMessage("click");
+					if(MainActivity.Vibratorstatus)
+							{
+								VibratorUtil.Vibrate(PlayGame.this, 100); 
+							}
                    return false;      
                 }              
          

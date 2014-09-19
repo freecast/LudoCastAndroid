@@ -109,6 +109,7 @@ public class MainActivity extends ActionBarActivity {
 	static Boolean ishost;
 	static Boolean connectstatus;
 	static Boolean updatestatus;
+	static Boolean Vibratorstatus;
 	String fileName = "username.txt";
 	EditText editText;
 	 
@@ -127,6 +128,8 @@ public class MainActivity extends ActionBarActivity {
 				android.R.color.transparent));
 
 		mAppConnected = false;
+
+		Vibratorstatus = true;
 
 		ishost = false;
 
