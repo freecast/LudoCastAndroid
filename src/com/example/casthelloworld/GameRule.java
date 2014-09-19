@@ -52,13 +52,13 @@ public class GameRule extends ActionBarActivity{
 		Log.i(TAG, "Width = " + W);
 		Log.i(TAG, "Height = " + H);
 		if(H == 1280)
-		textView.setMaxLines(18);
+		textView.setMaxLines(22);
 		
 		if(H < 1280)
-		textView.setMaxLines(14);
+		textView.setMaxLines(17);
 
 		if(H > 1280)
-		textView.setMaxLines(19);
+		textView.setMaxLines(24);
 
 	}
 	

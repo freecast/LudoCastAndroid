@@ -45,6 +45,9 @@ public class PlayGame extends ActionBarActivity{
 	static Boolean ResetGame;
 	static Boolean ishost;
 	static Boolean EndofGame;
+	static Boolean clickstatus;
+	static Boolean nextstatus;
+	static Boolean prevstatus;
 	private LudoProtocol protocol;
     private GestureDetector gestureDetector; 
 	
@@ -56,6 +59,9 @@ public class PlayGame extends ActionBarActivity{
 		ActionBar actionBar = getSupportActionBar();
 		mCastManager = CastApplication.getCastManager(this);
 		setupActionBar(actionBar);
+		clickstatus = false;
+		prevstatus = false;
+		nextstatus = false;
 
         ishost = getIntent().getBooleanExtra("ishost from ConfigGame", false);
         System.out.println("ishost from ConfigGame = "+ishost);
@@ -139,6 +145,38 @@ public class PlayGame extends ActionBarActivity{
 				e.printStackTrace();
 			}				 
 			 System.out.println("Playgame receiver message = "+message);
+			 
+			 if(clickstatus)
+			 	{
+			 		clickstatus = false;
+					if(MainActivity.Vibratorstatus)
+					{
+						VibratorUtil.Vibrate(PlayGame.this, 100); 
+					}
+					
+			 	}
+
+			if(nextstatus)
+			   {
+				   nextstatus = false;
+				   if(MainActivity.Vibratorstatus)
+				   {
+					   VibratorUtil.Vibrate(PlayGame.this, 100); 
+				   }
+				   
+			   }
+
+			 if(prevstatus)
+			 	{
+			 		prevstatus = false;
+					if(MainActivity.Vibratorstatus)
+					{
+						VibratorUtil.Vibrate(PlayGame.this, 100); 
+					}
+					
+			 	}			
+
+			 
 
 			if(ResetGame)
 				{
@@ -234,18 +272,10 @@ public class PlayGame extends ActionBarActivity{
                     if (e1.getX() - e2.getX() > SWIPE_MIN_DISTANCE
                       && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
                     	sendMessage("prev");
-						if(MainActivity.Vibratorstatus)
-							{
-								VibratorUtil.Vibrate(PlayGame.this, 100); 
-							}
                      
                     } else if (e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE
                       && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) { 
                     	sendMessage("next");
-						if(MainActivity.Vibratorstatus)
-							{
-								VibratorUtil.Vibrate(PlayGame.this, 100); 
-							}
                      
                       }
                    } catch (Exception e) {
@@ -257,10 +287,7 @@ public class PlayGame extends ActionBarActivity{
             public boolean onSingleTapUp(MotionEvent event) {      
                 // TODO Auto-generated method stub
                 	sendMessage("click");
-					if(MainActivity.Vibratorstatus)
-							{
-								VibratorUtil.Vibrate(PlayGame.this, 100); 
-							}
+
                    return false;      
                 }              
          

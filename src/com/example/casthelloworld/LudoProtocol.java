@@ -37,6 +37,9 @@ public class LudoProtocol {
     private static final String COMMAND_PICKUP_NOTIFY = "pickup_notify";
 	private static final String COMMAND_ENDOFGAME_NOTIFY = "endofgame_notify";
 	private static final String COMMAND_RESET_NOTIFY = "reset_notify";
+	private static final String COMMAND_CLICK_REPLY = "click_reply";
+	private static final String COMMAND_NEXT_REPLY = "next_reply";
+	private static final String COMMAND_PREV_REPLY = "prev_reply";
     private static final String KEY_RET = "ret";
     private static final String KEY_ISHOST = "ishost";
     private static final String KEY_LEVEL = "level";
@@ -135,6 +138,24 @@ public class LudoProtocol {
         	
         		PlayGame.EndofGame = true;
         		Log.d(TAG, "Restart Game");
+
+				        	       	
+        }else if(command.equals(COMMAND_CLICK_REPLY)){
+        	
+        		PlayGame.clickstatus = true;
+        		Log.d(TAG, "clickstatus to true");
+
+				        	       	
+        }else if(command.equals(COMMAND_NEXT_REPLY)){
+        	
+        		PlayGame.nextstatus = true;
+        		Log.d(TAG, "nextstatus to true");
+
+				        	       	
+        }else if(command.equals(COMMAND_PREV_REPLY)){
+        	
+        		PlayGame.prevstatus = true;
+        		Log.d(TAG, "prevstatus to true");
 
 				        	       	
         }else {
