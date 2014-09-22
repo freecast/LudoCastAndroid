@@ -76,6 +76,7 @@ public class ConfigGame extends ActionBarActivity  {
     private static final String KEY_USER_TYPE = "user_type";
     private static final String KEY_ISREADY = "isready";
 	private static final String COMMAND_PICKUP_NOTIFY = "pickup_notify";
+	private static final String COMMAND_SETASHOST_NOTIFY = "setashost_notify";
 	private final int SECOND_REQUEST_CODE = 2;
     
     String SendMsg;
@@ -495,8 +496,12 @@ public boolean UpdatePlayer(String msg) throws JSONException {
 		
 		Log.d(TAG, "start game notify command = " + command);
 		startgame = true;
-	}
-	else if(command.equals(COMMAND_PICKUP_NOTIFY)){
+	}else if(command.equals(COMMAND_SETASHOST_NOTIFY)){
+		
+		Log.d(TAG, "Set as Host notify command = " + command);
+		configgameishost = true;
+		UnLockAllPlayer();
+	}else if(command.equals(COMMAND_PICKUP_NOTIFY)){
 				
 					JSONObject o = obj.getJSONObject(KEY_PLAYER_STATUS);
 					String color = o.getString(KEY_COLOR);
@@ -1154,6 +1159,20 @@ void UpdatePlayerStatus(String color, String user_type,String user_name) {
 			SetYellowPlayerStatus(user_type,user_name);
 
 }
+
+void UnLockAllPlayer() {
+
+	RadioGroupYellowLock = false;
+	YellowLock.setVisibility(View.INVISIBLE);
+	RadioGroupRedLock = false;
+	RedLock.setVisibility(View.INVISIBLE);
+	RadioGroupBlueLock = false;
+	BlueLock.setVisibility(View.INVISIBLE);
+	RadioGroupGreenLock = false;
+	GreenLock.setVisibility(View.INVISIBLE);
+
+}
+
 
 
 private void setupActionBar(ActionBar actionBar) {

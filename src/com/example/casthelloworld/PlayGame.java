@@ -45,6 +45,7 @@ public class PlayGame extends ActionBarActivity{
 	static Boolean ResetGame;
 	static Boolean ishost;
 	static Boolean EndofGame;
+	static Boolean startturn;
 	static Boolean clickstatus;
 	static Boolean nextstatus;
 	static Boolean prevstatus;
@@ -62,6 +63,7 @@ public class PlayGame extends ActionBarActivity{
 		clickstatus = false;
 		prevstatus = false;
 		nextstatus = false;
+		startturn = false;
 
         ishost = getIntent().getBooleanExtra("ishost from ConfigGame", false);
         System.out.println("ishost from ConfigGame = "+ishost);
@@ -155,6 +157,18 @@ public class PlayGame extends ActionBarActivity{
 					}
 					
 			 	}
+
+			if(startturn)
+			   {
+				   startturn = false;
+				   if(MainActivity.Vibratorstatus)
+				   {
+				   	   long [] pattern = {100,100,100,100}; 
+					   VibratorUtil.Vibrate(PlayGame.this, pattern, false);
+				   }
+				   
+			   }
+
 
 			if(nextstatus)
 			   {
@@ -379,7 +393,7 @@ public class PlayGame extends ActionBarActivity{
 								 finish();
 							   }
 						   }).   
-			setPositiveButton("Cancle", new DialogInterface.OnClickListener() {
+			setPositiveButton("Cancel", new DialogInterface.OnClickListener() {
 		   @Override
 			   public void onClick(DialogInterface dialog, int which) {
 								   return;
