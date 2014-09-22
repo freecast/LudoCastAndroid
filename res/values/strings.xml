@@ -39,5 +39,7 @@
     <string name="about_app">about_app</string>
     <string name="connection_temp_lost">connection_temp_lost</string>
     <string name="connection_recovered">connection_recovered</string>
+    <string name="configgame">Config Player</string>
+    <string name="playgame">Playing Game</string>
 
 </resources>

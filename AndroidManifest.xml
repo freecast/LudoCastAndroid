@@ -51,13 +51,13 @@
         
         <activity
             android:name="com.example.casthelloworld.ConfigGame"
-            android:label="@string/app_name" >
+            android:label="@string/configgame" >
             
         </activity>  
         
         <activity
             android:name="com.example.casthelloworld.PlayGame"
-            android:label="@string/app_name" >
+            android:label="@string/playgame" >
             
         </activity>
         

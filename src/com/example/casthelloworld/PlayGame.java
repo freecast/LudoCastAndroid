@@ -30,6 +30,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewConfiguration;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 
@@ -51,6 +52,8 @@ public class PlayGame extends ActionBarActivity{
 	static Boolean prevstatus;
 	private LudoProtocol protocol;
     private GestureDetector gestureDetector; 
+	private ImageView PlayerLogo;
+	static String PlayerColor;
 	
 	
 	protected void onCreate(Bundle savedInstanceState) {
@@ -64,22 +67,21 @@ public class PlayGame extends ActionBarActivity{
 		prevstatus = false;
 		nextstatus = false;
 		startturn = false;
+		ResetGame = false;
+		EndofGame = false;
 
-        ishost = getIntent().getBooleanExtra("ishost from ConfigGame", false);
-        System.out.println("ishost from ConfigGame = "+ishost);
+		PlayerLogo =  (ImageView)this.findViewById(R.id.playerlogo);
 
-		
-		gestureDetector = new GestureDetector(PlayGame.this,onGestureListener); 
-
-		mCastManager = CastApplication.getCastManager(this);
+		PlayerLogo.setVisibility(View.INVISIBLE); 		
 
 		protocol = new LudoProtocol();		
 
-		setupCastListener();
+		setupCastListener();		
 
-		ResetGame = false;
-
-		EndofGame = false;
+        ishost = getIntent().getBooleanExtra("ishost from ConfigGame", false);
+        System.out.println("ishost from ConfigGame = "+ishost);
+		
+		gestureDetector = new GestureDetector(PlayGame.this,onGestureListener); 
 
 		getOverflowMenu();	
 	}
@@ -166,6 +168,20 @@ public class PlayGame extends ActionBarActivity{
 				   	   long [] pattern = {100,100,100,100}; 
 					   VibratorUtil.Vibrate(PlayGame.this, pattern, false);
 				   }
+				    if(PlayerColor.equals("red"))
+					 PlayerLogo.setImageDrawable(getResources().getDrawable(R.drawable.btn_option_sin_plane_red));
+
+					if(PlayerColor.equals("yellow"))
+					 PlayerLogo.setImageDrawable(getResources().getDrawable(R.drawable.btn_option_sin_plane_yellow));
+
+					if(PlayerColor.equals("blue"))
+					 PlayerLogo.setImageDrawable(getResources().getDrawable(R.drawable.btn_option_sin_plane_blue));
+
+					if(PlayerColor.equals("green"))
+					 PlayerLogo.setImageDrawable(getResources().getDrawable(R.drawable.btn_option_sin_plane_green));
+
+				   
+					PlayerLogo.setVisibility(View.VISIBLE); 
 				   
 			   }
 

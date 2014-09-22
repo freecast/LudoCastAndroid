@@ -142,7 +142,8 @@ public class LudoProtocol {
         }else if(command.equals(COMMAND_STARTTURN_NOTIFY)){
         	
         		PlayGame.startturn = true;
-        		Log.d(TAG, "clickstatus to true");
+				PlayGame.PlayerColor= obj.getString(KEY_COLOR);
+        		Log.d(TAG, "start turn = "+ PlayGame.PlayerColor);
 				        	       	
         }else if(command.equals(COMMAND_CLICK_REPLY)){
         	
