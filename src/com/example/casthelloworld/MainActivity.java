@@ -234,6 +234,9 @@ public class MainActivity extends ActionBarActivity {
 						
 		}
 	});
+
+	Createbnt.setText("Disconnected");
+	
 		
 	}
 
@@ -344,9 +347,26 @@ public class MainActivity extends ActionBarActivity {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-			Createbnt.setEnabled(true);
+			if(mAppConnected)
+				{
+					Createbnt.setEnabled(true);
+					Createbnt.setText("Start Game");
+				}
+			else{
+					Createbnt.setEnabled(false);
+					Createbnt.setText("Disconnected");
+				}
+
 	
 		}
+
+		    @Override
+    	public void onConnected() {
+
+			System.out.println("MainActivity onConnected ");
+			Createbnt.setText("Connecting");
+		
+    	}
 	
 	
 		@Override
@@ -357,9 +377,15 @@ public class MainActivity extends ActionBarActivity {
 			mAppConnected = false;
 
 			if(mAppConnected)
-				Createbnt.setEnabled(true);
-			else
-				Createbnt.setEnabled(false);
+				{
+					Createbnt.setEnabled(true);
+					Createbnt.setText("Start Game");
+				}
+			else{
+					Createbnt.setEnabled(false);
+					Createbnt.setText("Disconnected");
+				}
+
 	
 		
 		}			
@@ -372,9 +398,15 @@ public class MainActivity extends ActionBarActivity {
 			mAppConnected = false;
 
 			 if(mAppConnected)
-				 Createbnt.setEnabled(true);
-			 else
-				 Createbnt.setEnabled(false);
+				 {
+					 Createbnt.setEnabled(true);
+					 Createbnt.setText("Start Game");
+				 }
+			 else{
+					 Createbnt.setEnabled(false);
+					 Createbnt.setText("Disconnected");
+				 }
+
 
 			
 	
@@ -388,9 +420,14 @@ public class MainActivity extends ActionBarActivity {
 			mAppConnected = false;
 
 			if(mAppConnected)
-				Createbnt.setEnabled(true);
-			else
-				Createbnt.setEnabled(false);			
+				{
+					Createbnt.setEnabled(true);
+					Createbnt.setText("Start Game");
+				}
+			else{
+					Createbnt.setEnabled(false);
+					Createbnt.setText("Disconnected");
+				}			
 	
 			
 			}
@@ -403,9 +440,15 @@ public class MainActivity extends ActionBarActivity {
 			mAppConnected = false;
 
 			 if(mAppConnected)
-				 Createbnt.setEnabled(true);
-			 else
-				 Createbnt.setEnabled(false);
+				 {
+					 Createbnt.setEnabled(true);
+					 Createbnt.setText("Start Game");
+				 }
+			 else{
+					 Createbnt.setEnabled(false);
+					 Createbnt.setText("Disconnected");
+				 }
+
 
 			
 			 return true;
@@ -557,10 +600,14 @@ public class MainActivity extends ActionBarActivity {
 			connectstatus = false;
 
 			if(mAppConnected)
-				Createbnt.setEnabled(true);
-			else
-				Createbnt.setEnabled(false);
-	
+				{
+					Createbnt.setEnabled(true);
+					Createbnt.setText("Start Game");
+				}
+			else{
+					Createbnt.setEnabled(false);
+					Createbnt.setText("Disconnected");
+				}
 			super.onResume();
 		}
 
