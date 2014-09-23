@@ -349,17 +349,79 @@ public class PlayGame extends ActionBarActivity{
 	public boolean onOptionsItemSelected(MenuItem item) {  
 		switch (item.getItemId()) {  
 		case R.id.menu_exit:  
-			finish(); 
+			ExitGame();
 			break;
 		case R.id.menu_restart:  
 			ResetGame(); 
+			break;
+		case R.id.menu_vibrator:  
+			SetVibrator(); 
 			break;				
 		default:  
 			break;	
 		}  
 		return super.onOptionsItemSelected(item);  
 	}	
+	
+	
+		private void SetVibrator(){
+	
+			new AlertDialog.Builder(this).
+			 setTitle("Enable/Disable Vibrator").
+			 setMessage("Enable or Disable Vibrator ? ??").
+			 setNegativeButton("Enable", new DialogInterface.OnClickListener() {
+			   @Override
+				   public void onClick(DialogInterface dialog, int which) {
+										MainActivity.Vibratorstatus = true;
+								   }
+							   }).	 
+				setPositiveButton("Disable", new DialogInterface.OnClickListener() {
+			   @Override
+				   public void onClick(DialogInterface dialog, int which) {
+									   MainActivity.Vibratorstatus = false;
+								   }
+							   }).create().show();	 
+	
+		}
 
+
+	private void ExitGame(){
+
+		new AlertDialog.Builder(this).
+		 setTitle("Exit this Game").
+		 setMessage("Are you sure to Exit ? ? ?").
+		 setNegativeButton("Confirm", new DialogInterface.OnClickListener() {
+		   @Override
+			   public void onClick(DialogInterface dialog, int which) {
+										 if (null != mCastManager) {
+									 if(mCastManager.isConnected())
+										 {
+											 String msg = null;
+											 try {
+												 msg = protocol.genMessage_disconnect();
+											 } catch (JSONException e) {
+												 // TODO Auto-generated catch block
+												 e.printStackTrace();
+											 }
+											 Log.d(TAG, "disconnect message: " + msg);
+											 sendMessage(msg);
+										 }
+								 
+								 }
+								 Intent i = new Intent();
+								 i.putExtra("request_text_for_third", "从ThirdActivity再次传递到Main");
+								 setResult(Activity.RESULT_FIRST_USER, i);
+								 finish();
+							   }
+						   }).	 
+			setPositiveButton("Cancel", new DialogInterface.OnClickListener() {
+		   @Override
+			   public void onClick(DialogInterface dialog, int which) {
+								   return;
+							   }
+						   }).create().show();	 
+
+	}
 
 
     @Override
@@ -380,41 +442,8 @@ public class PlayGame extends ActionBarActivity{
 		// TODO Auto-generated method stub
 		if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
 			
-			Log.d(TAG, "Run in Back Key ");
-
-		new AlertDialog.Builder(this).
-		 setTitle("Exit this Game").
-		 setMessage("Are you sure to Exit ? ? ?").
-		 setNegativeButton("Confirm", new DialogInterface.OnClickListener() {
-		   @Override
-			   public void onClick(DialogInterface dialog, int which) {
-								   		 if (null != mCastManager) {
-									 if(mCastManager.isConnected())
-										 {
-											 String msg = null;
-											 try {
-												 msg = protocol.genMessage_disconnect();
-											 } catch (JSONException e) {
-												 // TODO Auto-generated catch block
-												 e.printStackTrace();
-											 }
-											 Log.d(TAG, "disconnect message: " + msg);
-											 sendMessage(msg);
-										 }
-								 
-								 }
-								 Intent i = new Intent();
-								 i.putExtra("request_text_for_third", "从ThirdActivity再次传递到Main");
-								 setResult(Activity.RESULT_FIRST_USER, i);
-								 finish();
-							   }
-						   }).   
-			setPositiveButton("Cancel", new DialogInterface.OnClickListener() {
-		   @Override
-			   public void onClick(DialogInterface dialog, int which) {
-								   return;
-							   }
-						   }).create().show();	  
+			Log.d(TAG, "Run in Back Key "); 
+			ExitGame();
 
 		}
 		return super.onKeyDown(keyCode, event);

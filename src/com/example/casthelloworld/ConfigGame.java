@@ -9,6 +9,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -376,13 +378,36 @@ public boolean onOptionsItemSelected(MenuItem item) {
 	switch (item.getItemId()) {  
 	case R.id.menu_exit:  
 		finish(); 
-		break;	
+		break;
+	case R.id.menu_vibrator:  
+		SetVibrator(); 
+		break;			
 	default:  
 		break;	
 	}  
 	return super.onOptionsItemSelected(item);  
 }  
 
+
+	private void SetVibrator(){
+
+		new AlertDialog.Builder(this).
+		 setTitle("Enable/Disable Vibrator").
+		 setMessage("Enable or Disable Vibrator ? ??").
+		 setNegativeButton("Enable", new DialogInterface.OnClickListener() {
+		   @Override
+			   public void onClick(DialogInterface dialog, int which) {
+									MainActivity.Vibratorstatus = true;
+							   }
+						   }).	 
+			setPositiveButton("Disable", new DialogInterface.OnClickListener() {
+		   @Override
+			   public void onClick(DialogInterface dialog, int which) {
+								   MainActivity.Vibratorstatus = false;
+							   }
+						   }).create().show();	 
+
+	}
 
 	
 
