@@ -192,10 +192,10 @@ public class LudoProtocol {
     	if(user_type.equals("Computer"))
     	{	
     		return "computer";
-    	}else if(user_type.equals("Null"))
+    	}else if(user_type.equals("Close"))
     	{
     		return "unavailable"; 
-    	}else if(user_type.equals("Nobody"))
+    	}else if(user_type.equals("Open"))
     	{
     		return "nobody"; 
     	}else{
@@ -205,13 +205,11 @@ public class LudoProtocol {
 	
 	public String genMessage_pickup(String color, String user_type) throws JSONException {
 		JSONObject json = new JSONObject();
-		
-		String server_type = JudgeUserType(user_type);
 
 		genMessageHeader(json);
 		json.put(KEY_COMMAND, "pickup");
 		json.put(KEY_COLOR, color);
-		json.put(KEY_USER_TYPE, server_type);
+		json.put(KEY_USER_TYPE, user_type);
 
 		return json.toString();
 	}

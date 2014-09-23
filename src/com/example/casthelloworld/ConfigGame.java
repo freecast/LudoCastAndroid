@@ -574,7 +574,7 @@ private void InitRedPlayer(){
 									System.out.println("not host Get group select = "+RadioButtonRed1.getText());
 									if(!configgameupdate){			
 											try {
-												SendMsg = protocol.genMessage_pickup("red",RadioButtonRed1.getText().toString());
+												SendMsg = protocol.genMessage_pickup("red","human");
 											} catch (JSONException e) {
 												e.printStackTrace();
 											}
@@ -592,7 +592,7 @@ private void InitRedPlayer(){
 									System.out.println("not host Get group select = "+RadioButtonRed3.getText());
 									if(!configgameupdate){			
 											try {
-												SendMsg = protocol.genMessage_pickup("red",RadioButtonRed3.getText().toString());
+												SendMsg = protocol.genMessage_pickup("red","nobody");
 											} catch (JSONException e) {
 												e.printStackTrace();
 											}
@@ -614,15 +614,58 @@ private void InitRedPlayer(){
 							RadioButton rb00 = (RadioButton)findViewById(radioButtonId);
 							
 							System.out.println("host Get group select = "+rb00.getText());
-							if(!configgameupdate){			
-									try {
-										SendMsg = protocol.genMessage_pickup("red",rb00.getText().toString());
-									} catch (JSONException e) {
-										e.printStackTrace();
+
+
+						switch(arg00.getCheckedRadioButtonId())
+							{
+								case R.id.RadioButtonRed1:							
+									if(!configgameupdate){			
+											try {
+												SendMsg = protocol.genMessage_pickup("red","human");
+											} catch (JSONException e) {
+												e.printStackTrace();
+											}
+											sendMessage(SendMsg);
+										}
+									RadioButtonRedCurrent = rb00;
+									break;
+
+								case R.id.RadioButtonRed2:							
+								if(!configgameupdate){			
+										try {
+											SendMsg = protocol.genMessage_pickup("red","computer");
+										} catch (JSONException e) {
+											e.printStackTrace();
+										}
+										sendMessage(SendMsg);
 									}
-									sendMessage(SendMsg);
-								}
-							RadioButtonRedCurrent = rb00;
+								RadioButtonRedCurrent = rb00;
+								break;
+
+								case R.id.RadioButtonRed3:							
+								if(!configgameupdate){			
+										try {
+											SendMsg = protocol.genMessage_pickup("red","nobody");
+										} catch (JSONException e) {
+											e.printStackTrace();
+										}
+										sendMessage(SendMsg);
+									}
+								RadioButtonRedCurrent = rb00;
+								break;
+
+								case R.id.RadioButtonRed4:							
+									if(!configgameupdate){			
+											try {
+												SendMsg = protocol.genMessage_pickup("red","unavailable");
+											} catch (JSONException e) {
+												e.printStackTrace();
+											}
+											sendMessage(SendMsg);
+										}
+									RadioButtonRedCurrent = rb00;
+									break;									
+							}
 					}
 			}else{
 
@@ -658,7 +701,7 @@ private void InitBluePlayer(){
 								System.out.println("not host Get group select = "+RadioButtonBlue1.getText());
 								if(!configgameupdate){			
 										try {
-											SendMsg = protocol.genMessage_pickup("blue",RadioButtonBlue1.getText().toString());
+											SendMsg = protocol.genMessage_pickup("blue","human");
 										} catch (JSONException e) {
 											e.printStackTrace();
 										}
@@ -676,7 +719,7 @@ private void InitBluePlayer(){
 								System.out.println("not host Get group select = "+RadioButtonBlue3.getText());
 								if(!configgameupdate){			
 										try {
-											SendMsg = protocol.genMessage_pickup("blue",RadioButtonBlue3.getText().toString());
+											SendMsg = protocol.genMessage_pickup("blue","nobody");
 										} catch (JSONException e) {
 											e.printStackTrace();
 										}
@@ -693,22 +736,65 @@ private void InitBluePlayer(){
 				
 				}else
 				{
-			
-						int radioButtonId = arg00.getCheckedRadioButtonId();
-			
-						RadioButton rb00 = (RadioButton)findViewById(radioButtonId);
-						
-						System.out.println("host Get group select = "+rb00.getText());
-						if(!configgameupdate){			
-								try {
-									SendMsg = protocol.genMessage_pickup("blue",rb00.getText().toString());
-								} catch (JSONException e) {
-									e.printStackTrace();
-								}
-								sendMessage(SendMsg);
+				
+							int radioButtonId = arg00.getCheckedRadioButtonId();
+
+							RadioButton rb00 = (RadioButton)findViewById(radioButtonId);
+							
+							System.out.println("host Get group select = "+rb00.getText());
+
+
+						switch(arg00.getCheckedRadioButtonId())
+							{
+								case R.id.RadioButtonBlue1:							
+									if(!configgameupdate){			
+											try {
+												SendMsg = protocol.genMessage_pickup("blue","human");
+											} catch (JSONException e) {
+												e.printStackTrace();
+											}
+											sendMessage(SendMsg);
+										}
+									RadioButtonBlueCurrent = rb00;
+									break;
+
+								case R.id.RadioButtonBlue2:							
+								if(!configgameupdate){			
+										try {
+											SendMsg = protocol.genMessage_pickup("blue","computer");
+										} catch (JSONException e) {
+											e.printStackTrace();
+										}
+										sendMessage(SendMsg);
+									}
+								RadioButtonBlueCurrent = rb00;
+								break;
+
+								case R.id.RadioButtonBlue3:							
+								if(!configgameupdate){			
+										try {
+											SendMsg = protocol.genMessage_pickup("blue","nobody");
+										} catch (JSONException e) {
+											e.printStackTrace();
+										}
+										sendMessage(SendMsg);
+									}
+								RadioButtonBlueCurrent = rb00;
+								break;
+
+								case R.id.RadioButtonBlue4:							
+									if(!configgameupdate){			
+											try {
+												SendMsg = protocol.genMessage_pickup("blue","unavailable");
+											} catch (JSONException e) {
+												e.printStackTrace();
+											}
+											sendMessage(SendMsg);
+										}
+									RadioButtonBlueCurrent = rb00;
+									break;									
 							}
-						RadioButtonBlueCurrent = rb00;
-				}
+					}
 
 			}else{
 
@@ -743,7 +829,7 @@ private void InitYellowPlayer(){
 								System.out.println("not host Get group select = "+RadioButtonYellow1.getText());
 								if(!configgameupdate){			
 										try {
-											SendMsg = protocol.genMessage_pickup("yellow",RadioButtonYellow1.getText().toString());
+											SendMsg = protocol.genMessage_pickup("yellow","human");
 										} catch (JSONException e) {
 											e.printStackTrace();
 										}
@@ -761,7 +847,7 @@ private void InitYellowPlayer(){
 								System.out.println("not host Get group select = "+RadioButtonYellow3.getText());
 								if(!configgameupdate){			
 										try {
-											SendMsg = protocol.genMessage_pickup("yellow",RadioButtonYellow3.getText().toString());
+											SendMsg = protocol.genMessage_pickup("yellow","nobody");
 										} catch (JSONException e) {
 											e.printStackTrace();
 										}
@@ -778,22 +864,65 @@ private void InitYellowPlayer(){
 				
 				}else
 				{
-			
-						int radioButtonId = arg00.getCheckedRadioButtonId();
-			
-						RadioButton rb00 = (RadioButton)findViewById(radioButtonId);
-						
-						System.out.println("host Get group select = "+rb00.getText());
-						if(!configgameupdate){			
-								try {
-									SendMsg = protocol.genMessage_pickup("yellow",rb00.getText().toString());
-								} catch (JSONException e) {
-									e.printStackTrace();
-								}
-								sendMessage(SendMsg);
+				
+							int radioButtonId = arg00.getCheckedRadioButtonId();
+
+							RadioButton rb00 = (RadioButton)findViewById(radioButtonId);
+							
+							System.out.println("host Get group select = "+rb00.getText());
+
+
+						switch(arg00.getCheckedRadioButtonId())
+							{
+								case R.id.RadioButtonYellow1:							
+									if(!configgameupdate){			
+											try {
+												SendMsg = protocol.genMessage_pickup("yellow","human");
+											} catch (JSONException e) {
+												e.printStackTrace();
+											}
+											sendMessage(SendMsg);
+										}
+									RadioButtonYellowCurrent = rb00;
+									break;
+
+								case R.id.RadioButtonYellow2:							
+								if(!configgameupdate){			
+										try {
+											SendMsg = protocol.genMessage_pickup("yellow","computer");
+										} catch (JSONException e) {
+											e.printStackTrace();
+										}
+										sendMessage(SendMsg);
+									}
+								RadioButtonYellowCurrent = rb00;
+								break;
+
+								case R.id.RadioButtonYellow3:							
+								if(!configgameupdate){			
+										try {
+											SendMsg = protocol.genMessage_pickup("yellow","nobody");
+										} catch (JSONException e) {
+											e.printStackTrace();
+										}
+										sendMessage(SendMsg);
+									}
+								RadioButtonYellowCurrent = rb00;
+								break;
+
+								case R.id.RadioButtonYellow4:							
+									if(!configgameupdate){			
+											try {
+												SendMsg = protocol.genMessage_pickup("yellow","unavailable");
+											} catch (JSONException e) {
+												e.printStackTrace();
+											}
+											sendMessage(SendMsg);
+										}
+									RadioButtonYellowCurrent = rb00;
+									break;									
 							}
-						RadioButtonYellowCurrent = rb00;
-				}
+					}
 
 			}else{
 
@@ -830,7 +959,7 @@ private void InitGreenPlayer(){
 								System.out.println("not host Get group select = "+RadioButtonGreen1.getText());
 								if(!configgameupdate){			
 										try {
-											SendMsg = protocol.genMessage_pickup("green",RadioButtonGreen1.getText().toString());
+											SendMsg = protocol.genMessage_pickup("green","human");
 										} catch (JSONException e) {
 											e.printStackTrace();
 										}
@@ -848,7 +977,7 @@ private void InitGreenPlayer(){
 								System.out.println("not host Get group select = "+RadioButtonGreen3.getText());
 								if(!configgameupdate){			
 										try {
-											SendMsg = protocol.genMessage_pickup("green",RadioButtonGreen3.getText().toString());
+											SendMsg = protocol.genMessage_pickup("green","nobody");
 										} catch (JSONException e) {
 											e.printStackTrace();
 										}
@@ -865,22 +994,65 @@ private void InitGreenPlayer(){
 				
 				}else
 				{
-			
-						int radioButtonId = arg00.getCheckedRadioButtonId();
-			
-						RadioButton rb00 = (RadioButton)findViewById(radioButtonId);
-						
-						System.out.println("host Get group select = "+rb00.getText());
-						if(!configgameupdate){			
-								try {
-									SendMsg = protocol.genMessage_pickup("green",rb00.getText().toString());
-								} catch (JSONException e) {
-									e.printStackTrace();
-								}
-								sendMessage(SendMsg);
+				
+							int radioButtonId = arg00.getCheckedRadioButtonId();
+
+							RadioButton rb00 = (RadioButton)findViewById(radioButtonId);
+							
+							System.out.println("host Get group select = "+rb00.getText());
+
+
+						switch(arg00.getCheckedRadioButtonId())
+							{
+								case R.id.RadioButtonGreen1:							
+									if(!configgameupdate){			
+											try {
+												SendMsg = protocol.genMessage_pickup("green","human");
+											} catch (JSONException e) {
+												e.printStackTrace();
+											}
+											sendMessage(SendMsg);
+										}
+									RadioButtonGreenCurrent = rb00;
+									break;
+
+								case R.id.RadioButtonGreen2:							
+								if(!configgameupdate){			
+										try {
+											SendMsg = protocol.genMessage_pickup("green","computer");
+										} catch (JSONException e) {
+											e.printStackTrace();
+										}
+										sendMessage(SendMsg);
+									}
+								RadioButtonGreenCurrent = rb00;
+								break;
+
+								case R.id.RadioButtonGreen3:							
+								if(!configgameupdate){			
+										try {
+											SendMsg = protocol.genMessage_pickup("green","nobody");
+										} catch (JSONException e) {
+											e.printStackTrace();
+										}
+										sendMessage(SendMsg);
+									}
+								RadioButtonGreenCurrent = rb00;
+								break;
+
+								case R.id.RadioButtonGreen4:							
+									if(!configgameupdate){			
+											try {
+												SendMsg = protocol.genMessage_pickup("green","unavailable");
+											} catch (JSONException e) {
+												e.printStackTrace();
+											}
+											sendMessage(SendMsg);
+										}
+									RadioButtonGreenCurrent = rb00;
+									break;									
 							}
-						RadioButtonGreenCurrent = rb00;
-				}
+					}
 
 			}else{
 
