@@ -31,6 +31,8 @@
 	            android:id="@+id/tableRow"
 	            android:layout_width="wrap_content"
 	            android:layout_height="wrap_content"
+	            android:gravity="center"
+	            android:layout_centerHorizontal="true"
 	            android:layout_marginTop="10dip" >            
 
             <ImageView
@@ -81,7 +83,7 @@
                     android:background="@drawable/button_center"
                     android:button="@null"
                     android:gravity="center"
-                    android:text="Nobody"
+                    android:text="Open"
                     android:textColor="@android:color/white"
                     android:textSize="10.0sp" />                
                 
@@ -95,7 +97,7 @@
                     android:background="@drawable/button_bg_right"
                     android:button="@null"
                     android:gravity="center"
-                    android:text="Null"
+                    android:text="Close"
                     android:textColor="@android:color/white"
                     android:textSize="10.0sp" />
             </RadioGroup>
@@ -112,6 +114,8 @@
             android:id="@+id/tableRow1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_centerHorizontal="true"
             android:layout_marginTop="10dip" >
 
             <ImageView
@@ -162,7 +166,7 @@
                     android:background="@drawable/button_center"
                     android:button="@null"
                     android:gravity="center"
-                    android:text="Nobody"
+                    android:text="Open"
                     android:textColor="@android:color/white"
                     android:textSize="10.0sp" />                  
                 
@@ -175,7 +179,7 @@
                     android:background="@drawable/button_bg_right"
                     android:button="@null"
                     android:gravity="center"
-                    android:text="Null"
+                    android:text="Close"
                     android:textColor="@android:color/white"
                     android:textSize="10.0sp" />
             </RadioGroup>
@@ -192,6 +196,8 @@
             android:id="@+id/tableRow2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_centerHorizontal="true"
             android:layout_marginTop="10dip" >
 
             <ImageView
@@ -242,7 +248,7 @@
                     android:background="@drawable/button_center"
                     android:button="@null"
                     android:gravity="center"
-                    android:text="Nobody"
+                    android:text="Open"
                     android:textColor="@android:color/white"
                     android:textSize="10.0sp" />                  
                 
@@ -255,7 +261,7 @@
                     android:background="@drawable/button_bg_right"
                     android:button="@null"
                     android:gravity="center"
-                    android:text="Null"
+                    android:text="Close"
                     android:textColor="@android:color/white"
                     android:textSize="10.0sp" />
             </RadioGroup>
@@ -272,6 +278,8 @@
             android:id="@+id/tableRow3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_centerHorizontal="true"
             android:layout_marginTop="10dip" >
 
             <ImageView
@@ -322,7 +330,7 @@
                     android:background="@drawable/button_center"
                     android:button="@null"
                     android:gravity="center"
-                    android:text="Nobody"
+                    android:text="Open"
                     android:textColor="@android:color/white"
                     android:textSize="10.0sp" />                  
                 
@@ -335,7 +343,7 @@
                     android:background="@drawable/button_bg_right"
                     android:button="@null"
                     android:gravity="center"
-                    android:text="Null"
+                    android:text="Close"
                     android:textColor="@android:color/white"
                     android:textSize="10.0sp" />
             </RadioGroup>
