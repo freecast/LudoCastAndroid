@@ -436,7 +436,7 @@
 
     <Button
         android:id="@+id/button_getready"
-        android:layout_width="130dp"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/dictTable"
         android:layout_centerHorizontal="true"
@@ -444,5 +444,14 @@
         android:layout_marginTop="44dp"
         android:textColor="@color/black"
         android:text="Get Ready" />
+
+    <ImageView
+        android:id="@+id/HostView"
+        android:layout_width="150dip"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/button_getready"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="29dp"
+        android:src="@drawable/host" />
     
 </RelativeLayout>

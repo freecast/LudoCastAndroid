@@ -116,6 +116,7 @@ public class ConfigGame extends ActionBarActivity  {
 	ImageView GreenLock;
 	ImageView YellowLock;
 	ImageView BlueLock;
+	ImageView HostImage;
 	static Boolean RadioGroupRedLock;
 	static Boolean RadioGroupBlueLock;
 	static Boolean RadioGroupYellowLock;
@@ -174,6 +175,7 @@ public class ConfigGame extends ActionBarActivity  {
 		BlueLock = (ImageView)findViewById(R.id.imageView8);
 		YellowLock = (ImageView)findViewById(R.id.imageView9);
 		GreenLock = (ImageView)findViewById(R.id.imageView10);
+		HostImage = (ImageView)findViewById(R.id.HostView);
 
 		RadioGroupRedLock = false;
 		RedLock.setVisibility(View.INVISIBLE);
@@ -184,6 +186,7 @@ public class ConfigGame extends ActionBarActivity  {
 		RadioGroupGreenLock = false;
 		GreenLock.setVisibility(View.INVISIBLE);
 		RadioGroupLevelLock = false;
+		HostImage.setVisibility(View.INVISIBLE);
 		
 		
         final Button getready=(Button)findViewById(R.id.button_getready);
@@ -502,6 +505,10 @@ public boolean UpdatePlayer(String msg) throws JSONException {
 		Log.d(TAG, "ret:" + ret + " ishost:" + ishost +
 				" level:" + level);
 		configgameishost = ishost;
+		if(configgameishost)
+			HostImage.setVisibility(View.VISIBLE);
+		else
+			HostImage.setVisibility(View.INVISIBLE);
 
 		JSONArray arr = obj.getJSONArray(KEY_PLAYER_STATUS);
 		for (int i=0; i<arr.length(); i++) {
@@ -525,6 +532,7 @@ public boolean UpdatePlayer(String msg) throws JSONException {
 		
 		Log.d(TAG, "Set as Host notify command = " + command);
 		configgameishost = true;
+		HostImage.setVisibility(View.VISIBLE);
 		UnLockAllPlayer();
 	}else if(command.equals(COMMAND_PICKUP_NOTIFY)){
 				
