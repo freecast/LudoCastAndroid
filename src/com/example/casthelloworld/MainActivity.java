@@ -235,6 +235,23 @@ public class MainActivity extends ActionBarActivity {
 		}
 	});
 
+	Button Gamehelp = (Button) findViewById(R.id.GameHelp);
+	Gamehelp.setOnClickListener(new OnClickListener() {
+		@Override
+		public void onClick(View v) {
+			Log.d(TAG, "Start Game Help");
+			
+			Intent it = new Intent(MainActivity.this, MyGuideViewActivity.class);
+			startActivityForResult(it, FIRST_REQUEST_CODE);
+
+			overridePendingTransition(R.anim.push_left_in,
+							R.anim.push_left_out);			
+						
+		}
+	});
+
+	
+
 	Createbnt.setText("Disconnected");
 	
 		

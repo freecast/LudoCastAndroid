@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" 
-    android:background="@drawable/bg1">
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg1"
+    android:gravity="top" >
 
     <Button
         android:id="@+id/Startgame"
@@ -11,7 +12,7 @@
         android:layout_below="@+id/editText1"
         android:layout_centerHorizontal="true"
         android:background="@drawable/selector_button"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="30dp"
         android:textColor="@color/black"
         android:textSize="20.0sp"
         android:text="Start Game" />
@@ -20,10 +21,11 @@
         android:id="@+id/GameRule"
         android:layout_width="150dip"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/Startgame"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:background="@drawable/selector_button"
-        android:layout_marginTop="120dp"
+        android:layout_marginTop="30dp"
         android:layout_alignRight = "@id/Startgame"
         android:layout_alignLeft = "@id/Startgame"
         android:textColor="@color/black"
@@ -43,5 +45,20 @@
         android:hint="Please enter your name"
         android:singleLine="true"
         android:textColor="@color/black" />
+
+    <Button
+        android:id="@+id/GameHelp"
+        android:layout_width="150dip"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/GameRule"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:background="@drawable/selector_button"
+        android:layout_marginTop="30dp"
+        android:layout_alignRight = "@id/Startgame"
+        android:layout_alignLeft = "@id/Startgame"
+        android:textColor="@color/black"
+        android:textSize="20.0sp"
+        android:text="Help" />
 
 </RelativeLayout>
