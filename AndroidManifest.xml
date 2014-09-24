@@ -51,7 +51,10 @@
         
         <activity
             android:name="com.example.casthelloworld.ConfigGame"
-            android:label="@string/configgame" >
+            android:label="@string/configgame">  
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+            </intent-filter>     
             
         </activity>  
         

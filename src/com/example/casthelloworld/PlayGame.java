@@ -266,7 +266,7 @@ public class PlayGame extends ActionBarActivity{
 	private void setupActionBar(ActionBar actionBar) {
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
 		//getSupportActionBar().setIcon(R.drawable.actionbar_logo_castvideos);
-		getSupportActionBar().setDisplayShowTitleEnabled(false);
+		getSupportActionBar().setDisplayShowTitleEnabled(true);
 	}
 
 	private void sendMessage(String message) {
