@@ -41,5 +41,6 @@
     <string name="connection_recovered">connection_recovered</string>
     <string name="configgame">Config Player</string>
     <string name="playgame">Playing Game</string>
+    <string name="gamerule">Game Rule</string>
 
 </resources>
