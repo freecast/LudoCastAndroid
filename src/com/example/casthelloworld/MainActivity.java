@@ -80,6 +80,7 @@ import android.widget.EditText;
 import android.widget.TextView;  
 import android.widget.Toast;  
 import android.view.KeyEvent;  
+import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView.OnEditorActionListener;
 
 
@@ -114,6 +115,7 @@ public class MainActivity extends ActionBarActivity {
 	static Boolean Vibratorstatus;
 	String fileName = "username.txt";
 	EditText editText;
+	View Blankview;
 	 
     static String username = null;
 	private final int FIRST_REQUEST_CODE = 1;
@@ -139,28 +141,36 @@ public class MainActivity extends ActionBarActivity {
 
 		connectstatus = false;
 		
-		editText=(EditText)findViewById(R.id.editText1); 		
+		editText=(EditText)findViewById(R.id.editText1); 
+		Blankview=(View)findViewById(R.id.BlankView); 
+		
+		editText.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				editText.setCursorVisible(true);
+												
+			}
+		});
 
 		editText.addTextChangedListener(new TextWatcher() {  
 				 
 			   @Override  
-			   public void onTextChanged(CharSequence text, int start, int before, int count) {  
-				   writeFileData(fileName,editText.getText().toString());	
+			   public void onTextChanged(CharSequence text, int start, int before, int count) {
+				   
+				   writeFileData(fileName,editText.getText().toString());
 				 
 			   }  
 				 
 			   @Override  
 			   public void beforeTextChanged(CharSequence text, int start, int count,int after) {  
-
 			   
 			   }  
 				 
 			   @Override  
 			   public void afterTextChanged(Editable edit) {  
-			   		writeFileData(fileName,editText.getText().toString());			  
+			   		writeFileData(fileName,editText.getText().toString());
 			   }  
 		   });
-
 		 
 		 readFileData(fileName);
 		
@@ -601,11 +611,18 @@ public class MainActivity extends ActionBarActivity {
 			}
 		}
 
-
+		 @Override
+		   public boolean onTouchEvent(android.view.MotionEvent event) {
+			 InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+			 editText.setCursorVisible(false);
+			 return imm.hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(), 0);
+		 }
 
 	@Override
 		protected void onResume() {
 			Log.d(TAG, "onResume() was called");
+			
+			
 			mCastManager = CastApplication.getCastManager(this);
 			if (null != mCastManager) {
 				mCastManager.addVideoCastConsumer(mCastConsumer);

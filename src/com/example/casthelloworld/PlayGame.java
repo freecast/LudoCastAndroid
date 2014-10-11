@@ -168,7 +168,8 @@ public class PlayGame extends ActionBarActivity{
 				   if(MainActivity.Vibratorstatus)
 				   {
 				   	   long [] pattern = {100,100,100,100}; 
-					   VibratorUtil.Vibrate(PlayGame.this, pattern, false);
+					   //VibratorUtil.Vibrate(PlayGame.this, pattern, false);
+					   VibratorUtil.Vibrate(PlayGame.this, 300); 
 				   }
 				    if(PlayerColor.equals("red"))
 					 PlayerLogo.setImageDrawable(getResources().getDrawable(R.drawable.btn_option_sin_plane_red));

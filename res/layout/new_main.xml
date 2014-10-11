@@ -5,6 +5,12 @@
     android:background="@drawable/bg1"
     android:gravity="top" >
 
+    <View
+        android:id="@+id/BlankView"
+        android:layout_width="0dip"
+        android:layout_height="0dip"
+        android:focusableInTouchMode="true" />
+
     <Button
         android:id="@+id/Startgame"
         android:layout_width="150dip"
@@ -59,6 +65,6 @@
         android:layout_alignLeft = "@id/Startgame"
         android:textColor="@color/black"
         android:textSize="20.0sp"
-        android:text="Help" />
+        android:text="Help" />    
 
 </RelativeLayout>
