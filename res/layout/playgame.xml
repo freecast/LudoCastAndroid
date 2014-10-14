@@ -5,18 +5,6 @@
     android:layout_height="wrap_content"
     android:background="@drawable/bg1">
 
-    <TextView
-        android:id="@+id/textView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="24dp"
-        android:layout_marginTop="45dp"
-        android:textColor="@color/black"
-        android:text="\n \n \nClick to Dice \n  \nClick to confirm Pawns\n  \nLeft and Right Slide to Change Pawns"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
-
     <ImageView
         android:id="@+id/playerlogo"
         android:layout_width="80dip"
@@ -24,6 +12,51 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
-        android:src="@drawable/btn_option_sin_plane_blue" />
+        android:src="@drawable/btn_option_sin_plane_blue" />    
+    
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/playerlogo"
+        android:layout_marginTop="115dp"
+        android:textColor="@color/black"
+        android:text="Click to Roll/Move"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <ImageView
+        android:id="@+id/Click"
+        android:layout_width="wrap_content"
+        android:layout_height="80dip"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/textView1"
+        android:layout_marginTop="140dp"
+        android:src="@drawable/click" />    
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/Click"
+        android:layout_marginTop="225dp"
+        android:textColor="@color/black"
+        android:text="Slide to Change Pawns"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <ImageView
+        android:id="@+id/Click2"
+        android:layout_width="wrap_content"
+        android:layout_height="80dip"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/textView2"
+        android:layout_marginTop="255dp"
+        android:src="@drawable/slide_left_right" />            
+        
 
 </RelativeLayout>

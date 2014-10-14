@@ -51,7 +51,8 @@
         
         <activity
             android:name="com.example.casthelloworld.ConfigGame"
-            android:label="@string/configgame">  
+            android:label="@string/configgame"
+            android:screenOrientation="portrait" >  
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>     
@@ -60,7 +61,8 @@
         
         <activity
             android:name="com.example.casthelloworld.PlayGame"
-            android:label="@string/playgame" >
+            android:label="@string/playgame" 
+            android:screenOrientation="portrait" >
             
         </activity>
         
