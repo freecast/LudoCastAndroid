@@ -13,7 +13,7 @@
         <ImageView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/page1" >
+            android:background="@drawable/help66" >
         </ImageView>
     </LinearLayout>
 

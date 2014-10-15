@@ -48,12 +48,12 @@ public class MyGuideViewActivity extends Activity {
         
         LayoutInflater inflater = getLayoutInflater();  
         pageViews = new ArrayList<View>();  
-        pageViews.add(inflater.inflate(R.layout.item05, null));
-        pageViews.add(inflater.inflate(R.layout.item06, null));
-        pageViews.add(inflater.inflate(R.layout.item01, null));  
-        pageViews.add(inflater.inflate(R.layout.item02, null));  
+        pageViews.add(inflater.inflate(R.layout.item01, null));
+        pageViews.add(inflater.inflate(R.layout.item02, null));
         pageViews.add(inflater.inflate(R.layout.item03, null));  
         pageViews.add(inflater.inflate(R.layout.item04, null));  
+        pageViews.add(inflater.inflate(R.layout.item05, null));  
+        pageViews.add(inflater.inflate(R.layout.item06, null));  
         
         imageViews = new ImageView[pageViews.size()];  
         main = (ViewGroup)inflater.inflate(R.layout.viewpage, null);  
