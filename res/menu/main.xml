@@ -32,6 +32,13 @@
     android:title="Vibrator"/>
 
   <item
+    android:id="@+id/menu_about"
+    android:icon="@drawable/icon"
+    android:orderInCategory="1"
+    android:showAsAction="ifRoom|withText"
+    android:title="About"/>  
+  
+  <item
     android:id="@+id/menu_exit"
     android:icon="@drawable/icon"
     android:orderInCategory="3"

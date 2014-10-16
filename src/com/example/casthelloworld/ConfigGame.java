@@ -384,6 +384,9 @@ public boolean onOptionsItemSelected(MenuItem item) {
 		break;
 	case R.id.menu_vibrator:  
 		SetVibrator(); 
+		break;
+	case R.id.menu_about:  
+		ShowVersion(); 
 		break;			
 	default:  
 		break;	
@@ -391,6 +394,19 @@ public boolean onOptionsItemSelected(MenuItem item) {
 	return super.onOptionsItemSelected(item);  
 }  
 
+	private void ShowVersion(){
+
+		new AlertDialog.Builder(this).
+		 setTitle("About").
+		 setMessage(getString(R.string.version).toString()).
+		 setNegativeButton("OK", new DialogInterface.OnClickListener() {
+		   @Override
+			   public void onClick(DialogInterface dialog, int which) {
+									return;
+							   }
+						   }).create().show();	 
+
+	}
 
 	private void SetVibrator(){
 
