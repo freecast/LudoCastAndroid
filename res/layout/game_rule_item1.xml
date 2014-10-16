@@ -2,19 +2,49 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical" >
+    android:background="@drawable/bg3"
+    android:orientation="vertical"  >
     
-    <LinearLayout
-        android:id="@+id/linearLayout1"
-        android:layout_width="match_parent"
+    <TextView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical" >
-
-        <ImageView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/gamerule1" >
-        </ImageView>
-    </LinearLayout>
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"   
+        android:maxLines="18"
+        android:drawableLeft="@drawable/arrow" 
+        android:scrollbars="vertical"
+        android:singleLine="false"
+        android:text="\nFor each round, a player moves according to the dice value rolled.\n"
+        android:textColor="@color/black"
+        android:textSize="18.0sp" />
+    
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"   
+        android:maxLines="18"
+        android:drawableLeft="@drawable/arrow" 
+        android:scrollbars="vertical"
+        android:singleLine="false"
+        android:text="\nAll the actions (rolling the dice and making up which plane to move) should be within 20 seconds, otherwise computer will take over the control of the player.\n"
+        android:textColor="@color/black"
+        android:textSize="18.0sp" /> 
+        
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"   
+        android:maxLines="18"
+        android:drawableLeft="@drawable/arrow" 
+        android:scrollbars="vertical"
+        android:singleLine="false"
+        android:text="\nOnly 6 could get a plane out of the base, and another roll is awarded after each 6 with 5 seconds action time added."
+        android:textColor="@color/black"
+        android:textSize="18.0sp" />       
+    
+    
 
 </LinearLayout>

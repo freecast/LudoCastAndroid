@@ -1,20 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    android:layout_height="fill_parent"    
+    android:background="@drawable/bg3"
     android:orientation="vertical" >
     
-    <LinearLayout
-        android:id="@+id/linearLayout1"
-        android:layout_width="match_parent"
+    <TextView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical" >
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"   
+        android:maxLines="18"
+        android:drawableLeft="@drawable/arrow" 
+        android:scrollbars="vertical"
+        android:singleLine="false"
+        android:text="\nA jump with 4 spaces is awarded if a plane ends up moving to a position of the same color. \n"
+        android:textColor="@color/black"
+        android:textSize="18.0sp" />
 
-        <ImageView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/gamerule1" >
-        </ImageView>
-    </LinearLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"   
+        android:maxLines="18"
+        android:drawableLeft="@drawable/arrow" 
+        android:scrollbars="vertical"
+        android:singleLine="false"
+        android:text="\nA flight to the end of the dotted line (with the same color) is awarded if a plane ends up moving to the start of the line. \n"
+        android:textColor="@color/black"
+        android:textSize="18.0sp" />    
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"   
+        android:maxLines="18"
+        android:drawableLeft="@drawable/arrow" 
+        android:scrollbars="vertical"
+        android:singleLine="false"
+        android:text="\nPlanes of the same color could be stacked up. \n"
+        android:textColor="@color/black"
+        android:textSize="18.0sp" />  
+          
+    
+    
 </LinearLayout>

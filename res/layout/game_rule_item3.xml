@@ -2,19 +2,49 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    android:background="@drawable/bg3"
     android:orientation="vertical" >
-    
-    <LinearLayout
-        android:id="@+id/linearLayout1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical" >
 
-        <ImageView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/gamerule1" >
-        </ImageView>
-    </LinearLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"   
+        android:maxLines="18"
+        android:drawableLeft="@drawable/arrow" 
+        android:scrollbars="vertical"
+        android:singleLine="false"
+        android:text="\nPlane(s) is(are) killed back to the base and restarted if stacked up with a plane of different color.\n"
+        android:textColor="@color/black"
+        android:textSize="18.0sp" />  
+        
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"   
+        android:maxLines="18"
+        android:drawableLeft="@drawable/arrow" 
+        android:scrollbars="vertical"
+        android:singleLine="false"
+        android:text="\nKill also happens when planes come across with other player flying over the dotted line.\n"
+        android:textColor="@color/black"
+        android:textSize="18.0sp" /> 
+        
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"   
+        android:maxLines="18"
+        android:drawableLeft="@drawable/arrow" 
+        android:scrollbars="vertical"
+        android:singleLine="false"
+        android:text="\nA plane turns to the big arrow of the same color with last moves.\n"
+        android:textColor="@color/black"
+        android:textSize="18.0sp" />      
+    
+
 
 </LinearLayout>

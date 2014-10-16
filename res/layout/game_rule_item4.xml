@@ -2,19 +2,47 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    android:background="@drawable/bg3"
     android:orientation="vertical" >
-    
-    <LinearLayout
-        android:id="@+id/linearLayout1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical" >
 
-        <ImageView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/gamerule1" >
-        </ImageView>
-    </LinearLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"   
+        android:maxLines="18"
+        android:drawableLeft="@drawable/arrow" 
+        android:scrollbars="vertical"
+        android:singleLine="false"
+        android:text="\nEnding up with the final position, a plane finishes all its moves and is sent back to the base.\n"
+        android:textColor="@color/black"
+        android:textSize="18.0sp" />  
+        
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"   
+        android:maxLines="18"
+        android:drawableLeft="@drawable/arrow" 
+        android:scrollbars="vertical"
+        android:singleLine="false"
+        android:text="\nIf the moves can't end up with the final position, the plane needs to step backward according to the dice value.\n"
+        android:textColor="@color/black"
+        android:textSize="18.0sp" /> 
+        
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"   
+        android:maxLines="18"
+        android:drawableLeft="@drawable/arrow" 
+        android:scrollbars="vertical"
+        android:singleLine="false"
+        android:text="\nThe fastest player with all 4 planes finishing moves is the winner.\n"
+        android:textColor="@color/black"
+        android:textSize="18.0sp" />     
 
 </LinearLayout>

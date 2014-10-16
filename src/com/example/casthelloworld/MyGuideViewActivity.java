@@ -8,6 +8,8 @@ import android.os.Parcelable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,6 +36,7 @@ public class MyGuideViewActivity extends Activity {
 	 private ArrayList<View> pageViews;  
 	 private ImageView imageView;  
 	 private ImageView[] imageViews; 
+	 	 private static final String TAG = "MyGuideViewActivity";
 	 // 包裹滑动图片LinearLayout
 	 private ViewGroup main;
 	 // 包裹小圆点的LinearLayout
@@ -82,6 +85,47 @@ public class MyGuideViewActivity extends Activity {
         viewPager.setAdapter(new GuidePageAdapter());  
         viewPager.setOnPageChangeListener(new GuidePageChangeListener());  
     }
+
+	@Override
+	protected void onStop() {
+		Log.d(TAG, "onStop() was called");
+		super.onStop();
+	}
+
+
+	@Override
+	protected void onPause() {
+		Log.d(TAG, "onPause() was called");
+
+		super.onPause();
+	}
+
+	
+
+	@Override
+	protected void onDestroy() {
+		Log.d(TAG, "onDestroy() is called");
+
+		super.onDestroy();
+	}
+
+
+
+
+	@Override
+	  public boolean onKeyDown(int keyCode, KeyEvent event) {
+		// TODO Auto-generated method stub
+		if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
+			
+			Log.d(TAG, "Run in Back Key ");
+			finish();
+			
+		 return true;
+		}
+		return super.onKeyDown(keyCode, event);
+	  }	
+
+	
     
     // 指引页面数据适配器
     class GuidePageAdapter extends PagerAdapter {  
