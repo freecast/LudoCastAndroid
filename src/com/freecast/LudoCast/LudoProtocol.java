@@ -1,4 +1,4 @@
-package com.example.casthelloworld;
+package com.freecast.LudoCast;
 
 import org.json.JSONArray;
 import org.json.JSONException;

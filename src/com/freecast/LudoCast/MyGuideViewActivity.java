@@ -1,6 +1,8 @@
-package com.example.casthelloworld;
+package com.freecast.LudoCast;
 
 import java.util.ArrayList;
+
+import com.freecast.LudoCast.R;
 
 import android.app.Activity;
 import android.os.Bundle;

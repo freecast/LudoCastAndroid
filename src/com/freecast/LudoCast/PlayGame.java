@@ -1,9 +1,10 @@
-package com.example.casthelloworld;
+package com.freecast.LudoCast;
 
 import java.lang.reflect.Field;
 
 import org.json.JSONException;
 
+import com.freecast.LudoCast.R;
 import com.google.sample.castcompanionlibrary.cast.VideoCastManager;
 import com.google.sample.castcompanionlibrary.cast.callbacks.VideoCastConsumerImpl;
 import com.google.sample.castcompanionlibrary.cast.exceptions.NoConnectionException;
@@ -234,13 +235,13 @@ public class PlayGame extends ActionBarActivity{
 		 @Override
 		 public void onConnectionSuspended(int cause) {
 			 Log.d(TAG, "onConnectionSuspended() was called with cause: " + cause);
-			 com.example.casthelloworld.Utils.
+			 com.freecast.LudoCast.Utils.
 					 showToast(PlayGame.this, R.string.connection_temp_lost);
 		 }
 	
 		 @Override
 		 public void onConnectivityRecovered() {
-			 com.example.casthelloworld.Utils.
+			 com.freecast.LudoCast.Utils.
 					 showToast(PlayGame.this, R.string.connection_recovered);
 		 }
 	

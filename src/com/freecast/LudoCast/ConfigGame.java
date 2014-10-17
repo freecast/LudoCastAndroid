@@ -1,4 +1,4 @@
-package com.example.casthelloworld;
+package com.freecast.LudoCast;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
@@ -32,6 +32,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.view.GestureDetector; 
 
+import com.freecast.LudoCast.R;
 import com.google.sample.castcompanionlibrary.cast.VideoCastManager;
 import com.google.sample.castcompanionlibrary.cast.callbacks.IVideoCastConsumer;
 import com.google.sample.castcompanionlibrary.cast.callbacks.VideoCastConsumerImpl;
@@ -321,13 +322,13 @@ public class ConfigGame extends ActionBarActivity  {
 			 @Override
 			 public void onConnectionSuspended(int cause) {
 				 Log.d(TAG, "onConnectionSuspended() was called with cause: " + cause);
-				 com.example.casthelloworld.Utils.
+				 com.freecast.LudoCast.Utils.
 						 showToast(ConfigGame.this, R.string.connection_temp_lost);
 			 }
 		
 			 @Override
 			 public void onConnectivityRecovered() {
-				 com.example.casthelloworld.Utils.
+				 com.freecast.LudoCast.Utils.
 						 showToast(ConfigGame.this, R.string.connection_recovered);
 			 }
 		

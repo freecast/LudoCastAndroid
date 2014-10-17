@@ -14,9 +14,10 @@
  * limitations under the License.
  */
 
-package com.example.casthelloworld;
+package com.freecast.LudoCast;
 
-import com.example.casthelloworld.CastPreference;
+import com.freecast.LudoCast.R;
+import com.freecast.LudoCast.CastPreference;
 import com.google.sample.castcompanionlibrary.cast.VideoCastManager;
 import com.google.sample.castcompanionlibrary.utils.Utils;
 

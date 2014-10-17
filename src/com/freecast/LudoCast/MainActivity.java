@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.casthelloworld;
+package com.freecast.LudoCast;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -52,6 +52,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.freecast.LudoCast.R;
 import com.google.android.gms.cast.ApplicationMetadata;
 import com.google.android.gms.cast.Cast;
 import com.google.android.gms.cast.Cast.ApplicationConnectionResult;
@@ -542,13 +543,13 @@ public class MainActivity extends ActionBarActivity {
 		 @Override
 		 public void onConnectionSuspended(int cause) {
 			 Log.d(TAG, "onConnectionSuspended() was called with cause: " + cause);
-			 com.example.casthelloworld.Utils.
+			 com.freecast.LudoCast.Utils.
 					 showToast(MainActivity.this, R.string.connection_temp_lost);
 		 }
 	
 		 @Override
 		 public void onConnectivityRecovered() {
-			 com.example.casthelloworld.Utils.
+			 com.freecast.LudoCast.Utils.
 					 showToast(MainActivity.this, R.string.connection_recovered);
 		 }
 	

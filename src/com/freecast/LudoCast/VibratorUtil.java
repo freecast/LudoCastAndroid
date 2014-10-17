@@ -1,4 +1,4 @@
-package com.example.casthelloworld;
+package com.freecast.LudoCast;
 
 import android.app.Activity;  
 import android.app.Service;  

@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-package com.example.casthelloworld;
+package com.freecast.LudoCast;
 
-import com.example.casthelloworld.CastApplication;
-import com.example.casthelloworld.R;
-import com.example.casthelloworld.Utils;
+import com.freecast.LudoCast.R;
+import com.freecast.LudoCast.CastApplication;
+import com.freecast.LudoCast.Utils;
 import com.google.sample.castcompanionlibrary.cast.VideoCastManager;
 
 import android.content.Context;

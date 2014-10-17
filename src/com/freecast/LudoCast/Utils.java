@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package com.example.casthelloworld;
+package com.freecast.LudoCast;
 
-import com.example.casthelloworld.R;
+import com.freecast.LudoCast.R;
 import com.google.sample.castcompanionlibrary.cast.exceptions.CastException;
 import com.google.sample.castcompanionlibrary.cast.exceptions.NoConnectionException;
 import com.google.sample.castcompanionlibrary.cast.exceptions.TransientNetworkDisconnectionException;
@@ -151,7 +151,7 @@ public class Utils {
             resourceId = R.string.failed_to_perform_action;
         }
         if (resourceId > 0) {
-        	com.example.casthelloworld.Utils.showOopsDialog(context, resourceId);
+        	com.freecast.LudoCast.Utils.showOopsDialog(context, resourceId);
         }
     }
 
